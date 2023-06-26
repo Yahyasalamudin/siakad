@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use App\Jadwal;
 use App\Hari;
 use App\Kelas;
@@ -12,11 +11,12 @@ use App\Ruang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
-use PDF;
 use App\Exports\JadwalExport;
 use App\Imports\JadwalImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
+use Barryvdh\DomPDF\PDF;
+use Illuminate\Support\Facades\Auth;
 
 class JadwalController extends Controller
 {
@@ -177,7 +177,10 @@ class JadwalController extends Controller
 
     public function jadwalSekarang(Request $request)
     {
-        $jadwal = Jadwal::OrderBy('jam_mulai')->OrderBy('jam_selesai')->OrderBy('kelas_id')->where('hari_id', $request->hari)->where('jam_mulai', '<=', $request->jam)->where('jam_selesai', '>=', $request->jam)->get();
+        $jadwal = Jadwal::OrderBy('jam_mulai')->OrderBy('jam_selesai')->OrderBy('kelas_id')->where('hari_id', $request->hari)->where('jam_selesai', '>=', $request->jam)->get();
+
+        $count = $jadwal->count();
+
         foreach ($jadwal as $val) {
             $newForm[] = array(
                 'mapel' => $val->mapel->nama_mapel,
@@ -186,10 +189,15 @@ class JadwalController extends Controller
                 'jam_mulai' => $val->jam_mulai,
                 'jam_selesai' => $val->jam_selesai,
                 'ruang' => $val->ruang->nama_ruang,
-                'ket' => $val->absen($val->guru_id),
             );
         }
-        return response()->json($newForm);
+
+        $data = [
+            'jadwalCount' => $count,
+            'data' => !empty($newForm) ? $newForm : []
+        ];
+
+        return response()->json($data);
     }
 
     public function cetak_pdf(Request $request)

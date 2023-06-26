@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
-
+ 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -49,7 +49,7 @@ Route::middleware(['auth'])->group(function () {
 
   Route::middleware(['siswa'])->group(function () {
     Route::get('/jadwal/siswa', 'JadwalController@siswa')->name('jadwal.siswa');
-    Route::get('/ulangan/siswa', 'UlanganController@siswa')->name('ulangan.siswa');
+    Route::get('/ulangan/siswa', 'UlanganController@siswa')->name('ulangan.siswa'); 
     Route::get('/sikap/siswa', 'SikapController@siswa')->name('sikap.siswa');
     Route::get('/rapot/siswa', 'RapotController@siswa')->name('rapot.siswa');
   });
