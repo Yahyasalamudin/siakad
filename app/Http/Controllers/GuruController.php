@@ -17,6 +17,7 @@ use App\Imports\GuruImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
 use App\Nilai;
+use App\Siswa;
 
 class GuruController extends Controller
 {
@@ -252,17 +253,23 @@ class GuruController extends Controller
         return view('admin.guru.show', compact('mapel', 'guru'));
     }
 
-    public function absen()
+    // public function absen()
+    // {
+    //     $absen = Absen::where('tanggal', date('Y-m-d'))->get();
+    //     $kehadiran = Kehadiran::limit(4)->get();
+    //     return view('guru.absen', compact('absen', 'kehadiran'));
+    // }
+
+    public function absen(Request $request)
     {
-        $absen = Absen::where('tanggal', date('Y-m-d'))->get();
-        $kehadiran = Kehadiran::limit(4)->get();
-        return view('guru.absen', compact('absen', 'kehadiran'));
+        $siswa = Siswa::where('kelas_id', $request->kelas_id)
+            ->get();
+        return view('guru.absen', compact('siswa'));
     }
 
     public function simpan(Request $request)
     {
         $this->validate($request, [
-            'id_card' => 'required',
             'kehadiran_id' => 'required'
         ]);
         $cekGuru = Guru::where('id_card', $request->id_card)->count();

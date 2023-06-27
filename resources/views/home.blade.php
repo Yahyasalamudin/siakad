@@ -39,9 +39,15 @@
                                         </td>
                                         <td>{{ $data->kelas->nama_kelas }}</td>
                                         <td>
-                                            @if ($data->jam_mulai <= $jam && $data->jam_selesai >= $jam)
-                                                <a href="#" class="btn btn-primary">Absen Kehadiran</a>
-                                            @endif
+                                            {{-- @if ($data->jam_mulai <= $jam && $data->jam_selesai >= $jam) --}}
+                                            <form action="{{ route('absen.harian') }}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="kelas_id" value="{{ $data->kelas->id }}">
+                                                <input type="hidden" name="jadwal_id" value="{{ $data->id }}">
+                                                <button class="btn btn-primary">Absen
+                                                    Kehadiran</button>
+                                            </form>
+                                            {{-- @endif --}}
                                         </td>
                                     </tr>
                                 @endforeach

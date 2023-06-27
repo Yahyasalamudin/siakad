@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
- 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -49,13 +49,13 @@ Route::middleware(['auth'])->group(function () {
 
   Route::middleware(['siswa'])->group(function () {
     Route::get('/jadwal/siswa', 'JadwalController@siswa')->name('jadwal.siswa');
-    Route::get('/ulangan/siswa', 'UlanganController@siswa')->name('ulangan.siswa'); 
+    Route::get('/ulangan/siswa', 'UlanganController@siswa')->name('ulangan.siswa');
     Route::get('/sikap/siswa', 'SikapController@siswa')->name('sikap.siswa');
     Route::get('/rapot/siswa', 'RapotController@siswa')->name('rapot.siswa');
   });
 
   Route::middleware(['guru'])->group(function () {
-    Route::get('/absen/harian', 'GuruController@absen')->name('absen.harian');
+    Route::post('/absen/harian', 'GuruController@absen')->name('absen.harian');
     Route::post('/absen/simpan', 'GuruController@simpan')->name('absen.simpan');
     Route::get('/jadwal/guru', 'JadwalController@guru')->name('jadwal.guru');
     Route::resource('/nilai', 'NilaiController');
@@ -100,6 +100,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/guru/import_excel', 'GuruController@import_excel')->name('guru.import_excel');
     Route::delete('/guru/deleteAll', 'GuruController@deleteAll')->name('guru.deleteAll');
     Route::resource('/guru', 'GuruController');
+    Route::get('/paket/edit/json', 'PaketController@getEdit');
+    Route::resource('/paket', 'PaketController');
     Route::get('/kelas/edit/json', 'KelasController@getEdit');
     Route::resource('/kelas', 'KelasController');
     Route::get('/siswa/kelas/{id}', 'SiswaController@kelas')->name('siswa.kelas');

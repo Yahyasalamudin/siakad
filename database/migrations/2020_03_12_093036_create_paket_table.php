@@ -17,6 +17,7 @@ class CreatePaketTable extends Migration
             $table->bigIncrements('id');
             $table->string('ket', 50);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

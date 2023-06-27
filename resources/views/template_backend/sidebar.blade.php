@@ -46,15 +46,15 @@
                         </a>
                         <ul class="nav nav-treeview ml-4">
                             <li class="nav-item">
-                                <a href="{{ route('jadwal.index') }}" class="nav-link" id="DataJadwal">
-                                    <i class="fas fa-calendar-alt nav-icon"></i>
-                                    <p>Data Jadwal</p>
+                                <a href="{{ route('paket.index') }}" class="nav-link" id="DataPaket">
+                                    <i class="fas fa-book nav-icon"></i>
+                                    <p>Data Paket</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('guru.index') }}" class="nav-link" id="DataGuru">
-                                    <i class="fas fa-users nav-icon"></i>
-                                    <p>Data Guru</p>
+                                <a href="{{ route('mapel.index') }}" class="nav-link" id="DataMapel">
+                                    <i class="fas fa-book nav-icon"></i>
+                                    <p>Data Mapel</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -70,9 +70,15 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('mapel.index') }}" class="nav-link" id="DataMapel">
-                                    <i class="fas fa-book nav-icon"></i>
-                                    <p>Data Mapel</p>
+                                <a href="{{ route('jadwal.index') }}" class="nav-link" id="DataJadwal">
+                                    <i class="fas fa-calendar-alt nav-icon"></i>
+                                    <p>Data Jadwal</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('guru.index') }}" class="nav-link" id="DataGuru">
+                                    <i class="fas fa-users nav-icon"></i>
+                                    <p>Data Guru</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -187,12 +193,12 @@
                             <p>Dashboard</p>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a href="{{ route('absen.harian') }}" class="nav-link" id="AbsenGuru">
                             <i class="fas fa-calendar-check nav-icon"></i>
                             <p>Absen</p>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a href="{{ route('jadwal.guru') }}" class="nav-link" id="JadwalGuru">
                             <i class="fas fa-calendar-alt nav-icon"></i>
@@ -214,8 +220,7 @@
                                     <p>Entry Nilai Ulangan</p>
                                 </a>
                             </li>
-                            @if (Auth::user()->guru(Auth::user()->id_card)->mapel->nama_mapel == 'Pendidikan Agama dan Budi Pekerti' ||
-                                    Auth::user()->guru(Auth::user()->id_card)->mapel->nama_mapel == 'Pendidikan Pancasila dan Kewarganegaraan')
+                            @if (Auth::user()->guru(Auth::user()->id_card)->mapel->nama_mapel == 'Pendidikan Agama dan Budi Pekerti' || Auth::user()->guru(Auth::user()->id_card)->mapel->nama_mapel == 'Pendidikan Pancasila dan Kewarganegaraan')
                                 <li class="nav-item">
                                     <a href="{{ route('sikap.index') }}" class="nav-link" id="SikapGuru">
                                         <i class="fas fa-file-alt nav-icon"></i>
