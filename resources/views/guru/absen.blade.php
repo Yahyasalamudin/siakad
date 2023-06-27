@@ -16,16 +16,16 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="id_card">Nomor ID Card</label>
+                            <label for="nama_guru">Nama Guru</label>
+                            <input type="text" id="nama_guru" class="form-control" value="{{ auth()->user()->name }}"
+                                readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_card">Mapel</label>
                             <input type="text" id="id_card" name="id_card" maxlength="5"
                                 onkeypress="return inputAngka(event)"
                                 class="form-control @error('id_card') is-invalid @enderror"
                                 value="{{ auth()->user()->guru->id_card }}" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="nama_guru">Nama Guru</label>
-                            <input type="text" id="nama_guru" class="form-control" value="{{ auth()->user()->name }}"
-                                readonly>
                         </div>
                     </div>
                 </div>
@@ -42,8 +42,8 @@
                             <form method="post" id="image-form">
                                 <input type="file" name="img[]" class="file" accept="image/*">
                                 <div class="input-group my-3">
-                                    <input type="text" class="form-control" disabled placeholder="Upload File"
-                                        id="file">
+                                    <input type="text" name="foto" class="form-control" disabled
+                                        placeholder="Upload File" id="file">
                                     <div class="input-group-append">
                                         <button type="button" class="browse btn btn-primary">Browse...</button>
                                     </div>
@@ -51,7 +51,7 @@
                             </form>
                         </div>
                         <div class="ml-2 col-sm-6">
-                            <img src="https://placehold.it/200x200" id="preview" name="image" style="width: 200px"
+                            <img src="https://placehold.it/200x200" id="preview" style="width: 200px"
                                 class="img-thumbnail">
                         </div>
                     </div>

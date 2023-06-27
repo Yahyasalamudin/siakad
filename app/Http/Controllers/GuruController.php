@@ -264,13 +264,14 @@ class GuruController extends Controller
     {
         $siswa = Siswa::where('kelas_id', $request->kelas_id)
             ->get();
+        // $guru = Guru::where()
         return view('guru.absen', compact('siswa'));
     }
 
     public function simpan(Request $request)
     {
         $this->validate($request, [
-            'kehadiran_id' => 'required'
+            'foto' => 'required',
         ]);
         $cekGuru = Guru::where('id_card', $request->id_card)->count();
         if ($cekGuru >= 1) {
