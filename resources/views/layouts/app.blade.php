@@ -33,11 +33,20 @@
                 <strong>Copyright &copy;
                     <script>
                         document.write(new Date().getFullYear());
-                    </script> &diams; <a href="http://smkn1jenpo.sch.id/" style="color: white;">SMK
+                    </script> &diams; <a href="http://piramidsoft.com/" style="color: white;">SMK
                         Negeri 1 Piramid</a>.
                 </strong>
             </marquee>
         </footer>
+
+        <div class="d-flex">
+            <button type="button" class="btn btn-primary flex-grow">{{ __('Admin') }}
+                &nbsp; <i class="nav-icon fas fa-user"></i></button>
+            <button type="button" class="btn btn-primary flex-grow">{{ __('Guru') }}
+                &nbsp; <i class="nav-icon fas fa-user"></i></button>
+            <button type="button" class="btn btn-primary flex-grow">{{ __('Bk') }}
+                &nbsp; <i class="nav-icon fas fa-user"></i></button>
+        </div>
     </div>
 
     <!-- jQuery -->
