@@ -33,12 +33,17 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $user = auth()->user();
         $hari = date('w');
         $jam = date('H:i:s', strtotime('+10 minutes'));
-        $jadwal = Jadwal::OrderBy('jam_mulai')->OrderBy('jam_selesai')->OrderBy('kelas_id')
-            // ->where('hari_id', $hari)->where('jam_selesai', '>=', $jam)
-            ->get();
+        $jadwal = Jadwal::OrderBy('jam_mulai')->OrderBy('jam_selesai')->OrderBy('kelas_id');
+        // ->where('hari_id', $hari)->where('jam_selesai', '>=', $jam)
 
+        if ($user->role == 'Guru') {
+            $jadwal = $jadwal->where('guru_id', $user->guru->id);
+        }
+
+        $jadwal = $jadwal->get();
         $pengumuman = Pengumuman::first();
         $kehadiran = Kehadiran::all();
         return view('home', compact('jadwal', 'pengumuman', 'kehadiran'));

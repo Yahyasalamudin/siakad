@@ -44,8 +44,9 @@
                                                 @csrf
                                                 <input type="hidden" name="kelas_id" value="{{ $data->kelas->id }}">
                                                 <input type="hidden" name="jadwal_id" value="{{ $data->id }}">
-                                                <button class="btn btn-primary">Absen
-                                                    Kehadiran</button>
+                                                <button class="btn btn-primary">
+                                                    Absen Kehadiran
+                                                </button>
                                             </form>
                                             {{-- @endif --}}
                                         </td>

@@ -177,8 +177,16 @@ class JadwalController extends Controller
 
     public function jadwalSekarang(Request $request)
     {
-        $jadwal = Jadwal::OrderBy('jam_mulai')->OrderBy('jam_selesai')->OrderBy('kelas_id')->where('hari_id', $request->hari)->where('jam_selesai', '>=', $request->jam)->get();
+        $user = auth()->user();
 
+        $jadwal = Jadwal::OrderBy('jam_mulai')->OrderBy('jam_selesai')->OrderBy('kelas_id');
+        // ->where('hari_id', $request->hari)->where('jam_selesai', '>=', $request->jam)
+
+        if ($user->role == 'Guru') {
+            $jadwal = $jadwal->where('guru_id', $user->guru->id);
+        }
+
+        $jadwal = $jadwal->get();
         $count = $jadwal->count();
 
         foreach ($jadwal as $val) {

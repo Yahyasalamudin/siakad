@@ -20,7 +20,7 @@
                             <input type="text" id="id_card" name="id_card" maxlength="5"
                                 onkeypress="return inputAngka(event)"
                                 class="form-control @error('id_card') is-invalid @enderror"
-                                value="{{ auth()->user()->id_card }}" readonly>
+                                value="{{ auth()->user()->guru->id_card }}" readonly>
                         </div>
                         <div class="form-group">
                             <label for="nama_guru">Nama Guru</label>
