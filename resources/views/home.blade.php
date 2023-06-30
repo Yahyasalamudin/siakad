@@ -76,7 +76,9 @@
             </div>
             <div class="card-body">
                 <div class="tab-content p-0">
-                    {!! $pengumuman->isi !!}
+                    @if (!empty($pengumuman->isi))
+                        {!! $pengumuman->isi !!}
+                    @endif
                 </div>
             </div>
         </div>
@@ -110,7 +112,10 @@
 @section('script')
     <script>
         $(document).ready(function() {
-            setInterval(function() {
+            showJadwal();
+            setInterval(showJadwal(), 60 * 1000);
+
+            function showJadwal() {
                 var date = new Date();
                 var hari = date.getDay();
                 var h = date.getHours();
@@ -153,7 +158,8 @@
                                         html +=
                                             "<td><a href='#' class='btn btn-primary'>Absen Kehadiran</a></td>"
                                     } else {
-                                        html += "<td></td>";
+                                        html +=
+                                            "<td><a href='#' class='btn btn-info'>Detail Absensi</a></td>";
                                     }
                                     html += "</tr>"
                                 })
@@ -169,7 +175,7 @@
                         error: function() {}
                     });
                 }
-            }, 60 * 1000);
+            }
         });
 
         $("#Dashboard").addClass("active");

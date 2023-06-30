@@ -8,6 +8,7 @@ use App\Guru;
 use App\Mapel;
 use App\Jadwal;
 use App\Absen;
+use App\AbsenSiswa;
 use App\Kehadiran;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Http\Request;
@@ -18,6 +19,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
 use App\Nilai;
 use App\Siswa;
+use Carbon\Carbon;
 
 class GuruController extends Controller
 {
@@ -66,7 +68,7 @@ class GuruController extends Controller
             $nameFoto = 'uploads/guru/' . $new_foto;
         } else {
             if ($request->jk == 'L') {
-                $nameFoto = 'uploads/guru/35251431012020_male.jpg';
+                $nameFoto = 'uploads/guru/35251431012020_male.wepb';
             } else {
                 $nameFoto = 'uploads/guru/23171022042020_female.jpg';
             }
@@ -141,7 +143,6 @@ class GuruController extends Controller
                 'name' => $request->nama_guru
             ];
             $user->update($user_data);
-        } else {
         }
         $guru_data = [
             'nama_guru' => $request->nama_guru,
@@ -173,7 +174,6 @@ class GuruController extends Controller
         $countUser = User::where('id_card', $guru->id_card)->count();
         if ($countUser >= 1) {
             $user = User::where('id_card', $guru->id_card)->delete();
-        } else {
         }
         $guru->delete();
         return redirect()->route('guru.index')->with('warning', 'Data guru berhasil dihapus! (Silahkan cek trash data guru)');
@@ -264,8 +264,8 @@ class GuruController extends Controller
     {
         $siswa = Siswa::where('kelas_id', $request->kelas_id)
             ->get();
-        // $guru = Guru::where()
-        return view('guru.absen', compact('siswa'));
+        $jadwal_id = $request->jadwal_id;
+        return view('guru.absen', compact('siswa', 'jadwal_id'));
     }
 
     public function simpan(Request $request)
@@ -273,69 +273,35 @@ class GuruController extends Controller
         $this->validate($request, [
             'foto' => 'required',
         ]);
-        $cekGuru = Guru::where('id_card', $request->id_card)->count();
-        if ($cekGuru >= 1) {
-            $guru = Guru::where('id_card', $request->id_card)->first();
-            if ($guru->id_card == Auth::user()->id_card) {
-                $cekAbsen = Absen::where('guru_id', $guru->id)->where('tanggal', date('Y-m-d'))->count();
-                if ($cekAbsen == 0) {
-                    if (date('w') != '0' && date('w') != '6') {
-                        if (date('H:i:s') >= '06:00:00') {
-                            if (date('H:i:s') >= '09:00:00') {
-                                if (date('H:i:s') >= '16:15:00') {
-                                    Absen::create([
-                                        'tanggal' => date('Y-m-d'),
-                                        'guru_id' => $guru->id,
-                                        'kehadiran_id' => '6',
-                                    ]);
-                                    return redirect()->back()->with('info', 'Maaf sekarang sudah waktunya pulang!');
-                                } else {
-                                    if ($request->kehadiran_id == '1') {
-                                        $terlambat = date('H') - 9 . ' Jam ' . date('i') . ' Menit';
-                                        if (date('H') - 9 == 0) {
-                                            $terlambat = date('i') . ' Menit';
-                                        }
-                                        Absen::create([
-                                            'tanggal' => date('Y-m-d'),
-                                            'guru_id' => $guru->id,
-                                            'kehadiran_id' => '5',
-                                        ]);
-                                        return redirect()->back()->with('warning', 'Maaf anda terlambat ' . $terlambat . '!');
-                                    } else {
-                                        Absen::create([
-                                            'tanggal' => date('Y-m-d'),
-                                            'guru_id' => $guru->id,
-                                            'kehadiran_id' => $request->kehadiran_id,
-                                        ]);
-                                        return redirect()->back()->with('success', 'Anda hari ini berhasil absen!');
-                                    }
-                                }
-                            } else {
-                                Absen::create([
-                                    'tanggal' => date('Y-m-d'),
-                                    'guru_id' => $guru->id,
-                                    'kehadiran_id' => $request->kehadiran_id,
-                                ]);
-                                return redirect()->back()->with('success', 'Anda hari ini berhasil absen tepat waktu!');
-                            }
-                        } else {
-                            return redirect()->back()->with('info', 'Maaf absensi di mulai jam 6 pagi!');
-                        }
-                    } else {
-                        $namaHari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "Sabtu"];
-                        $d = date('w');
-                        $hari = $namaHari[$d];
-                        return redirect()->back()->with('info', 'Maaf sekolah hari ' . $hari . ' libur!');
-                    }
-                } else {
-                    return redirect()->back()->with('warning', 'Maaf absensi tidak bisa dilakukan 2x!');
-                }
-            } else {
-                return redirect()->back()->with('error', 'Maaf id card ini bukan milik anda!');
-            }
-        } else {
-            return redirect()->back()->with('error', 'Maaf id card ini tidak terdaftar!');
+
+        $user = auth()->user();
+
+        $foto = $request->foto;
+        $new_foto = date('siHdmY') . "_" . $foto->getClientOriginalName();
+        $foto->move('uploads/absensi/', $new_foto);
+        $nameFoto = 'uploads/absensi/' . $new_foto;
+
+        Absen::create([
+            'guru_id' => $user->guru($user->id_card)->id,
+            'guru_tamu' => $request->guru_tamu,
+            'agensi' => $request->agensi,
+            'jadwal_id' => $request->jadwal_id,
+            'ruang' => $request->ruang,
+            'foto' => $nameFoto
+        ]);
+
+        foreach ($request->input as $input) {
+            AbsenSiswa::insert([
+                'siswa_id' => $input['siswa_id'],
+                'jenis_absen' => isset($input['jenis_absen']) ? $input['jenis_absen'] : 'Hadir',
+                'jadwal_id' => $request->jadwal_id,
+                'ruang' => $request->ruang,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]);
         }
+
+        return redirect('home')->with('success', 'Anda telah berhasil absen');
     }
 
     public function absensi()

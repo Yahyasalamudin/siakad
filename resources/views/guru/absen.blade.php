@@ -7,7 +7,8 @@
     @php
         $no = 1;
     @endphp
-    <form action="{{ route('absen.simpan') }}" method="post" class="col-md-12">
+    <form action="{{ route('absen.simpan') }}" method="post" class="col-md-12" enctype="multipart/form-data">
+        @csrf
         <div class="d-flex">
             <div class="col-md-6">
                 <div class="card card-primary">
@@ -21,34 +22,38 @@
                                 readonly>
                         </div>
                         <div class="form-group">
-                            <label for="id_card">Mapel</label>
-                            <input type="text" id="id_card" name="id_card" maxlength="5"
+                            <label for="mapel">Mapel</label>
+                            <input type="text" id="mapel" name="mapel" maxlength="5"
                                 onkeypress="return inputAngka(event)"
-                                class="form-control @error('id_card') is-invalid @enderror"
-                                value="{{ auth()->user()->guru->id_card }}" readonly>
+                                class="form-control @error('mapel') is-invalid @enderror"
+                                value="{{ auth()->user()->guru(auth()->user()->id_card)->mapel->nama_mapel }}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="ruang">Ruangan</label>
+                            <input type="text" id="ruang" name="ruang"
+                                class="form-control @error('ruang') is-invalid @enderror">
+                            <input type="hidden" name="jadwal_id" value="{{ $jadwal_id }}">
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="col-md-6 align-items-stretch">
                 <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">Upload Foto</h3>
                     </div>
-                    @csrf
                     <div class="card-body">
                         <div class="ml-2 col-sm-12">
                             <div id="msg"></div>
-                            <form method="post" id="image-form">
-                                <input type="file" name="img[]" class="file" accept="image/*">
-                                <div class="input-group my-3">
-                                    <input type="text" name="foto" class="form-control" disabled
-                                        placeholder="Upload File" id="file">
-                                    <div class="input-group-append">
-                                        <button type="button" class="browse btn btn-primary">Browse...</button>
-                                    </div>
+                            <input type="file" name="foto" class="file" accept="image/*">
+                            <div class="input-group my-3">
+                                <input type="text" class="form-control" disabled placeholder="Upload File"
+                                    id="file">
+                                <div class="input-group-append">
+                                    <button type="button" class="browse btn btn-primary">Browse...</button>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                         <div class="ml-2 col-sm-6">
                             <img src="https://placehold.it/200x200" id="preview" style="width: 200px"
@@ -61,32 +66,45 @@
         <div class="col-md-12 mb-5">
             <div class="card">
                 <div class="card-body">
-                    <table id="AbsenSiswa" class="table table-bordered table-striped table-hover">
+                    <table id="AbsenSiswa" class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>No</th>
+                                <th class="col-1">No</th>
                                 <th>Nama Siswa</th>
-                                <th>
+                                <th class="col-3">
                                     Absen
-                                    <button class="btn">
-                                        <span class="ml-4 text-primary" id="toggleCheckBtn" onclick="toggleCheckAll()">Check
-                                            All</span>
-                                    </button>
+                                    <button type="button" id="toggleCheckBtn" class="btn text-primary ml-2"
+                                        style="cursor: pointer;" onclick="toggleCheckAll()">Check All</button>
                                 </th>
+                                <th class="col-3">Keterangan</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                $siswa_id = 0;
+                                $jenis_absen = 0;
+                            @endphp
                             @foreach ($siswa as $data)
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $data->nama_siswa }}</td>
                                     <td>
                                         <div class="custom-control custom-checkbox">
+                                            <input type="hidden" name="input[{{ $siswa_id++ }}][siswa_id]"
+                                                value="{{ $data->id }}">
                                             <input type="checkbox" class="custom-control-input"
-                                                id="check-{{ $data->id }}">
-                                            <label class="custom-control-label"
-                                                for="check-{{ $data->id }}">Hadir</label>
+                                                id="check-{{ $data->id }}" onchange="toggleKeterangan(event)">
+                                            <label class="custom-control-label" for="check-{{ $data->id }}"
+                                                data-id={{ $data->id }}>Hadir</label>
                                         </div>
+                                    </td>
+                                    <td>
+                                        <select class="custom-select" name="input[{{ $jenis_absen++ }}][jenis_absen]"
+                                            id="keterangan-{{ $data->id }}">
+                                            <option selected>Keterangan</option>
+                                            <option>Sakit</option>
+                                            <option>Ijin</option>
+                                        </select>
                                     </td>
                                 </tr>
                             @endforeach
@@ -120,20 +138,85 @@
             reader.readAsDataURL(this.files[0]);
         });
 
+        const toggleKeterangan = (e) => {
+            const checkbox = e.target;
+            const checkboxId = checkbox.id;
+            const selectId = 'keterangan-' + checkboxId.split('-')[1];
+            const selectElement = document.getElementById(selectId);
+
+            if (checkbox.checked) {
+                addOptionHadir(selectElement);
+                selectElement.value = "Hadir";
+                selectElement.setAttribute('disabled', true);
+            } else {
+                removeOptionHadir(selectElement);
+                selectElement.selectedIndex = 0;
+                selectElement.removeAttribute('disabled');
+            }
+
+        }
+
+        function addOptionHadir(selectElement) {
+            var optionExists = false;
+            var options = selectElement.options;
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].text === "Hadir") {
+                    optionExists = true;
+                    break;
+                }
+            }
+
+            // Add the "Hadir" option if it doesn't exist
+            if (!optionExists) {
+                var optionElement = document.createElement("option");
+                optionElement.text = "Hadir";
+                selectElement.appendChild(optionElement);
+            }
+        }
+
+        function removeOptionHadir(selectElement) {
+            var optionExists = false;
+            var options = selectElement.options;
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].text === "Hadir") {
+                    selectElement.remove(i);
+                    break;
+                }
+            }
+        }
+
         // checkbox
         function toggleCheckAll() {
             const toggleCheckBtn = document.getElementById("toggleCheckBtn");
-            console.log(toggleCheckBtn.textContent);
             var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
             if (toggleCheckBtn.textContent == "Check All") {
                 checkboxes.forEach(function(checkbox) {
                     checkbox.checked = true;
                     toggleCheckBtn.textContent = "Uncheck All";
+
+                    const checkboxId = checkbox.id;
+                    const selectId = 'keterangan-' + checkboxId.split('-')[1];
+                    const selectElement = document.getElementById(selectId);
+                    if (selectElement != null) {
+                        addOptionHadir(selectElement);
+                        selectElement.value = "Hadir";
+                        selectElement.setAttribute('disabled', true);
+                    }
                 });
             } else {
                 checkboxes.forEach(function(checkbox) {
                     checkbox.checked = false;
                     toggleCheckBtn.textContent = "Check All";
+
+                    const checkboxId = checkbox.id;
+                    const selectId = 'keterangan-' + checkboxId.split('-')[1];
+                    const selectElement = document.getElementById(selectId);
+                    if (selectElement != null) {
+                        removeOptionHadir(selectElement);
+                        selectElement.selectedIndex = 0;
+                        selectElement.removeAttribute('disabled');
+                    }
                 });
             }
         }

@@ -17,7 +17,10 @@ class CreateAbsensiGuruTable extends Migration
             $table->bigIncrements('id');
             $table->date('tanggal');
             $table->integer('guru_id');
+            $table->integer('guru_tamu')->nullable();
+            $table->integer('agensi')->nullable();
             $table->integer('jadwal_id');
+            $table->integer('ruang');
             $table->string('foto');
             $table->timestamps();
         });

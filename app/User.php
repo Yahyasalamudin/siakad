@@ -20,11 +20,11 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password', 'role', 'no_induk', 'id_card'
     ];
-    protected $with = ['guru'];
 
-    public function guru()
+    public function guru($id)
     {
-        return $this->belongsTo(Guru::class);
+        $guru = Guru::where('id_card', $id)->first();
+        return $guru;
     }
 
     public function siswa($id)

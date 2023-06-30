@@ -40,7 +40,7 @@ class HomeController extends Controller
         // ->where('hari_id', $hari)->where('jam_selesai', '>=', $jam)
 
         if ($user->role == 'Guru') {
-            $jadwal = $jadwal->where('guru_id', $user->guru->id);
+            $jadwal = $jadwal->where('guru_id', $user->guru($user->id_card)->id);
         }
 
         $jadwal = $jadwal->get();

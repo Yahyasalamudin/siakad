@@ -39,12 +39,15 @@
             </marquee>
         </footer>
 
-        <div class="d-flex">
-            <button type="button" class="btn btn-primary flex-grow">{{ __('Admin') }}
+        <div class="d-flex justify-content-center flex-wrap my-4">
+            <button type="button" onclick="handleSelectRole(event)" data-role="admin"
+                class="btn btn-info mx-2 mb-2">{{ __('Admin') }}
                 &nbsp; <i class="nav-icon fas fa-user"></i></button>
-            <button type="button" class="btn btn-primary flex-grow">{{ __('Guru') }}
+            <button type="button" onclick="handleSelectRole(event)" data-role="guru"
+                class="btn btn-dark mx-2 mb-2">{{ __('Guru') }}
                 &nbsp; <i class="nav-icon fas fa-user"></i></button>
-            <button type="button" class="btn btn-primary flex-grow">{{ __('Bk') }}
+            <button type="button" onclick="handleSelectRole(event)" data-role="bk"
+                class="btn btn-success mx-2 mb-2">{{ __('Bk') }}
                 &nbsp; <i class="nav-icon fas fa-user"></i></button>
         </div>
     </div>

@@ -24,7 +24,7 @@
             <div class="input-group mb-3">
                 <input id="password" type="password" placeholder="{{ __('Password') }}"
                     class="form-control @error('password') is-invalid @enderror" name="password"
-                    autocomplete="current-password" disabled>
+                    autocomplete="current-password">
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-lock"></span>
@@ -40,7 +40,7 @@
                 <div class="col-7">
                     <div class="icheck-primary">
                         <input type="checkbox" id="remember" class="form-check-input" type="checkbox" name="remember"
-                            {{ old('remember') ? 'checked' : '' }} disabled>
+                            {{ old('remember') ? 'checked' : '' }}>
                         <label for="remember">
                             {{ __('Remember Me') }}
                         </label>
@@ -48,7 +48,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-5">
-                    <button type="submit" id="btn-login" class="btn btn-primary btn-block" disabled>{{ __('Login') }}
+                    <button type="submit" id="btn-login" class="btn btn-primary btn-block">{{ __('Login') }}
                         &nbsp; <i class="nav-icon fas fa-sign-in-alt"></i></button>
                 </div>
                 <!-- /.col -->
@@ -69,78 +69,97 @@
 @endsection
 @section('script')
     <script>
-        $("#email").keyup(function() {
-            var email = $("#email").val();
-
-            if (email.length >= 5) {
-                $.ajax({
-                    type: "GET",
-                    data: {
-                        email: email
-                    },
-                    dataType: "JSON",
-                    url: "{{ url('/login/cek_email/json') }}",
-                    success: function(data) {
-                        if (data.success) {
-                            $("#email").removeClass("is-invalid");
-                            $("#email").addClass("is-valid");
-                            $("#password").val('');
-                            $("#password").removeAttr("disabled", "disabled");
-                        } else {
-                            $("#email").removeClass("is-valid");
-                            $("#email").addClass("is-invalid");
-                            $("#password").val('');
-                            $("#password").attr("disabled", "disabled");
-                            $("#remember").attr("disabled", "disabled");
-                            $("#btn-login").attr("disabled", "disabled");
-                        }
-                    },
-                    error: function() {}
-                });
-            } else {
-                $("#email").removeClass("is-valid");
-                $("#email").removeClass("is-invalid");
-                $("#password").val('');
-                $("#password").attr("disabled", "disabled");
-                $("#remember").attr("disabled", "disabled");
-                $("#btn-login").attr("disabled", "disabled");
+        function handleSelectRole(e) {
+            let button = e.target;
+            let dataRole = button.getAttribute('data-role');
+            let email = document.getElementById('email');
+            let password = document.getElementById('password');
+            switch (dataRole) {
+                case 'admin':
+                    email.value = 'admin@gmail.com';
+                    password.value = '12345678';
+                    break;
+                case 'guru':
+                    email.value = 'farukh@gmail.com';
+                    password.value = '12345678';
+                    break;
+                default:
+                    break;
             }
-        });
+        }
 
-        $("#password").keyup(function() {
-            var email = $("#email").val();
-            var password = $("#password").val();
+        // $("#email").keyup(function() {
+        //     var email = $("#email").val();
 
-            if (password.length >= 8) {
-                $.ajax({
-                    type: "GET",
-                    data: {
-                        email: email,
-                        password: password
-                    },
-                    dataType: "JSON",
-                    url: "{{ url('/login/cek_password/json') }}",
-                    success: function(data) {
-                        if (data.success) {
-                            $("#password").removeClass("is-invalid");
-                            $("#password").addClass("is-valid");
-                            $("#remember").removeAttr("disabled", "disabled");
-                            $("#btn-login").removeAttr("disabled", "disabled");
-                        } else {
-                            $("#password").removeClass("is-valid");
-                            $("#password").addClass("is-invalid");
-                            $("#remember").attr("disabled", "disabled");
-                            $("#btn-login").attr("disabled", "disabled");
-                        }
-                    },
-                    error: function() {}
-                });
-            } else {
-                $("#password").removeClass("is-valid");
-                $("#password").removeClass("is-invalid");
-                $("#remember").attr("disabled", "disabled");
-                $("#btn-login").attr("disabled", "disabled");
-            }
-        });
+        //     if (email.length >= 5) {
+        //         $.ajax({
+        //             type: "GET",
+        //             data: {
+        //                 email: email
+        //             },
+        //             dataType: "JSON",
+        //             url: "{{ url('/login/cek_email/json') }}",
+        //             success: function(data) {
+        //                 if (data.success) {
+        //                     $("#email").removeClass("is-invalid");
+        //                     $("#email").addClass("is-valid");
+        //                     $("#password").val('');
+        //                     $("#password").removeAttr("disabled", "disabled");
+        //                 } else {
+        //                     $("#email").removeClass("is-valid");
+        //                     $("#email").addClass("is-invalid");
+        //                     $("#password").val('');
+        //                     $("#password").attr("disabled", "disabled");
+        //                     $("#remember").attr("disabled", "disabled");
+        //                     $("#btn-login").attr("disabled", "disabled");
+        //                 }
+        //             },
+        //             error: function() {}
+        //         });
+        //     } else {
+        //         $("#email").removeClass("is-valid");
+        //         $("#email").removeClass("is-invalid");
+        //         $("#password").val('');
+        //         $("#password").attr("disabled", "disabled");
+        //         $("#remember").attr("disabled", "disabled");
+        //         $("#btn-login").attr("disabled", "disabled");
+        //     }
+        // });
+
+        // $("#password").keyup(function() {
+        //     var email = $("#email").val();
+        //     var password = $("#password").val();
+
+        //     if (password.length >= 8) {
+        //         $.ajax({
+        //             type: "GET",
+        //             data: {
+        //                 email: email,
+        //                 password: password
+        //             },
+        //             dataType: "JSON",
+        //             url: "{{ url('/login/cek_password/json') }}",
+        //             success: function(data) {
+        //                 if (data.success) {
+        //                     $("#password").removeClass("is-invalid");
+        //                     $("#password").addClass("is-valid");
+        //                     $("#remember").removeAttr("disabled", "disabled");
+        //                     $("#btn-login").removeAttr("disabled", "disabled");
+        //                 } else {
+        //                     $("#password").removeClass("is-valid");
+        //                     $("#password").addClass("is-invalid");
+        //                     $("#remember").attr("disabled", "disabled");
+        //                     $("#btn-login").attr("disabled", "disabled");
+        //                 }
+        //             },
+        //             error: function() {}
+        //         });
+        //     } else {
+        //         $("#password").removeClass("is-valid");
+        //         $("#password").removeClass("is-invalid");
+        //         $("#remember").attr("disabled", "disabled");
+        //         $("#btn-login").attr("disabled", "disabled");
+        //     }
+        // });
     </script>
 @endsection
