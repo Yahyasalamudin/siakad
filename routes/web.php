@@ -1,5 +1,7 @@
 <?php
 
+use App\Siswa;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
@@ -56,6 +58,12 @@ Route::middleware(['auth'])->group(function () {
 
   Route::middleware(['guru'])->group(function () {
     Route::post('/absen/harian', 'GuruController@absen')->name('absen.harian');
+    Route::post('/absen/detail', function (Request $request) {
+      $siswa = Siswa::where('kelas_id', $request->kelas_id)
+        ->get();
+      return view('guru.detail', compact('siswa'));
+    })->name('absen.detail');
+    // Route::post('/absen/detail', 'GuruController@absen_detail')->name('absen.detail');
     Route::post('/absen/simpan', 'GuruController@simpan')->name('absen.simpan');
     Route::get('/jadwal/guru', 'JadwalController@guru')->name('jadwal.guru');
     Route::resource('/nilai', 'NilaiController');

@@ -10,7 +10,7 @@ class Jadwal extends Model
 {
   use SoftDeletes;
 
-  protected $fillable = ['hari_id', 'kelas_id', 'mapel_id', 'guru_id', 'jam_mulai', 'jam_selesai', 'ruang_id'];
+  protected $fillable = ['hari_id', 'kelas_id', 'mapel_id', 'guru_id', 'jam_mulai', 'jam_selesai'];
 
   public function hari()
   {
@@ -30,6 +30,11 @@ class Jadwal extends Model
   public function guru()
   {
     return $this->belongsTo('App\Guru')->withDefault();
+  }
+
+  public function absen_siswa()
+  {
+    return $this->hasMany('App\AbsenSiswa')->withDefault();
   }
 
   public function ruang()

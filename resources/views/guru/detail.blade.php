@@ -95,6 +95,7 @@
                                     <td>
                                         <select class="custom-select" id="keterangan-{{ $data->id }}">
                                             <option selected>Keterangan</option>
+                                            <option>Hadir</option>
                                             <option>Sakit</option>
                                             <option>Ijin</option>
                                         </select>

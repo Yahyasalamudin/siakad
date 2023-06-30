@@ -2,15 +2,20 @@
 
 namespace App;
 
-use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Siswa extends Model
 {
     use SoftDeletes;
 
     protected $fillable = ['no_induk', 'nis', 'nama_siswa', 'kelas_id', 'jk', 'telp', 'tmp_lahir', 'tgl_lahir', 'foto'];
+
+    public function absen_siswa()
+    {
+        return $this->hasMany('App\AbsenSiswa')->withDefault();
+    }
 
     public function kelas()
     {

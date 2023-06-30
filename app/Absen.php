@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Absen extends Model
 {
-    protected $fillable = ['guru_id', 'tanggal', 'kehadiran_id'];
+    protected $guarded = [''];
 
     public function guru()
     {

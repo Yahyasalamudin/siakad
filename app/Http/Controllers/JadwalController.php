@@ -29,9 +29,8 @@ class JadwalController extends Controller
     {
         $hari = Hari::all();
         $kelas = Kelas::OrderBy('nama_kelas', 'asc')->get();
-        $ruang = Ruang::all();
         $guru = Guru::OrderBy('kode', 'asc')->get();
-        return view('admin.jadwal.index', compact('hari', 'kelas', 'guru', 'ruang'));
+        return view('admin.jadwal.index', compact('hari', 'kelas', 'guru'));
     }
 
     /**
@@ -58,7 +57,6 @@ class JadwalController extends Controller
             'guru_id' => 'required',
             'jam_mulai' => 'required',
             'jam_selesai' => 'required',
-            'ruang_id' => 'required',
         ]);
 
         $guru = Guru::findorfail($request->guru_id);
@@ -73,7 +71,6 @@ class JadwalController extends Controller
                 'guru_id' => $request->guru_id,
                 'jam_mulai' => $request->jam_mulai,
                 'jam_selesai' => $request->jam_selesai,
-                'ruang_id' => $request->ruang_id,
             ]
         );
 
@@ -106,9 +103,8 @@ class JadwalController extends Controller
         $jadwal = Jadwal::findorfail($id);
         $hari = Hari::all();
         $kelas = Kelas::all();
-        $ruang = Ruang::all();
         $guru = Guru::OrderBy('kode', 'asc')->get();
-        return view('admin.jadwal.edit', compact('jadwal', 'hari', 'kelas', 'guru', 'ruang'));
+        return view('admin.jadwal.edit', compact('jadwal', 'hari', 'kelas', 'guru'));
     }
 
     /**
@@ -169,7 +165,6 @@ class JadwalController extends Controller
                 'guru' => $val->guru->nama_guru,
                 'jam_mulai' => $val->jam_mulai,
                 'jam_selesai' => $val->jam_selesai,
-                'ruang' => $val->ruang->nama_ruang,
             );
         }
         return response()->json($newForm);
@@ -183,7 +178,7 @@ class JadwalController extends Controller
         // ->where('hari_id', $request->hari)->where('jam_selesai', '>=', $request->jam)
 
         if ($user->role == 'Guru') {
-            $jadwal = $jadwal->where('guru_id', $user->guru->id);
+            $jadwal = $jadwal->where('guru_id', $user->guru($user->id_card)->id);
         }
 
         $jadwal = $jadwal->get();
@@ -196,7 +191,6 @@ class JadwalController extends Controller
                 'guru' => $val->guru->nama_guru,
                 'jam_mulai' => $val->jam_mulai,
                 'jam_selesai' => $val->jam_selesai,
-                'ruang' => $val->ruang->nama_ruang,
             );
         }
 

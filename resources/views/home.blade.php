@@ -76,7 +76,9 @@
             </div>
             <div class="card-body">
                 <div class="tab-content p-0">
-                    {!! $pengumuman->isi !!}
+                    @if (!empty($pengumuman->isi))
+                        {!! $pengumuman->isi !!}
+                    @endif
                 </div>
             </div>
         </div>
@@ -110,7 +112,10 @@
 @section('script')
     <script>
         $(document).ready(function() {
-            setInterval(function() {
+            showJadwal();
+            setInterval(showJadwal(), 60 * 1000);
+
+            function showJadwal() {
                 var date = new Date();
                 var hari = date.getDay();
                 var h = date.getHours();
@@ -151,9 +156,24 @@
                                     if (val.jam_mulai <= jam &&
                                         val.jam_selesai >= jam) {
                                         html +=
-                                            "<td><a href='#' class='btn btn-primary'>Absen Kehadiran</a></td>"
+                                            `<td><form action="{{ route('absen.harian') }}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="kelas_id" value="{{ $data->kelas->id }}">
+                                                <input type="hidden" name="jadwal_id" value="{{ $data->id }}">
+                                                <button class="btn btn-primary">
+                                                    Absen Kehadiran
+                                                </button>
+                                            </form></td>`
                                     } else {
-                                        html += "<td></td>";
+                                        html +=
+                                            `<td><form action="{{ route('absen.detail') }}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="kelas_id" value="{{ $data->kelas->id }}">
+                                                <input type="hidden" name="jadwal_id" value="{{ $data->id }}">
+                                                <button class="btn btn-info">
+                                                    Detail Absensi
+                                                </button>
+                                            </form></td>`
                                     }
                                     html += "</tr>"
                                 })
@@ -169,7 +189,7 @@
                         error: function() {}
                     });
                 }
-            }, 60 * 1000);
+            }
         });
 
         $("#Dashboard").addClass("active");
