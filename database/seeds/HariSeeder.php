@@ -42,5 +42,11 @@ class HariSeeder extends Seeder
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s')
         ]);
+        DB::table('hari')->insert([
+            'id' => 6,
+            'nama_hari' => "Sabtu",
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ]);
     }
 }

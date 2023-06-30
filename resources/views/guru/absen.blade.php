@@ -32,7 +32,7 @@
                             <label for="ruang">Ruangan</label>
                             <input type="text" id="ruang" name="ruang"
                                 class="form-control @error('ruang') is-invalid @enderror">
-                            {{-- <input type="hidden" name="jadwal_id" value="{{ $jadwal_id }}"> --}}
+                            <input type="hidden" name="jadwal_id" value="{{ $jadwal_id }}">
                         </div>
                     </div>
                 </div>
@@ -80,12 +80,18 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                $siswa_id = 0;
+                                $jenis_absen = 0;
+                            @endphp
                             @foreach ($siswa as $data)
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $data->nama_siswa }}</td>
                                     <td>
                                         <div class="custom-control custom-checkbox">
+                                            <input type="hidden" name="input[{{ $siswa_id++ }}][siswa_id]"
+                                                value="{{ $data->id }}">
                                             <input type="checkbox" class="custom-control-input"
                                                 id="check-{{ $data->id }}" onchange="toggleKeterangan(event)">
                                             <label class="custom-control-label" for="check-{{ $data->id }}"
@@ -93,7 +99,8 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <select class="custom-select" id="keterangan-{{ $data->id }}">
+                                        <select class="custom-select" name="input[{{ $jenis_absen++ }}][jenis_absen]"
+                                            id="keterangan-{{ $data->id }}">
                                             <option selected>Keterangan</option>
                                             <option>Sakit</option>
                                             <option>Ijin</option>
