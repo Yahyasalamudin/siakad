@@ -14,7 +14,7 @@ class Siswa extends Model
 
     public function absen_siswa()
     {
-        return $this->hasMany('App\AbsenSiswa')->withDefault();
+        return $this->hasMany('App\AbsenSiswa');
     }
 
     public function kelas()

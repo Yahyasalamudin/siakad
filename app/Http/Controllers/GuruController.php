@@ -262,17 +262,26 @@ class GuruController extends Controller
 
     public function absen(Request $request)
     {
-        $siswa = Siswa::where('kelas_id', $request->kelas_id)
+        $kelas_id = Crypt::decrypt($request->kelas_id);
+        $jadwal_id = Crypt::decrypt($request->jadwal_id);
+
+        $siswa = Siswa::where('kelas_id', $kelas_id)
+            ->orderBy('nama_siswa', 'ASC')
             ->get();
-        $jadwal_id = $request->jadwal_id;
         return view('guru.absen', compact('siswa', 'jadwal_id'));
     }
 
     public function absen_detail(Request $request)
     {
-        $siswa = Siswa::where('kelas_id', $request->kelas_id)
+        $kelas_id = Crypt::decrypt($request->kelas_id);
+        $jadwal_id = Crypt::decrypt($request->jadwal_id);
+
+        $siswa = AbsenSiswa::where('jadwal_id', $jadwal_id)
+            ->join('siswa', 'absen_siswa.siswa_id', '=', 'siswa.id')
+            ->orderBy('siswa.nama_siswa', 'ASC')
             ->get();
-        $absensi = Absen::where('jadwal_id', $request->jadwal_id)->first();
+
+        $absensi = Absen::where('jadwal_id', $jadwal_id)->first();
 
         return view('guru.absensi_detail', compact('siswa', 'absensi'));
     }
@@ -281,14 +290,24 @@ class GuruController extends Controller
     {
         $this->validate($request, [
             'foto' => 'required',
+            'ruang' => 'required',
         ]);
+
+        if ($request->request_guru_tamu != null) {
+            $this->validate($request, [
+                'guru_tamu' => 'required',
+                'agensi' => 'required',
+            ]);
+        }
 
         $user = auth()->user();
 
-        $foto = $request->foto;
-        $new_foto = date('siHdmY') . "_" . $foto->getClientOriginalName();
-        $foto->move('uploads/absensi/', $new_foto);
-        $nameFoto = 'uploads/absensi/' . $new_foto;
+        if ($request->foto) {
+            $foto = $request->foto;
+            $new_foto = date('siHdmY') . "_" . $foto->getClientOriginalName();
+            $foto->move('uploads/absensi/', $new_foto);
+            $nameFoto = 'uploads/absensi/' . $new_foto;
+        }
 
         Absen::create([
             'guru_id' => $user->guru($user->id_card)->id,

@@ -44,23 +44,21 @@
                                                 $data->jam_mulai <= $jam_mulai &&
                                                     $data->jam_selesai >= $jam_selesai &&
                                                     ($data->absen_guru->count() == 0 && $data->absen_siswa->count() == 0))
-                                                <form action="{{ route('absen.harian') }}" method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="kelas_id" value="{{ $data->kelas->id }}">
-                                                    <input type="hidden" name="jadwal_id" value="{{ $data->id }}">
-                                                    <button class="btn btn-primary">
-                                                        Absen Kehadiran
-                                                    </button>
-                                                </form>
+                                                <a href="{{ route('absen.harian', [
+                                                    'kelas_id' => Crypt::encrypt($data->kelas->id),
+                                                    'jadwal_id' => Crypt::encrypt($data->id),
+                                                ]) }}"
+                                                    class="btn btn-primary">
+                                                    Absen Kehadiran
+                                                </a>
                                             @elseif($data->jam_mulai <= $jam_mulai && $data->jam_selesai >= $jam_selesai)
-                                                <form action="{{ route('absen.detail') }}" method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="kelas_id" value="{{ $data->kelas->id }}">
-                                                    <input type="hidden" name="jadwal_id" value="{{ $data->id }}">
-                                                    <button class="btn btn-info">
-                                                        Detail Absensi
-                                                    </button>
-                                                </form>
+                                                <a href="{{ route('absen.detail', [
+                                                    'kelas_id' => Crypt::encrypt($data->kelas->id),
+                                                    'jadwal_id' => Crypt::encrypt($data->id),
+                                                ]) }}"
+                                                    class="btn btn-info">
+                                                    Detail Absensi
+                                                </a>
                                             @endif
                                         </td>
                                     </tr>

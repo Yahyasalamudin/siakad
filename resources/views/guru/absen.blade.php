@@ -30,9 +30,25 @@
                         </div>
                         <div class="form-group">
                             <label for="ruang">Ruangan</label>
-                            <input type="text" id="ruang" name="ruang"
-                                class="form-control @error('ruang') is-invalid @enderror">
+                            <input type="text" id="ruang" name="ruang" placeholder="Masukkan Ruangan"
+                                value="{{ old('ruang') }}" class="form-control @error('ruang') is-invalid @enderror">
                             <input type="hidden" name="jadwal_id" value="{{ $jadwal_id }}">
+                        </div>
+                        <div class="form-group">
+                            <input type="checkbox" id="request_guru_tamu" name="request_guru_tamu"
+                                onclick="toggleInputGuruTamu(event)">
+                            <label for="request_guru_tamu" class="ml-2">Request Guru Tamu</label>
+                        </div>
+                        <div class="form-group d-none">
+                            <label for="guru_tamu">Guru Tamu</label>
+                            <input type="text" id="guru_tamu" name="guru_tamu" placeholder="Masukkan Guru Tamu"
+                                value="{{ old('guru_tamu') }}"
+                                class="form-control @error('guru_tamu') is-invalid @enderror">
+                        </div>
+                        <div class="form-group d-none">
+                            <label for="agensi">Agensi</label>
+                            <input type="text" id="agensi" name="agensi" placeholder="Masukkan Agensi"
+                                value="{{ old('agensi') }}" class="form-control @error('agensi') is-invalid @enderror">
                         </div>
                     </div>
                 </div>
@@ -92,7 +108,7 @@
                                         <div class="custom-control custom-checkbox">
                                             <input type="hidden" name="input[{{ $siswa_id++ }}][siswa_id]"
                                                 value="{{ $data->id }}">
-                                            <input type="checkbox" class="custom-control-input"
+                                            <input type="checkbox" class="custom-control-input checkboxAbsensi"
                                                 id="check-{{ $data->id }}" onchange="toggleKeterangan(event)">
                                             <label class="custom-control-label" for="check-{{ $data->id }}"
                                                 data-id={{ $data->id }}>Hadir</label>
@@ -100,8 +116,8 @@
                                     </td>
                                     <td>
                                         <select class="custom-select" name="input[{{ $jenis_absen++ }}][jenis_absen]"
-                                            id="keterangan-{{ $data->id }}">
-                                            <option selected>Keterangan</option>
+                                            required id="keterangan-{{ $data->id }}">
+                                            <option selected value="">Keterangan</option>
                                             <option>Sakit</option>
                                             <option>Ijin</option>
                                         </select>
@@ -137,6 +153,21 @@
             // read the image file as a data URL.
             reader.readAsDataURL(this.files[0]);
         });
+
+        function toggleInputGuruTamu(e) {
+            const guruTamu = document.getElementById("guru_tamu");
+            const agensi = document.getElementById("agensi");
+
+            if (e.target.checked) {
+                guruTamu.parentElement.classList.remove('d-none');
+                agensi.parentElement.classList.remove('d-none');
+            } else {
+                guruTamu.value = "";
+                agensi.value = "";
+                guruTamu.parentElement.classList.add('d-none');
+                agensi.parentElement.classList.add('d-none');
+            }
+        }
 
         const toggleKeterangan = (e) => {
             const checkbox = e.target;
@@ -188,12 +219,12 @@
         // checkbox
         function toggleCheckAll() {
             const toggleCheckBtn = document.getElementById("toggleCheckBtn");
-            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            var checkboxes = document.getElementsByClassName('checkboxAbsensi');
 
             if (toggleCheckBtn.textContent == "Check All") {
-                checkboxes.forEach(function(checkbox) {
+                toggleCheckBtn.textContent = "Uncheck All";
+                Array.from(checkboxes).forEach(function(checkbox) {
                     checkbox.checked = true;
-                    toggleCheckBtn.textContent = "Uncheck All";
 
                     const checkboxId = checkbox.id;
                     const selectId = 'keterangan-' + checkboxId.split('-')[1];
@@ -205,9 +236,9 @@
                     }
                 });
             } else {
-                checkboxes.forEach(function(checkbox) {
+                toggleCheckBtn.textContent = "Check All";
+                Array.from(checkboxes).forEach(function(checkbox) {
                     checkbox.checked = false;
-                    toggleCheckBtn.textContent = "Check All";
 
                     const checkboxId = checkbox.id;
                     const selectId = 'keterangan-' + checkboxId.split('-')[1];
