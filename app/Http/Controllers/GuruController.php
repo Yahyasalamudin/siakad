@@ -268,6 +268,15 @@ class GuruController extends Controller
         return view('guru.absen', compact('siswa', 'jadwal_id'));
     }
 
+    public function absen_detail(Request $request)
+    {
+        $siswa = Siswa::where('kelas_id', $request->kelas_id)
+            ->get();
+        $absensi = Absen::where('jadwal_id', $request->jadwal_id)->first();
+
+        return view('guru.absensi_detail', compact('siswa', 'absensi'));
+    }
+
     public function simpan(Request $request)
     {
         $this->validate($request, [

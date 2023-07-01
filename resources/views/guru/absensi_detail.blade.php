@@ -1,7 +1,7 @@
 @extends('template_backend.home')
-@section('heading', 'Absen Harian Guru')
+@section('heading', 'Detail Absensi')
 @section('page')
-    <li class="breadcrumb-item active">Absen Harian guru</li>
+    <li class="breadcrumb-item active">Detail Absensi</li>
 @endsection
 @section('content')
     @php
@@ -18,20 +18,21 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="nama_guru">Nama Guru</label>
-                            <input type="text" id="nama_guru" class="form-control" value="{{ auth()->user()->name }}"
-                                readonly>
+                            <input type="text" id="nama_guru" class="form-control"
+                                value="{{ $absensi->guru->nama_guru }}" readonly>
                         </div>
                         <div class="form-group">
                             <label for="mapel">Mapel</label>
                             <input type="text" id="mapel" name="mapel" maxlength="5"
                                 onkeypress="return inputAngka(event)"
                                 class="form-control @error('mapel') is-invalid @enderror"
-                                value="{{ auth()->user()->guru(auth()->user()->id_card)->mapel->nama_mapel }}" readonly>
+                                value="{{ $absensi->guru->mapel->nama_mapel }}" readonly>
                         </div>
                         <div class="form-group">
                             <label for="ruang">Ruangan</label>
                             <input type="text" id="ruang" name="ruang"
-                                class="form-control @error('ruang') is-invalid @enderror">
+                                class="form-control @error('ruang') is-invalid @enderror" value="{{ $absensi->ruang }}"
+                                readonly>
                             {{-- <input type="hidden" name="jadwal_id" value="{{ $jadwal_id }}"> --}}
                         </div>
                     </div>
@@ -56,8 +57,8 @@
                             </div>
                         </div>
                         <div class="ml-2 col-sm-6">
-                            <img src="https://placehold.it/200x200" id="preview" style="width: 200px"
-                                class="img-thumbnail">
+                            <img src="{{ asset('uploads') }}" id="preview" style="width: 200px" class="img-thumbnail"
+                                alt="Foto Kegiatan - {{ $absensi->guru->nama_guru }}">
                         </div>
                     </div>
                 </div>

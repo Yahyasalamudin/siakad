@@ -32,9 +32,14 @@ class Jadwal extends Model
     return $this->belongsTo('App\Guru')->withDefault();
   }
 
+  public function absen_guru()
+  {
+    return $this->hasMany('App\Absen');
+  }
+
   public function absen_siswa()
   {
-    return $this->hasMany('App\AbsenSiswa')->withDefault();
+    return $this->hasMany('App\AbsenSiswa');
   }
 
   public function ruang()
@@ -76,7 +81,7 @@ class Jadwal extends Model
 
   public function absen($id)
   {
-    $absen = Absen::where('tanggal', date('Y-m-d'))->where('guru_id', $id)->first();
+    $absen = Absen::where('created_at', date('Y-m-d'))->where('guru_id', $id)->first();
     $ket = Kehadiran::where('id', $absen['kehadiran_id'])->first();
     return $ket['color'];
   }

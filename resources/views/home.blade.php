@@ -19,7 +19,8 @@
                     <tbody id="data-jadwal">
                         @php
                             $hari = date('w');
-                            $jam = date('H:i:s');
+                            $jam_mulai = date('H:i:s');
+                            $jam_selesai = date('H:i:s', strtotime('+10 minutes'));
                         @endphp
                         @if ($hari == 0)
                             <tr>
@@ -39,16 +40,28 @@
                                         </td>
                                         <td>{{ $data->kelas->nama_kelas }}</td>
                                         <td>
-                                            {{-- @if ($data->jam_mulai <= $jam && $data->jam_selesai >= $jam) --}}
-                                            <form action="{{ route('absen.harian') }}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="kelas_id" value="{{ $data->kelas->id }}">
-                                                <input type="hidden" name="jadwal_id" value="{{ $data->id }}">
-                                                <button class="btn btn-primary">
-                                                    Absen Kehadiran
-                                                </button>
-                                            </form>
-                                            {{-- @endif --}}
+                                            @if (
+                                                $data->jam_mulai <= $jam_mulai &&
+                                                    $data->jam_selesai >= $jam_selesai &&
+                                                    ($data->absen_guru->count() == 0 && $data->absen_siswa->count() == 0))
+                                                <form action="{{ route('absen.harian') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="kelas_id" value="{{ $data->kelas->id }}">
+                                                    <input type="hidden" name="jadwal_id" value="{{ $data->id }}">
+                                                    <button class="btn btn-primary">
+                                                        Absen Kehadiran
+                                                    </button>
+                                                </form>
+                                            @elseif($data->jam_mulai <= $jam_mulai && $data->jam_selesai >= $jam_selesai)
+                                                <form action="{{ route('absen.detail') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="kelas_id" value="{{ $data->kelas->id }}">
+                                                    <input type="hidden" name="jadwal_id" value="{{ $data->id }}">
+                                                    <button class="btn btn-info">
+                                                        Detail Absensi
+                                                    </button>
+                                                </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -110,9 +123,9 @@
     </div>
 @endsection
 @section('script')
-    <script>
+    {{-- <script>
         $(document).ready(function() {
-            showJadwal();
+            // showJadwal();
             setInterval(showJadwal(), 60 * 1000);
 
             function showJadwal() {
@@ -195,5 +208,5 @@
         $("#Dashboard").addClass("active");
         $("#liDashboard").addClass("menu-open");
         $("#Home").addClass("active");
-    </script>
+    </script> --}}
 @endsection
