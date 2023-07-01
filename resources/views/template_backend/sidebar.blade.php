@@ -193,12 +193,12 @@
                             <p>Dashboard</p>
                         </a>
                     </li>
-                    {{-- <li class="nav-item">
-                        <a href="{{ route('absen.harian') }}" class="nav-link" id="AbsenGuru">
+                    <li class="nav-item">
+                        <a href="{{ route('nilai.index') }}" class="nav-link">
                             <i class="fas fa-calendar-check nav-icon"></i>
-                            <p>Absen</p>
+                            <p>Nilai</p>
                         </a>
-                    </li> --}}
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('jadwal.guru') }}" class="nav-link" id="JadwalGuru">
                             <i class="fas fa-calendar-alt nav-icon"></i>
