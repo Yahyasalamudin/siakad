@@ -16,10 +16,10 @@ class CreateAbsensiGuruTable extends Migration
         Schema::create('absensi_guru', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('guru_id');
-            $table->integer('guru_tamu')->nullable();
-            $table->integer('agensi')->nullable();
+            $table->string('guru_tamu')->nullable();
+            $table->string('agensi')->nullable();
             $table->integer('jadwal_id');
-            $table->integer('ruang');
+            $table->string('ruang');
             $table->string('foto');
             $table->timestamps();
         });

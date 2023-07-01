@@ -9,23 +9,14 @@ use Illuminate\Support\Facades\Auth;
 
 class NilaiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $guru = Guru::where('id_card', Auth::user()->id_card)->first();
         $nilai = Nilai::where('guru_id', $guru->id)->first();
+
         return view('guru.nilai', compact('nilai', 'guru'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $guru = Guru::orderBy('kode')->get();

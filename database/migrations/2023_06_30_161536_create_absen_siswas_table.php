@@ -18,7 +18,7 @@ class CreateAbsenSiswasTable extends Migration
             $table->integer('siswa_id');
             $table->string('jenis_absen');
             $table->integer('jadwal_id');
-            $table->integer('ruang');
+            $table->string('ruang');
             $table->timestamps();
         });
     }

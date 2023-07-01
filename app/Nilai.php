@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Nilai extends Model
 {
-    protected $fillable = ['guru_id', 'kkm', 'deskripsi_a', 'deskripsi_b', 'deskripsi_c', 'deskripsi_d'];
+    protected $guarded = [];
 
     public function guru()
     {
