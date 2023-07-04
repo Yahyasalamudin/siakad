@@ -13,5 +13,12 @@ class Nilai extends Model
         return $this->belongsTo('App\Guru')->withDefault();
     }
 
+    public function siswa()
+    {
+        return $this->belongsToMany(Siswa::class, 'nilai_siswa', 'nilai_id', 'siswa_id')
+            ->withPivot('nilai');
+    }
+
+
     protected $table = 'nilai';
 }

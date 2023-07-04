@@ -10,7 +10,6 @@
             <div class="card-header">
                 <h3 class="card-title">Deskripsi Nilai</h3>
             </div>
-            <!-- /.card-header -->
             <!-- form start -->
             <form action="{{ route('nilai.store') }}" method="post">
                 @csrf
