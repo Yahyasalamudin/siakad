@@ -21,19 +21,8 @@ class NilaiController extends Controller
 
     public function create()
     {
-        $guru = Guru::where('id_card', Auth::user()->id_card)->first();
-        // $siswa = Siswa::orderBy('nama_siswa', 'asc')->get();
-        $kelas = Kelas::all();
-
-        return view('guru.nilai.create', compact('guru', 'kelas'));
-    }
-
-    public function get_siswa()
-    {
-        $siswa = Siswa::where('kelas_id', request('kelas_id'))
-            ->orderBy('nama_siswa', 'asc')->get();
-
-        echo json_encode($siswa);
+        $guru = Guru::orderBy('kode')->get();
+        return view('admin.nilai.index', compact('guru'));
     }
 
     public function store(Request $request)
