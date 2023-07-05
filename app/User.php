@@ -33,11 +33,11 @@ class User extends Authenticatable
         return $siswa;
     }
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
+    public function aktivitas_tambahan()
+    {
+        return $this->hasMany(AktivitasTambahan::class)->withDefault();
+    }
+
     protected $hidden = [
         'password', 'remember_token',
     ];

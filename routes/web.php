@@ -49,6 +49,9 @@ Route::middleware(['auth'])->group(function () {
   Route::get('/pengaturan/password', 'UserController@edit_password')->name('pengaturan.password');
   Route::post('/pengaturan/ubah-password', 'UserController@ubah_password')->name('pengaturan.ubah-password');
 
+  // Aktivitas Tambahan
+  Route::resource('/aktivitas-tambahan', 'AktivitasTambahanController');
+
   Route::middleware(['siswa'])->group(function () {
     Route::get('/jadwal/siswa', 'JadwalController@siswa')->name('jadwal.siswa');
     Route::get('/ulangan/siswa', 'UlanganController@siswa')->name('ulangan.siswa');
