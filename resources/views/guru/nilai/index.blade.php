@@ -11,14 +11,14 @@
                     <a href="{{ route('nilai.create') }}" class="btn btn-default btn-sm">
                         <i class="nav-icon fas fa-folder-plus"></i> &nbsp; Tambah Data Nilai
                     </a>
-                    <a href="{{ route('jadwal.export_excel') }}" class="btn btn-success btn-sm my-3" target="_blank"><i
+                    {{-- <a href="{{ route('jadwal.export_excel') }}" class="btn btn-success btn-sm my-3" target="_blank"><i
                             class="nav-icon fas fa-file-export"></i> &nbsp; EXPORT EXCEL</a>
                     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#importExcel">
                         <i class="nav-icon fas fa-file-import"></i> &nbsp; IMPORT EXCEL
                     </button>
                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#dropTable">
                         <i class="nav-icon fas fa-minus-circle"></i> &nbsp; Drop
-                    </button>
+                    </button> --}}
                 </h3>
             </div>
             <div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -84,22 +84,34 @@
                     <thead>
                         <tr>
                             <th>No.</th>
-                            <th>Nama Kelas</th>
-                            <th>Lihat Nilai</th>
+                            <th>Kelas</th>
+                            <th>Semester</th>
+                            <th>Jenis Rombel</th>
+                            <th>Mapel</th>
+                            <th>Konten</th>
+                            <th>Tujuan Pembelajaran</th>
+                            <th>Materi</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @foreach ($kelas as $data)
+                        @foreach ($nilai as $data)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $data->nama_kelas }}</td>
+                                <td>{{ $data->kelas->nama_kelas }}</td>
+                                <td>{{ $data->semester }}</td>
+                                <td>{{ $data->jenis_rombel }}</td>
+                                <td>{{ $data->mapel }}</td>
+                                <td>{{ $data->konten }}</td>
+                                <td>{{ $data->tujuan_pembelajaran }}</td>
+                                <td>{{ $data->materi }}</td>
                                 <td>
-                                    <a href="{{ route('jadwal.show', Crypt::encrypt($data->id)) }}"
+                                    <a href="{{ route('nilai.show', Crypt::encrypt($data->id)) }}"
                                         class="btn btn-info btn-sm"><i class="nav-icon fas fa-search-plus"></i> &nbsp;
                                         Detail</a>
                                 </td>
                             </tr>
-                        @endforeach --}}
+                        @endforeach
                     </tbody>
                 </table>
             </div>

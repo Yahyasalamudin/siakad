@@ -6,7 +6,7 @@
 @section('content')
     <div class="col-md-12">
         <!-- general form elements -->
-        <form action="{{ route('nilai.store') }}" method="post">
+        <form method="post" id="AddNilai">
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Deskripsi Nilai</h3>
@@ -16,7 +16,6 @@
                 @csrf
                 <div class="card-body">
                     <div class="row">
-                        <input type="hidden" name="id" value="">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="nama_guru">Nama Guru</label>
@@ -26,15 +25,16 @@
                             <div class="form-group">
                                 <label for="semester">Semester</label>
                                 <select name="semester" id="semester" class="form-control">
-                                    <option>Ganjil</option>
-                                    <option>Genap</option>
+                                    <option value="">Pilih Semester</option>
+                                    <option @if (old('semester') == 'Ganjil') selected @endif>Ganjil</option>
+                                    <option @if (old('semester') == 'Genap') selected @endif>Genap</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="tingkat_kelas">Tingkat Kelas</label>
                                 <select name="tingkat_kelas" id="tingkat_kelas" class="form-control"
                                     onchange="getSiswaByKelas(event)">
-                                    <option>Pilih Kelas</option>
+                                    <option value="">Pilih Kelas</option>
                                     @foreach ($kelas as $data)
                                         <option value="{{ $data->id }}">{{ $data->nama_kelas }}</option>
                                     @endforeach
@@ -79,8 +79,12 @@
                             <thead>
                                 <tr>
                                     <th class="col-1">No</th>
+                                    <th>No Induk</th>
+                                    <th>NIS</th>
                                     <th>Nama Siswa</th>
-                                    <th class="col-3">Keterangan</th>
+                                    <th>Jenis Kelamin</th>
+                                    <th>No Telepon</th>
+                                    <th>Nilai</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -114,7 +118,54 @@
             $('#back').click(function() {
                 window.location = "{{ url('/') }}";
             });
+
+            $('#AddNilai').on('submit', function(e) {
+                e.preventDefault();
+                clearErrors();
+
+                let formData = $(this).serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('nilai.store') }}',
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response) {
+                        toastr.success('Berhasil menambahkan nilai');
+                        window.location.href = response.redirect_url;
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        if (xhr.status === 422) {
+                            var errors = xhr.responseJSON.errors;
+                            displayErrors(errors);
+                        }
+                    }
+                });
+            })
+
+            function clearErrors() {
+                $('input').removeClass('is-invalid');
+                $('select').removeClass('is-invalid');
+                $('textarea').removeClass('is-invalid');
+            }
+
+            function displayErrors(errors) {
+                clearErrors();
+                for (var field in errors) {
+                    if (errors.hasOwnProperty(field)) {
+                        var messages = errors[field];
+                        for (var i = 0; i < messages.length; i++) {
+                            toastr.error(messages[i]);
+                            $('input[name="' + field + '"]').addClass('is-invalid');
+                            $('select[name="' + field + '"]').addClass('is-invalid');
+                            $('textarea[name="' + field + '"]').addClass('is-invalid');
+                        }
+
+
+                    }
+                }
+            }
         });
+
         $("#NilaiGuru").addClass("active");
         $("#liNilaiGuru").addClass("menu-open");
         $("#DesGuru").addClass("active");
@@ -127,18 +178,25 @@
                 dataType: "JSON",
                 url: "{{ url('/nilai/get-siswa') }}",
                 success: function(result) {
-                    // console.log(result);
                     if (result) {
-                        console.log(result);
-                        // $.each(result, function(index, val) {
-                        //     $('#id').val(val.id);
-                        //     $('#form_nama').html('');
-                        //     $('# ').html('');
-                        //     $("#form_paket").append(form_paket);
-                        //     $('#nama_kelas').val(val.nama);
-                        //     $("#paket_id").val(val.paket_id);
-                        //     $('#guru_id').val(val.guru_id);
-                        // });
+                        const tbody = document.querySelector('#AbsenSiswa tbody');
+                        tbody.innerHTML = "";
+                        $.each(result, function(index, val) {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <input type="hidden" name="input[${index}][siswa_id]" value="${val.id}">
+                                <td>${val.id}</td>
+                                <td>${val.no_induk}</td>
+                                <td>${val.nis}</td>
+                                <td>${val.nama_siswa}</td>
+                                <td>${val.jk}</td>
+                                <td>${val.telp}</td>
+                                <td>
+                                    <input type="text" placeholder="0" name="input[${index}][nilai]" class="form-control" required>
+                                </td>
+                            `;
+                            tbody.appendChild(row);
+                        });
                     }
                 },
                 error: function() {
