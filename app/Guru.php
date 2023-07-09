@@ -13,8 +13,13 @@ class Guru extends Model
 
     public function mapel()
     {
-        return $this->belongsTo('App\Mapel')->withDefault();
+        return $this->belongsToMany(Mapel::class, 'mapel_guru', 'guru_id', 'mapel_id');
     }
+
+    // public function mapel()
+    // {
+    //     return $this->belongsTo('App\Mapel')->withDefault();
+    // }
 
     protected $table = 'guru';
 }

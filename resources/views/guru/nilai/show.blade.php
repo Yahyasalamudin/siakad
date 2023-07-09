@@ -68,22 +68,25 @@
                             <div class="form-group">
                                 <label for="mapel">Mata Pelajaran</label>
                                 <select name="mapel" id="mapel" onchange="getNilaiSiswa()" class="form-control">
-                                    <option value="reguler">{{ $guru->mapel->nama_mapel }}</option>
+                                    @foreach ($guru->mapel as $mapel)
+                                        <option value="{{ $mapel->id }}">{{ $mapel->nama_mapel }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="konten">Konten</label>
-                                <textarea type="text" id="konten" name="konten" class="form-control" rows="4"></textarea>
+                                <textarea type="text" id="konten" name="konten" class="form-control" rows="4" readonly></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="tujuan_pembelajaran">Tujuan Pembelajaran</label>
-                                <textarea type="text" id="tujuan_pembelajaran" name="tujuan_pembelajaran" class="form-control" rows="4"></textarea>
+                                <textarea type="text" id="tujuan_pembelajaran" name="tujuan_pembelajaran" class="form-control" rows="4"
+                                    readonly></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="materi">Materi</label>
-                                <textarea type="text" id="materi" name="materi" class="form-control" rows="4"></textarea>
+                                <textarea type="text" id="materi" name="materi" class="form-control" rows="4" readonly></textarea>
                             </div>
                         </div>
                     </div>
@@ -201,7 +204,6 @@
             let konten = document.getElementById('konten');
             let tujuan_pembelajaran = document.getElementById('tujuan_pembelajaran');
             let materi = document.getElementById('materi');
-            let tb_siswa = document.querySelector('#AbsenSiswa tbody');
 
             $.ajax({
                 type: "GET",
@@ -222,6 +224,8 @@
                         tujuan_pembelajaran.value = result.tujuan_pembelajaran;
                         materi.value = result.materi;
 
+                        const tbody = document.querySelector('#AbsenSiswa tbody');
+                        tbody.innerHTML = "";
                         $.each(result.siswa, function(index, val) {
                             const row = document.createElement('tr');
                             row.innerHTML = `

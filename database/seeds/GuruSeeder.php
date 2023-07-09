@@ -17,13 +17,12 @@ class GuruSeeder extends Seeder
             'id_card' => '00001',
             'nip' => 123123,
             'nama_guru' => "Dedi Setyono M.Pd.",
-            'mapel_id' => 1,
             'kode' => "BSD001",
             'jk' => "L",
             'telp' => "082123123123",
             'tmp_lahir' => "Jember",
             'tgl_lahir' => "1994-09-12",
-            'foto' => "",
+            'foto' => "uploads/guru/35251431012020_male.webp",
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s')
         ]);
@@ -33,13 +32,12 @@ class GuruSeeder extends Seeder
             'id_card' => '00002',
             'nip' => 123123,
             'nama_guru' => "Faruk Mardoko M.Pd.",
-            'mapel_id' => 2,
             'kode' => "PWB001",
             'jk' => "L",
             'telp' => "082123123124",
             'tmp_lahir' => "Jember",
             'tgl_lahir' => "1994-09-12",
-            'foto' => "",
+            'foto' => "uploads/guru/35251431012020_male.webp",
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s')
         ]);

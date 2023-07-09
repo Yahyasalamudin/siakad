@@ -1,5 +1,6 @@
 <?php
 
+use App\Guru;
 use App\Jadwal;
 use Illuminate\Database\Seeder;
 
@@ -20,6 +21,25 @@ class DatabaseSeeder extends Seeder
         $this->call(SiswaSeeder::class);
         $this->call(MapelSeeder::class);
         $this->call(RuangSeeder::class);
+
+        $guru_mapel = [
+            [
+                'guru_id' => 1,
+                'mapel_id' => 1,
+            ],
+            [
+                'guru_id' => 1,
+                'mapel_id' => 2,
+            ],
+            [
+                'guru_id' => 2,
+                'mapel_id' => 3,
+            ],
+        ];
+        foreach ($guru_mapel as $data) {
+            $guru = Guru::find($data['guru_id']);
+            $guru->mapel()->attach($data['mapel_id']);
+        }
 
         $jadwals = [
             [

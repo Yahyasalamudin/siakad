@@ -92,6 +92,7 @@ class NilaiController extends Controller
         $guru = Guru::where('id_card', Auth::user()->id_card)->first();
         $kelas = Kelas::all();
         $nilai_siswa = Nilai::find(decrypt($id));
+        dd($nilai_siswa);
 
         return view('guru.nilai.show', compact('guru', 'nilai_siswa', 'kelas'));
     }

@@ -12,6 +12,11 @@ class Mapel extends Model
 
     protected $fillable = ['id', 'nama_mapel', 'paket_id', 'kelompok'];
 
+    public function guru()
+    {
+        return $this->belongsToMany(Guru::class, 'mapel_guru', 'mapel_id', 'guru_id');
+    }
+
     public function paket()
     {
         return $this->belongsTo('App\Paket')->withDefault();

@@ -50,7 +50,9 @@
                             <div class="form-group">
                                 <label for="mapel">Mata Pelajaran</label>
                                 <select name="mapel" id="mapel" class="form-control">
-                                    <option value="reguler">{{ $guru->mapel->nama_mapel }}</option>
+                                    @foreach ($guru->mapel as $mapel)
+                                        <option value="{{ $mapel->id }}">{{ $mapel->nama_mapel }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>

@@ -68,7 +68,7 @@ class GuruController extends Controller
             $nameFoto = 'uploads/guru/' . $new_foto;
         } else {
             if ($request->jk == 'L') {
-                $nameFoto = 'uploads/guru/35251431012020_male.wepb';
+                $nameFoto = 'uploads/guru/35251431012020_male.webp';
             } else {
                 $nameFoto = 'uploads/guru/23171022042020_female.jpg';
             }
@@ -78,7 +78,6 @@ class GuruController extends Controller
             'id_card' => $request->id_card,
             'nip' => $request->nip,
             'nama_guru' => $request->nama_guru,
-            'mapel_id' => $request->mapel_id,
             'kode' => $request->kode,
             'jk' => $request->jk,
             'telp' => $request->telp,
@@ -87,9 +86,9 @@ class GuruController extends Controller
             'foto' => $nameFoto
         ]);
 
-        Nilai::create([
-            'guru_id' => $guru->id
-        ]);
+        foreach ($request->mapel_id as $mapel_id) {
+            $guru->mapel()->attach($guru->id, ['mapel_id' => $mapel_id]);
+        }
 
         return redirect()->back()->with('success', 'Berhasil menambahkan data guru baru!');
     }
@@ -117,6 +116,7 @@ class GuruController extends Controller
     {
         $id = Crypt::decrypt($id);
         $guru = Guru::findorfail($id);
+
         $mapel = Mapel::all();
         return view('admin.guru.edit', compact('guru', 'mapel'));
     }
@@ -146,12 +146,17 @@ class GuruController extends Controller
         }
         $guru_data = [
             'nama_guru' => $request->nama_guru,
-            'mapel_id' => $request->mapel_id,
             'jk' => $request->jk,
             'telp' => $request->telp,
             'tmp_lahir' => $request->tmp_lahir,
             'tgl_lahir' => $request->tgl_lahir
         ];
+
+        $guru->mapel()->detach();
+        foreach ($request->mapel_id as $mapel_id) {
+            $guru->mapel()->attach($guru->id, ['mapel_id' => $mapel_id]);
+        }
+
         $guru->update($guru_data);
 
         return redirect()->route('guru.index')->with('success', 'Data guru berhasil diperbarui!');
@@ -249,7 +254,9 @@ class GuruController extends Controller
     {
         $id = Crypt::decrypt($id);
         $mapel = Mapel::findorfail($id);
-        $guru = Guru::where('mapel_id', $id)->orderBy('kode', 'asc')->get();
+        $guru = Guru::whereHas('mapel', function ($query) use ($id) {
+            $query->where('mapel_guru.mapel_id', $id);
+        })->orderBy('kode', 'asc')->get();
         return view('admin.guru.show', compact('mapel', 'guru'));
     }
 
