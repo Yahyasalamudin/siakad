@@ -194,8 +194,14 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('nilai.index') }}" class="nav-link">
+                        <a href="{{ route('jurnal.index') }}" class="nav-link">
                             <i class="fas fa-calendar-check nav-icon"></i>
+                            <p>E-Jurnal</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('nilai.index') }}" class="nav-link">
+                            <i class="fas fa-medal nav-icon"></i>
                             <p>Nilai</p>
                         </a>
                     </li>
@@ -207,7 +213,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('aktivitas-tambahan.index') }}" class="nav-link">
-                            <i class="fas fa-calendar-alt nav-icon"></i>
+                            <i class="fas fa-calendar-plus nav-icon"></i>
                             <p>Aktivitas Tambahan</p>
                         </a>
                     </li>

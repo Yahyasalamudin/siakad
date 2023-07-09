@@ -8,8 +8,11 @@
         <!-- general form elements -->
         <form method="post" id="AddNilai">
             <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Deskripsi Nilai</h3>
+                <div class="card-header d-flex items-center">
+                    <h3 class="card-title align-middle">Deskripsi Nilai</h3>
+                    <a href="{{ route('nilai.create') }}" class="btn btn-light text-dark btn-sm ml-3">
+                        <i class="nav-icon fas fa-folder-plus"></i> &nbsp; Tambah Data Nilai
+                    </a>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
@@ -19,41 +22,52 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="nama_guru">Nama Guru</label>
-                                <input type="text" id="nama_guru" name="nama_guru" value="{{ $guru->nama_guru }}"
-                                    class="form-control" readonly>
+                                <input type="text" id="nama_guru" onchange="getNilaiSiswa()" name="nama_guru"
+                                    value="{{ $guru->nama_guru }}" class="form-control" readonly>
                             </div>
-                            <div class="form-group">
-                                <label for="semester">Semester</label>
-                                <select name="semester" id="semester" class="form-control">
-                                    <option value="">Pilih Semester</option>
-                                    <option @if ($nilai_siswa->semester == 'Ganjil') selected @endif>Ganjil</option>
-                                    <option @if ($nilai_siswa->semester == 'Genap') selected @endif>Genap</option>
-                                </select>
+                            <div class="d-flex justify-content-between mb-2">
+                                <div class="form-group col-4 pl-0 pr-2">
+                                    <label for="tahun">Tahun</label>
+                                    <select name="tahun" id="tahun" onchange="getNilaiSiswa()" class="form-control">
+                                        <option value="">Pilih Tahun</option>
+                                        @foreach ($tahun as $data)
+                                            <option>{{ $data->tahun }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-8 px-0">
+                                    <label for="semester">Semester</label>
+                                    <select name="semester" id="semester" onchange="getNilaiSiswa()" class="form-control">
+                                        <option value="">Pilih Semester</option>
+                                        <option>Ganjil</option>
+                                        <option>Genap</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="tingkat_kelas">Tingkat Kelas</label>
-                                <select name="tingkat_kelas" id="tingkat_kelas" class="form-control"
-                                    onchange="getSiswaByKelas(event)">
+                                <select name="tingkat_kelas" id="tingkat_kelas" onchange="getNilaiSiswa()""
+                                    class="form-control" onchange="getSiswaByKelas(event)">
                                     <option value="">Pilih Kelas</option>
                                     @foreach ($kelas as $data)
-                                        <option @if ($nilai_siswa->kelas->id == $data->id) selected @endif
-                                            value="{{ $data->id }}">
+                                        <option value="{{ $data->id }}">
                                             {{ $data->nama_kelas }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="jenis_rombel">Jenis Rombongan Belajar</label>
-                                <select name="jenis_rombel" id="jenis_rombel" class="form-control">
-                                    <option @if ($nilai_siswa->jenis_rombel == 'reguler') selected @endif value="reguler">Reguler
+                                <select name="jenis_rombel" id="jenis_rombel" onchange="getNilaiSiswa()""
+                                    class="form-control">
+                                    <option value="reguler">Reguler
                                     </option>
-                                    <option @if ($nilai_siswa->jenis_rombel == 'mapel_pilihan') selected @endif value="mapel_pilihan">Mapel
+                                    <option value="mapel_pilihan">Mapel
                                         Pilihan</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="mapel">Mata Pelajaran</label>
-                                <select name="mapel" id="mapel" class="form-control">
+                                <select name="mapel" id="mapel" onchange="getNilaiSiswa()" class="form-control">
                                     <option value="reguler">{{ $guru->mapel->nama_mapel }}</option>
                                 </select>
                             </div>
@@ -61,15 +75,15 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="konten">Konten</label>
-                                <textarea type="text" id="konten" name="konten" class="form-control" rows="4">{{ $nilai_siswa->konten }}</textarea>
+                                <textarea type="text" id="konten" name="konten" class="form-control" rows="4"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="tujuan_pembelajaran">Tujuan Pembelajaran</label>
-                                <textarea type="text" id="tujuan_pembelajaran" name="tujuan_pembelajaran" class="form-control" rows="4">{{ $nilai_siswa->tujuan_pembelajaran }}</textarea>
+                                <textarea type="text" id="tujuan_pembelajaran" name="tujuan_pembelajaran" class="form-control" rows="4"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="materi">Materi</label>
-                                <textarea type="text" id="materi" name="materi" class="form-control" rows="4">{{ $nilai_siswa->materi }}</textarea>
+                                <textarea type="text" id="materi" name="materi" class="form-control" rows="4"></textarea>
                             </div>
                         </div>
                     </div>
@@ -79,6 +93,9 @@
             <div class="col-md-12 mb-5">
                 <div class="card">
                     <div class="card-body">
+                        <span class="badge badge-warning col-12 p-4 my-4 d-none" id="BadgeNotFound">
+                            <h6 class="p-0 m-0">Data Tidak Ditemukan.</h6>
+                        </span>
                         <table id="AbsenSiswa" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
@@ -92,7 +109,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($nilai_siswa->siswa as $data)
+                                {{-- @foreach ($nilai_siswa->siswa as $data)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $data->no_induk }}</td>
@@ -102,16 +119,16 @@
                                         <td>{{ $data->telp }}</td>
                                         <td>{{ $data->pivot->nilai }}</td>
                                     </tr>
-                                @endforeach
+                                @endforeach --}}
                             </tbody>
                         </table>
                     </div>
-                    <div class="card-footer">
+                    {{-- <div class="card-footer">
                         <a href="#" name="kembali" class="btn btn-default" id="back"><i
                                 class='nav-icon fas fa-arrow-left'></i> &nbsp; Kembali</a> &nbsp;
                         <button name="submit" class="btn btn-primary"><i class="nav-icon fas fa-save"></i> &nbsp;
                             Simpan</button>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <!-- /.card -->
@@ -174,40 +191,63 @@
         $("#liNilaiGuru").addClass("menu-open");
         $("#DesGuru").addClass("active");
 
-        // fetch SiswaByKelas
-        // function getSiswaByKelas(e) {
-        //     $.ajax({
-        //         type: "GET",
-        //         data: "kelas_id=" + e.target.value,
-        //         dataType: "JSON",
-        //         url: "{{ url('/nilai/get-siswa') }}",
-        //         success: function(result) {
-        //             if (result) {
-        //                 const tbody = document.querySelector('#AbsenSiswa tbody');
-        //                 tbody.innerHTML = "";
-        //                 $.each(result, function(index, val) {
-        //                     const row = document.createElement('tr');
-        //                     row.innerHTML = `
-    //                         <input type="hidden" name="input[${index}][siswa_id]" value="${val.id}">
-    //                         <td>${val.id}</td>
-    //                         <td>${val.no_induk}</td>
-    //                         <td>${val.nis}</td>
-    //                         <td>${val.nama_siswa}</td>
-    //                         <td>${val.jk}</td>
-    //                         <td>${val.telp}</td>
-    //                         <td>
-    //                             <input type="text" placeholder="0" name="input[${index}][nilai]" class="form-control" required>
-    //                         </td>
-    //                     `;
-        //                     tbody.appendChild(row);
-        //                 });
-        //             }
-        //         },
-        //         error: function() {
-        //             toastr.error("Errors 404!");
-        //         },
-        //         complete: function() {}
-        //     });
-        // }
+        // fetch nilai siswa
+        function getNilaiSiswa(e) {
+            let tahun = document.getElementById('tahun');
+            let semester = document.getElementById('semester');
+            let tingkat_kelas = document.getElementById('tingkat_kelas');
+            let jenis_rombel = document.getElementById('jenis_rombel');
+            let mapel = document.getElementById('mapel');
+            let konten = document.getElementById('konten');
+            let tujuan_pembelajaran = document.getElementById('tujuan_pembelajaran');
+            let materi = document.getElementById('materi');
+            let tb_siswa = document.querySelector('#AbsenSiswa tbody');
+
+            $.ajax({
+                type: "GET",
+                data: {
+                    'tahun': tahun.value,
+                    'semester': semester.value,
+                    'tingkat_kelas': tingkat_kelas.value,
+                    'jenis_rombel': jenis_rombel.value,
+                    'mapel': mapel.value,
+                },
+                dataType: "JSON",
+                url: "{{ url('/nilai/get-nilai-siswa') }}",
+                success: function(result) {
+                    if (result) {
+                        $("#BadgeNotFound").addClass('d-none');
+
+                        konten.value = result.konten;
+                        tujuan_pembelajaran.value = result.tujuan_pembelajaran;
+                        materi.value = result.materi;
+
+                        $.each(result.siswa, function(index, val) {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <input type="hidden" name="input[${index}][siswa_id]" value="${val.id}">
+                                <td>${val.id}</td>
+                                <td>${val.no_induk}</td>
+                                <td>${val.nis}</td>
+                                <td>${val.nama_siswa}</td>
+                                <td>${val.jk}</td>
+                                <td>${val.telp}</td>
+                                <td>${val.pivot.nilai}</td>
+                            `;
+                            tb_siswa.appendChild(row);
+                        });
+                    } else {
+                        $("#BadgeNotFound").removeClass('d-none');
+                        konten.value = '';
+                        tujuan_pembelajaran.value = '';
+                        materi.value = '';
+                    }
+                },
+                error: function() {
+                    toastr.error("Terjadi kesalahan. Coba lagi nanti.");
+                },
+                complete: function() {}
+            });
+        }
     </script>
 @endsection

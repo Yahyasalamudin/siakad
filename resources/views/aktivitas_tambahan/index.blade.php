@@ -20,6 +20,7 @@
                     <thead>
                         <tr>
                             <th>No.</th>
+                            <th>Tanggal / Waktu</th>
                             <th>Kegiatan</th>
                             <th>Foto</th>
                             <th>Aksi</th>
@@ -29,6 +30,7 @@
                         @foreach ($aktivitas as $data)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
+                                <td>{{ $data->created_at->format('d-m-Y H:i') }}</td>
                                 <td>{{ $data->kegiatan }}</td>
                                 <td>
                                     <img src="{{ asset($data->foto) }}" id="preview" style="width: 100px"

@@ -40,10 +40,7 @@
                                         </td>
                                         <td>{{ $data->kelas->nama_kelas }}</td>
                                         <td>
-                                            @if (
-                                                $data->jam_mulai <= $jam_mulai &&
-                                                    $data->jam_selesai >= $jam_selesai &&
-                                                    ($data->absen_guru->count() == 0 && $data->absen_siswa->count() == 0))
+                                            @if ($data->jam_mulai <= $jam_mulai && $data->jam_selesai >= $jam_selesai)
                                                 <a href="{{ route('absen.harian', [
                                                     'kelas_id' => Crypt::encrypt($data->kelas->id),
                                                     'jadwal_id' => Crypt::encrypt($data->id),
@@ -51,14 +48,15 @@
                                                     class="btn btn-primary">
                                                     Absen Kehadiran
                                                 </a>
-                                            @elseif($data->jam_mulai <= $jam_mulai && $data->jam_selesai >= $jam_selesai)
-                                                <a href="{{ route('absen.detail', [
+                                            @else
+                                                -
+                                                {{-- <a href="{{ route('absen.detail', [
                                                     'kelas_id' => Crypt::encrypt($data->kelas->id),
                                                     'jadwal_id' => Crypt::encrypt($data->id),
                                                 ]) }}"
                                                     class="btn btn-info">
                                                     Detail Absensi
-                                                </a>
+                                                </a> --}}
                                             @endif
                                         </td>
                                     </tr>

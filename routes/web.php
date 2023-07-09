@@ -60,10 +60,12 @@ Route::middleware(['auth'])->group(function () {
   });
 
   Route::middleware(['guru'])->group(function () {
+    Route::get('/jurnal', 'JurnalController@index')->name('jurnal.index');
     Route::get('/absen/harian', 'GuruController@absen')->name('absen.harian');
     Route::get('/absen/detail', 'GuruController@absen_detail')->name('absen.detail');
     Route::post('/absen/simpan', 'GuruController@simpan')->name('absen.simpan');
     Route::get('/jadwal/guru', 'JadwalController@guru')->name('jadwal.guru');
+    Route::get('/nilai/get-nilai-siswa', 'NilaiController@get_nilai_siswa');
     Route::get('/nilai/get-siswa', 'NilaiController@get_siswa');
     Route::resource('/nilai', 'NilaiController');
     Route::resource('/ulangan', 'UlanganController');

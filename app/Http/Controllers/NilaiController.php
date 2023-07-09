@@ -10,15 +10,35 @@ use App\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 
 class NilaiController extends Controller
 {
     public function index()
     {
         $guru = Guru::where('id_card', Auth::user()->id_card)->first();
-        $nilai = Nilai::where('guru_id', $guru->id)->get();
+        $kelas = Kelas::all();
+        // $nilai_siswa = Nilai::find(decrypt($id));
+        $tahun = Nilai::select(DB::raw('YEAR(created_at) as tahun'))->groupBy(DB::raw('YEAR(created_at)'))->get();
 
-        return view('guru.nilai.index', compact('nilai', 'guru'));
+        return view('guru.nilai.show', compact('guru', 'kelas', 'tahun'));
+
+        // $guru = Guru::where('id_card', Auth::user()->id_card)->first();
+        // $nilai = Nilai::where('guru_id', $guru->id)->get();
+
+        // return view('guru.nilai.index', compact('nilai', 'guru'));
+    }
+
+    public function get_nilai_siswa(Request $request)
+    {
+        $nilai_siswa = Nilai::whereYear('created_at', $request->tahun)
+            ->where('semester', $request->semester)
+            ->where('tingkat_kelas', $request->tingkat_kelas)
+            ->where('jenis_rombel', $request->jenis_rombel)
+            ->where('mapel', $request->mapel)
+            ->first();
+
+        return json_encode($nilai_siswa);
     }
 
     public function get_siswa()
@@ -45,7 +65,7 @@ class NilaiController extends Controller
             'tujuan_pembelajaran' => 'required',
             'materi' => 'required',
         ]);
-        
+
         $user = auth()->user();
 
         $nilai = Nilai::create([
@@ -72,10 +92,6 @@ class NilaiController extends Controller
         $guru = Guru::where('id_card', Auth::user()->id_card)->first();
         $kelas = Kelas::all();
         $nilai_siswa = Nilai::find(decrypt($id));
-        // foreach($nilai_siswa->siswa as $siswa) {
-        //     var_dump($siswa->pivot->nilai);
-        // }
-        // die;
 
         return view('guru.nilai.show', compact('guru', 'nilai_siswa', 'kelas'));
     }
