@@ -6,6 +6,7 @@ use App\Jadwal;
 use App\Hari;
 use App\Kelas;
 use App\Guru;
+use App\PindahJadwal;
 use App\Siswa;
 use App\Ruang;
 use Illuminate\Http\Request;
@@ -131,6 +132,23 @@ class JadwalController extends Controller
         $jadwal->delete();
 
         return redirect()->back()->with('warning', 'Data jadwal berhasil dihapus! (Silahkan cek trash data jadwal)');
+    }
+
+    public function pindah_jadwal(Request $request)
+    {
+        $jadwal = Jadwal::find($request->jadwal_id);
+
+        PindahJadwal::create([
+            'jadwal_id' => $jadwal->id,
+            'hari_id' => $request->hari_id,
+            'kelas_id' => $jadwal->kelas_id,
+            'mapel_id' => $jadwal->mapel_id,
+            'guru_id' => $jadwal->guru_id,
+            'jam_mulai' => $request->jam_mulai,
+            'jam_selesai' => $request->jam_selesai,
+        ]);
+
+        return redirect()->back()->with('success', 'Permintaan Perpindahan Jadwal Berhasil Dikirim');
     }
 
     public function trash()

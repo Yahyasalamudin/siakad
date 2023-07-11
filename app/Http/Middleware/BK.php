@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class Guru
+class BK
 {
     /**
      * Handle an incoming request.
@@ -15,7 +15,7 @@ class Guru
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user()->role != 'Guru') {
+        if ($request->user()->role != 'BK') {
             return redirect('/');
         }
         return $next($request);

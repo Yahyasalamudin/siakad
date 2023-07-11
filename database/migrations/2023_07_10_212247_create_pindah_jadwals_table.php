@@ -20,8 +20,9 @@ class CreatePindahJadwalsTable extends Migration
             $table->integer('kelas_id');
             $table->integer('mapel_id');
             $table->integer('guru_id');
-            $table->integer('jam_mulai');
-            $table->integer('jam_selesai');
+            $table->time('jam_mulai');
+            $table->time('jam_selesai');
+            $table->integer('status_request')->default(0);
             $table->timestamps();
         });
     }

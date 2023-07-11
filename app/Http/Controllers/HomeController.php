@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Hari;
 use App\Jadwal;
 use App\Guru;
 use App\Kehadiran;
@@ -37,7 +38,9 @@ class HomeController extends Controller
         $hari = date('w');
         $jam = date('H:i:s', strtotime('+10 minutes'));
         $jadwal = Jadwal::OrderBy('jam_mulai')->OrderBy('jam_selesai')->OrderBy('kelas_id')
-        ->where('hari_id', $hari)->where('jam_selesai', '>=', $jam);
+            ->where('hari_id', $hari)->where('jam_selesai', '>=', $jam);
+
+        $days = Hari::get();
 
         if ($user->role == 'Guru') {
             $jadwal = $jadwal->where('guru_id', $user->guru($user->id_card)->id);
@@ -46,7 +49,7 @@ class HomeController extends Controller
         $jadwal = $jadwal->get();
         $pengumuman = Pengumuman::first();
         $kehadiran = Kehadiran::all();
-        return view('home', compact('jadwal', 'pengumuman', 'kehadiran'));
+        return view('home', compact('jadwal', 'pengumuman', 'kehadiran', 'days'));
     }
 
     public function admin()
@@ -70,26 +73,29 @@ class HomeController extends Controller
         $mapel = Mapel::count();
         $user = User::count();
         $paket = Paket::all();
-        return view('admin.index', compact(
-            'jadwal',
-            'guru',
-            'gurulk',
-            'gurupr',
-            'siswalk',
-            'siswapr',
-            'siswa',
-            'kelas',
-            'bkp',
-            'dpib',
-            'ei',
-            'oi',
-            'tbsm',
-            'rpl',
-            'tpm',
-            'las',
-            'mapel',
-            'user',
-            'paket'
-        ));
+        return view(
+            'admin.index',
+            compact(
+                'jadwal',
+                'guru',
+                'gurulk',
+                'gurupr',
+                'siswalk',
+                'siswapr',
+                'siswa',
+                'kelas',
+                'bkp',
+                'dpib',
+                'ei',
+                'oi',
+                'tbsm',
+                'rpl',
+                'tpm',
+                'las',
+                'mapel',
+                'user',
+                'paket'
+            )
+        );
     }
 }

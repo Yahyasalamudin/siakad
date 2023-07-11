@@ -8,9 +8,9 @@
         <!-- general form elements -->
         <form method="post" id="AddNilai">
             <div class="card card-primary">
-                <div class="card-header d-flex items-center">
-                    <h3 class="card-title align-middle">Deskripsi Nilai</h3>
-                    <a href="{{ route('nilai.create') }}" class="btn btn-light text-dark btn-sm ml-3">
+                <div class="card-header d-flex align-items-center">
+                    <h3 class="card-title align-self-center">Deskripsi Nilai</h3>
+                    <a href="{{ route('nilai.create') }}" class="ml-auto float-right btn btn-light text-dark btn-sm">
                         <i class="nav-icon fas fa-folder-plus"></i> &nbsp; Tambah Data Nilai
                     </a>
                 </div>
@@ -238,7 +238,7 @@
                                 <td>${val.telp}</td>
                                 <td>${val.pivot.nilai}</td>
                             `;
-                            tb_siswa.appendChild(row);
+                            tbody.appendChild(row);
                         });
                     } else {
                         $("#BadgeNotFound").removeClass('d-none');

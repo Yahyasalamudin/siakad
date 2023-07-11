@@ -268,29 +268,11 @@
                             <p>Jadwal</p>
                         </a>
                     </li>
-                    <!--<li class="nav-item">-->
-                    <!--    <a href="{{ route('ulangan.siswa') }}" class="nav-link" id="UlanganSiswa">-->
-                    <!--        <i class="fas fa-file-alt nav-icon"></i>-->
-                    <!--        <p>Ulangan</p>-->
-                    <!--    </a>-->
-                    <!--</li>-->
-                    <!--<li class="nav-item">-->
-                    <!--    <a href="{{ route('sikap.siswa') }}" class="nav-link" id="SikapSiswa">-->
-                    <!--        <i class="fas fa-file-alt nav-icon"></i>-->
-                    <!--        <p>Sikap</p>-->
-                    <!--    </a>-->
-                    <!--</li>-->
-                    <!--<li class="nav-item">-->
-                    <!--    <a href="{{ route('rapot.siswa') }}" class="nav-link" id="RapotSiswa">-->
-                    <!--        <i class="fas fa-file-alt nav-icon"></i>-->
-                    <!--        <p>Rapot</p>-->
-                    <!--    </a>-->
-                    <!--</li>-->
-                @else
-                    <li class="nav-item has-treeview">
-                        <a href="{{ url('/') }}" class="nav-link" id="Home">
-                            <i class="nav-icon fas fa-home"></i>
-                            <p>Dashboard</p>
+                @elseif (Auth::user()->role == 'BK')
+                    <li class="nav-item">
+                        <a href="{{ route('bk.absensi') }}" class="nav-link">
+                            <i class="fas fa-calendar-alt nav-icon"></i>
+                            <p>Absensi Siswa</p>
                         </a>
                     </li>
                 @endif

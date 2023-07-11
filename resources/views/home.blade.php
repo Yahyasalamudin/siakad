@@ -49,17 +49,74 @@
                                                     Absen Kehadiran
                                                 </a>
                                             @else
-                                                -
-                                                {{-- <a href="{{ route('absen.detail', [
-                                                    'kelas_id' => Crypt::encrypt($data->kelas->id),
-                                                    'jadwal_id' => Crypt::encrypt($data->id),
-                                                ]) }}"
-                                                    class="btn btn-info">
-                                                    Detail Absensi
-                                                </a> --}}
+                                                <button type="button" class="btn btn-info" data-toggle="modal"
+                                                    data-target=".pindah-jadwal-{{ $data->id }}"> &nbsp; Pindah Jadwal
+                                                </button>
                                             @endif
                                         </td>
                                     </tr>
+
+                                    <div class="modal fade bd-example-modal-lg pindah-jadwal-{{ $data->id }}"
+                                        tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Permintaan Pindah Jadwal</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form action="{{ route('pindah-jadwal') }}" method="post">
+                                                    @csrf
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <input type="hidden" name="jadwal_id"
+                                                                    value="{{ $data->id }}">
+                                                                <div class="form-group">
+                                                                    <label for="hari_id">Hari</label>
+                                                                    <select id="hari_id" name="hari_id"
+                                                                        class="form-control @error('hari_id') is-invalid @enderror select2bs4">
+                                                                        <option value="">-- Pilih Hari --</option>
+                                                                        @foreach ($days as $day)
+                                                                            <option value="{{ $day->id }}">
+                                                                                {{ $day->nama_hari }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="jam_mulai">Jam Mulai</label>
+                                                                    <input type='time' id="jam_mulai" name='jam_mulai'
+                                                                        class="form-control @error('jam_mulai') is-invalid @enderror jam_mulai"
+                                                                        placeholder="{{ Date('H:i') }}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="jam_selesai">Jam Selesai</label>
+                                                                    <input type='time' id="jam_selesai"
+                                                                        name='jam_selesai'
+                                                                        class="form-control @error('jam_selesai') is-invalid @enderror"
+                                                                        placeholder="{{ Date('H:i') }}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer justify-content-between">
+                                                        <button type="button" class="btn btn-default"
+                                                            data-dismiss="modal"><i class='nav-icon fas fa-arrow-left'></i>
+                                                            &nbsp; Kembali</button>
+                                                        <button type="submit" class="btn btn-primary"><i
+                                                                class="nav-icon fas fa-save"></i> &nbsp;
+                                                            Kirim Permintaan</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endforeach
                             @else
                                 <tr>

@@ -65,6 +65,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/absen/detail', 'GuruController@absen_detail')->name('absen.detail');
     Route::post('/absen/simpan', 'GuruController@simpan')->name('absen.simpan');
     Route::get('/jadwal/guru', 'JadwalController@guru')->name('jadwal.guru');
+    Route::post('/pindah/jadwal', 'JadwalController@pindah_jadwal')->name('pindah-jadwal');
     Route::get('/nilai/get-nilai-siswa', 'NilaiController@get_nilai_siswa');
     Route::get('/nilai/get-siswa', 'NilaiController@get_siswa');
     Route::resource('/nilai', 'NilaiController');
@@ -72,6 +73,11 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/sikap', 'SikapController');
     Route::get('/rapot/predikat', 'RapotController@predikat');
     Route::resource('/rapot', 'RapotController');
+  });
+
+  Route::middleware(['bk'])->group(function () {
+    Route::get('/absensi-siswa', 'BKController@index')->name('bk.absensi');
+    Route::get('/konseling-siswa', 'BKController@store')->name('bk.konseling');
   });
 
   Route::middleware(['admin'])->group(function () {

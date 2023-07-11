@@ -83,6 +83,10 @@
                     email.value = 'farukh@gmail.com';
                     password.value = '12345678';
                     break;
+                case 'bk':
+                    email.value = 'tri@gmail.com';
+                    password.value = '12345678';
+                    break;
                 default:
                     break;
             }
