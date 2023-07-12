@@ -49,6 +49,10 @@ Route::middleware(['auth'])->group(function () {
   Route::get('/pengaturan/password', 'UserController@edit_password')->name('pengaturan.password');
   Route::post('/pengaturan/ubah-password', 'UserController@ubah_password')->name('pengaturan.ubah-password');
 
+  // detail absen
+  Route::get('/absen/{id}', 'GuruController@absen_guru')->name('absen.show');
+  Route::get('/absensi/detail/{id}', 'GuruController@absen_detail')->name('absen.detail');
+
   // Aktivitas Tambahan
   Route::resource('/aktivitas-tambahan', 'AktivitasTambahanController');
 
@@ -60,9 +64,8 @@ Route::middleware(['auth'])->group(function () {
   });
 
   Route::middleware(['guru'])->group(function () {
-    Route::get('/jurnal', 'JurnalController@index')->name('jurnal.index');
-    Route::get('/absen/harian', 'GuruController@absen')->name('absen.harian');
-    Route::get('/absen/detail', 'GuruController@absen_detail')->name('absen.detail');
+    // Route::get('/jurnal', 'JurnalController@index')->name('jurnal.index');
+    Route::get('/absensi/harian', 'GuruController@absen')->name('absensi.harian');
     Route::post('/absen/simpan', 'GuruController@simpan')->name('absen.simpan');
     Route::get('/jadwal/guru', 'JadwalController@guru')->name('jadwal.guru');
     Route::post('/pindah/jadwal', 'JadwalController@pindah_jadwal')->name('pindah-jadwal');
@@ -77,7 +80,10 @@ Route::middleware(['auth'])->group(function () {
 
   Route::middleware(['bk'])->group(function () {
     Route::get('/absensi-siswa', 'BKController@index')->name('bk.absensi');
-    Route::get('/konseling-siswa', 'BKController@store')->name('bk.konseling');
+    Route::get('/konseling-siswa', 'BKController@create')->name('bk.konseling');
+    Route::post('/konseling-siswa', 'BKController@store')->name('bk.store');
+    Route::get('/bk/get-siswa', 'BKController@get_siswa');
+    Route::get('/bk/konseling-siswa', 'BKController@get_konseling_siswa');
   });
 
   Route::middleware(['admin'])->group(function () {
@@ -101,6 +107,7 @@ Route::middleware(['auth'])->group(function () {
       Route::get('/user/restore/{id}', 'UserController@restore')->name('user.restore');
       Route::delete('/user/kill/{id}', 'UserController@kill')->name('user.kill');
     });
+
     Route::get('/admin/home', 'HomeController@admin')->name('admin.home');
     Route::get('/admin/pengumuman', 'PengumumanController@index')->name('admin.pengumuman');
     Route::post('/admin/pengumuman/simpan', 'PengumumanController@simpan')->name('admin.pengumuman.simpan');
@@ -147,5 +154,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/rapot-show/{id}', 'RapotController@rapot')->name('rapot-show');
     Route::get('/predikat', 'NilaiController@create')->name('predikat');
     Route::resource('/user', 'UserController');
+
+    Route::get('permintaan/guru', 'RequestController@index')->name('request.jadwal');
+    Route::get('permintaan/guru/pindah-jadwal/{id}', 'RequestController@show')->name('request.show');
+    Route::get('permintaan/guru/detail/{id}', 'RequestController@detail')->name('request.detail');
+    Route::get('permintaan/approve', 'RequestController@approve');
   });
 });

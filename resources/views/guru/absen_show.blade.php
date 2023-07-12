@@ -11,17 +11,19 @@
                     <thead>
                         <tr>
                             <th>No.</th>
-                            <th>Nama Guru</th>
+                            <th>Tanggal Absensi</th>
+                            <th>Mapel</th>
                             <th>Cek Absensi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($guru as $data)
+                        @foreach ($absensi as $data)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $data->nama_guru }}</td>
+                                <td>{{ $data->created_at }}</td>
+                                <td>{{ $data->jadwal->mapel->nama_mapel }}</td>
                                 <td>
-                                    <a href="{{ route('absen.show', Crypt::encrypt($data->id)) }}"
+                                    <a href="{{ route('absen.detail', Crypt::encrypt($data->id)) }}"
                                         class="btn btn-info btn-sm"><i class="nav-icon fas fa-search-plus"></i> &nbsp; Detail
                                     </a>
                                 </td>

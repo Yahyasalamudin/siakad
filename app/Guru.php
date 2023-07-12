@@ -16,10 +16,10 @@ class Guru extends Model
         return $this->belongsToMany(Mapel::class, 'mapel_guru', 'guru_id', 'mapel_id');
     }
 
-    // public function mapel()
-    // {
-    //     return $this->belongsTo('App\Mapel')->withDefault();
-    // }
+    public function pindahJadwal()
+    {
+        return $this->hasMany(PindahJadwal::class, 'guru_id', 'id');
+    }
 
     protected $table = 'guru';
 }

@@ -260,28 +260,31 @@ class GuruController extends Controller
         return view('admin.guru.show', compact('mapel', 'guru'));
     }
 
-    // public function absen()
-    // {
-    //     $absen = Absen::where('tanggal', date('Y-m-d'))->get();
-    //     $kehadiran = Kehadiran::limit(4)->get();
-    //     return view('guru.absen', compact('absen', 'kehadiran'));
-    // }
-
     public function absen(Request $request)
     {
-        $kelas_id = Crypt::decrypt($request->kelas_id);
-        $jadwal_id = Crypt::decrypt($request->jadwal_id);
+        $kelas_id = decrypt($request->kelas_id);
+        $jadwal_id = decrypt($request->jadwal_id);
 
         $siswa = Siswa::where('kelas_id', $kelas_id)
             ->orderBy('nama_siswa', 'ASC')
             ->get();
-        return view('guru.absen', compact('siswa', 'jadwal_id'));
+
+        $jadwal = Jadwal::find($jadwal_id);
+
+        return view('guru.absen', compact('siswa', 'jadwal'));
     }
 
-    public function absen_detail(Request $request)
+    public function absen_guru(Request $request, $id)
     {
-        $kelas_id = Crypt::decrypt($request->kelas_id);
-        $jadwal_id = Crypt::decrypt($request->jadwal_id);
+        $id = decrypt($id);
+        $absensi = Absen::where('guru_id', $id)->get();
+
+        return view('guru.absen_show', compact('absensi'));
+    }
+
+    public function absen_detail($id)
+    {
+        $jadwal_id = Crypt::decrypt($id);
 
         $siswa = AbsenSiswa::where('jadwal_id', $jadwal_id)
             ->join('siswa', 'absen_siswa.siswa_id', '=', 'siswa.id')

@@ -1,7 +1,7 @@
 @extends('template_backend.home')
-@section('heading', 'Absensi Guru')
+@section('heading', 'Pindah Jadwal Guru')
 @section('page')
-    <li class="breadcrumb-item active">Absensi guru</li>
+    <li class="breadcrumb-item active">Pindah Jadwal guru</li>
 @endsection
 @section('content')
     <div class="col-md-12">
@@ -21,7 +21,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $data->nama_guru }}</td>
                                 <td>
-                                    <a href="{{ route('absen.show', Crypt::encrypt($data->id)) }}"
+                                    <a href="{{ route('request.show', Crypt::encrypt($data->id)) }}"
                                         class="btn btn-info btn-sm"><i class="nav-icon fas fa-search-plus"></i> &nbsp; Detail
                                     </a>
                                 </td>
@@ -35,6 +35,6 @@
 @endsection
 @section('script')
     <script>
-        $("#AbsensiGuru").addClass("active");
+        $("#pindahJadwal").addClass("active");
     </script>
 @endsection

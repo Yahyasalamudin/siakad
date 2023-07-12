@@ -26,13 +26,13 @@
                             <input type="text" id="mapel" name="mapel" maxlength="5"
                                 onkeypress="return inputAngka(event)"
                                 class="form-control @error('mapel') is-invalid @enderror"
-                                value="{{ auth()->user()->guru(auth()->user()->id_card)->mapel->nama_mapel }}" readonly>
+                                value="{{ $jadwal->mapel->nama_mapel }}" readonly>
                         </div>
                         <div class="form-group">
                             <label for="ruang">Ruangan</label>
                             <input type="text" id="ruang" name="ruang" placeholder="Masukkan Ruangan"
                                 value="{{ old('ruang') }}" class="form-control @error('ruang') is-invalid @enderror">
-                            <input type="hidden" name="jadwal_id" value="{{ $jadwal_id }}">
+                            <input type="hidden" name="jadwal_id" value="{{ $jadwal->id }}">
                         </div>
                         <div class="form-group">
                             <input type="checkbox" id="request_guru_tamu" name="request_guru_tamu"
