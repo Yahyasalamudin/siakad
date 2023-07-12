@@ -41,7 +41,7 @@
                                         <td>{{ $data->kelas->nama_kelas }}</td>
                                         <td>
                                             @if ($data->jam_mulai <= $jam_mulai && $data->jam_selesai >= $jam_selesai)
-                                                <a href="{{ route('absensi.harian', [
+                                                <a href="{{ route('absen.harian', [
                                                     'kelas_id' => Crypt::encrypt($data->kelas->id),
                                                     'jadwal_id' => Crypt::encrypt($data->id),
                                                 ]) }}"

@@ -49,6 +49,10 @@ Route::middleware(['auth'])->group(function () {
   Route::get('/pengaturan/password', 'UserController@edit_password')->name('pengaturan.password');
   Route::post('/pengaturan/ubah-password', 'UserController@ubah_password')->name('pengaturan.ubah-password');
 
+  // Absen Guru
+  Route::get('/absensi/guru/{id}', 'GuruController@absen_guru')->name('absen.show');
+  Route::get('/absen/detail/{id}', 'GuruController@absen_detail')->name('absen.detail');
+
   // Aktivitas Tambahan
   Route::resource('/aktivitas-tambahan', 'AktivitasTambahanController');
 
@@ -62,7 +66,6 @@ Route::middleware(['auth'])->group(function () {
   Route::middleware(['guru'])->group(function () {
     Route::get('/jurnal', 'JurnalController@index')->name('jurnal.index');
     Route::get('/absen/harian', 'GuruController@absen')->name('absen.harian');
-    Route::get('/absen/detail', 'GuruController@absen_detail')->name('absen.detail');
     Route::post('/absen/simpan', 'GuruController@simpan')->name('absen.simpan');
     Route::get('/jadwal/guru', 'JadwalController@guru')->name('jadwal.guru');
     Route::post('/pindah/jadwal', 'JadwalController@pindah_jadwal')->name('pindah-jadwal');

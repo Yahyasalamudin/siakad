@@ -54,12 +54,12 @@
                             @if ($mapel->kelompok == 'B')
                                 selected
                             @endif
-                        >Pelajaran Khusus</option>
-                        <option value="C"
+                        >Pelajaran Pilihan</option>
+                        {{-- <option value="C"
                             @if ($mapel->kelompok == 'C')
                                 selected
                             @endif
-                        >Pelajaran Keahlian</option>
+                        >Pelajaran Keahlian</option> --}}
                     </select>
                 </div>
             </div>

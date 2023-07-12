@@ -345,6 +345,7 @@ class GuruController extends Controller
     public function absensi()
     {
         $guru = Guru::all();
+
         return view('admin.guru.absen', compact('guru'));
     }
 

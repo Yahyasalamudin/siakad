@@ -26,10 +26,10 @@
                                     Hari : {{ $data->jadwal->hari->nama_hari }}
                                 </p>
                                 <p class="card-text mb-0">
-                                    Kode Jadwal : {{ $data->jadwal->jam_mulai }}
+                                    Jam Mulai : {{ $data->jadwal->jam_mulai }}
                                 </p>
                                 <p class="card-text mb-0">
-                                    Kode Jadwal : {{ $data->jadwal->jam_selesai }}
+                                    Jam Selesai : {{ $data->jadwal->jam_selesai }}
                                 </p>
                             </div>
                         </div>
@@ -48,10 +48,10 @@
                                     Hari : {{ $data->hari->nama_hari }}
                                 </p>
                                 <p class="card-text mb-0">
-                                    Kode Jadwal : {{ $data->jam_mulai }}
+                                    Jam Mulai : {{ $data->jam_mulai }}
                                 </p>
                                 <p class="card-text mb-0">
-                                    Kode Jadwal : {{ $data->jam_selesai }}
+                                    Jam Selesai : {{ $data->jam_selesai }}
                                 </p>
                             </div>
                         </div>

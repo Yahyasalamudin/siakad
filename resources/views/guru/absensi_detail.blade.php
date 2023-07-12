@@ -98,6 +98,9 @@
 @endsection
 @section('script')
     <script>
+        $("#AbsensiGuru").addClass("active");
+    </script>
+    <script>
         // upload file preview
         $(document).on("click", ".browse", function() {
             var file = $(this).parents().find(".file");
