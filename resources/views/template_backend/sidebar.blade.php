@@ -280,6 +280,12 @@
                             <p>Absensi Siswa</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('bk.konseling') }}" class="nav-link">
+                            <i class="fas fa-user-alt nav-icon"></i>
+                            <p>Konseling Siswa</p>
+                        </a>
+                    </li>
                 @endif
             </ul>
         </nav>
