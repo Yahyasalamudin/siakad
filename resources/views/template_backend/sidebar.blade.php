@@ -137,8 +137,13 @@
                                 </li>
                             </ul>
                         </li>
-                    @else
                     @endif
+                    <li class="nav-item">
+                        <a href="{{ route('request.jadwal') }}" class="nav-link" id="pindahJadwal">
+                            <i class="fas fa-calendar-check nav-icon"></i>
+                            <p>Permintaan Pindah Jadwal</p>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('guru.absensi') }}" class="nav-link" id="AbsensiGuru">
                             <i class="fas fa-calendar-check nav-icon"></i>
@@ -273,6 +278,12 @@
                         <a href="{{ route('bk.absensi') }}" class="nav-link">
                             <i class="fas fa-calendar-alt nav-icon"></i>
                             <p>Absensi Siswa</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('bk.konseling') }}" class="nav-link">
+                            <i class="fas fa-user-alt nav-icon"></i>
+                            <p>Konseling Siswa</p>
                         </a>
                     </li>
                 @endif

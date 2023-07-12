@@ -260,25 +260,30 @@ class GuruController extends Controller
         return view('admin.guru.show', compact('mapel', 'guru'));
     }
 
-    // public function absen()
-    // {
-    //     $absen = Absen::where('tanggal', date('Y-m-d'))->get();
-    //     $kehadiran = Kehadiran::limit(4)->get();
-    //     return view('guru.absen', compact('absen', 'kehadiran'));
-    // }
-
     public function absen(Request $request)
     {
-        $kelas_id = Crypt::decrypt($request->kelas_id);
-        $jadwal_id = Crypt::decrypt($request->jadwal_id);
+        dd('test');
+        $kelas_id = $request->kelas_id;
+        $jadwal_id = $request->jadwal_id;
 
         $siswa = Siswa::where('kelas_id', $kelas_id)
             ->orderBy('nama_siswa', 'ASC')
             ->get();
+
         return view('guru.absen', compact('siswa', 'jadwal_id'));
     }
 
-    public function absen_detail(Request $request)
+    public function absen_guru(Request $request, $id)
+    {
+        $id = decrypt($id);
+        $absensi = Absen::where('guru_id', $id)->get();
+
+        dd($absensi);
+
+        return view('guru.absen_show', compact('absensi'));
+    }
+
+    public function absen_detail(Request $request, $id)
     {
         $kelas_id = Crypt::decrypt($request->kelas_id);
         $jadwal_id = Crypt::decrypt($request->jadwal_id);
