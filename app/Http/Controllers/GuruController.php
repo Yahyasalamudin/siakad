@@ -57,7 +57,6 @@ class GuruController extends Controller
             'id_card' => 'required',
             'nama_guru' => 'required',
             'mapel_id' => 'required',
-            'kode' => 'required|string|unique:guru|min:2|max:3',
             'jk' => 'required'
         ]);
 
@@ -78,7 +77,7 @@ class GuruController extends Controller
             'id_card' => $request->id_card,
             'nip' => $request->nip,
             'nama_guru' => $request->nama_guru,
-            'kode' => $request->kode,
+            'tmk' => $request->tmk,
             'jk' => $request->jk,
             'telp' => $request->telp,
             'tmp_lahir' => $request->tmp_lahir,
@@ -146,6 +145,7 @@ class GuruController extends Controller
         }
         $guru_data = [
             'nama_guru' => $request->nama_guru,
+            'tmk' => $request->tmk,
             'jk' => $request->jk,
             'telp' => $request->telp,
             'tmp_lahir' => $request->tmp_lahir,
@@ -256,7 +256,7 @@ class GuruController extends Controller
         $mapel = Mapel::findorfail($id);
         $guru = Guru::whereHas('mapel', function ($query) use ($id) {
             $query->where('mapel_guru.mapel_id', $id);
-        })->orderBy('kode', 'asc')->get();
+        })->orderBy('nama_guru', 'asc')->get();
         return view('admin.guru.show', compact('mapel', 'guru'));
     }
 

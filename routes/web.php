@@ -80,7 +80,12 @@ Route::middleware(['auth'])->group(function () {
 
   Route::middleware(['bk'])->group(function () {
     Route::get('/absensi-siswa', 'BKController@index')->name('bk.absensi');
-    Route::get('/konseling-siswa', 'BKController@store')->name('bk.konseling');
+    Route::get('/konseling-siswa', 'BKController@create')->name('bk.konseling');
+    Route::post('/konseling-siswa', 'BKController@store')->name('bk.store');
+    Route::get('/bk/get-siswa', 'BKController@get_siswa');
+    Route::get('/bk/get-kelas', 'BKController@get_kelas');
+    Route::get('/bk/get-absensi-siswa', 'BKController@get_absensi_siswa');
+    Route::get('/bk/konseling-siswa', 'BKController@get_konseling_siswa');
   });
 
   Route::middleware(['admin'])->group(function () {
@@ -154,7 +159,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('permintaan/guru', 'RequestController@index')->name('request.jadwal');
     Route::get('permintaan/guru/pindah-jadwal/{id}', 'RequestController@show')->name('request.show');
-    Route::get('permintaan/guru/detail/{id}', 'RequestController@detail')->name('request.detail');
     Route::get('permintaan/approve', 'RequestController@approve');
+    Route::get('permintaan/guru/detail/{id}', 'RequestController@detail')->name('request.detail');
   });
 });

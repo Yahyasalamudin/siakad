@@ -54,7 +54,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="nip">NIP</label>
+                                <label for="nip">NIPM</label>
                                 <input type="text" id="nip" name="nip" onkeypress="return inputAngka(event)"
                                     value="{{ $guru->nip }}" class="form-control @error('nip') is-invalid @enderror"
                                     disabled>
@@ -76,9 +76,9 @@
                                     class="form-control @error('tgl_lahir') is-invalid @enderror">
                             </div>
                             <div class="form-group">
-                                <label for="kode">Kode Jadwal</label>
-                                <input type="text" id="kode" name="kode" class="form-control"
-                                    value="{{ $guru->kode }}" disabled>
+                                <label for="tmk">Tanggal Mulai Kerja</label>
+                                <input type="date" id="tmk" name="tmk" value="{{ $guru->tmk }}"
+                                    class="form-control @error('tmk') is-invalid @enderror">
                             </div>
                         </div>
                     </div>

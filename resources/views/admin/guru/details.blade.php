@@ -21,13 +21,12 @@
                     <div class="col-md-1 mb-4"></div>
                     <div class="col-md-7">
                         <h5 class="card-title card-text mb-2">Nama : {{ $guru->nama_guru }}</h5>
-                        <h5 class="card-title card-text mb-2">NIP : {{ $guru->nip }}</h5>
+                        <h5 class="card-title card-text mb-2">NIPM : {{ $guru->nip }}</h5>
                         <h5 class="card-title card-text mb-2">No Id Card : {{ $guru->id_card }}</h5>
                         <h5 class="card-title card-text mb-2">Guru Mapel : @foreach ($guru->mapel as $mapel)
                                 <span class="badge badge-info p-2">{{ $mapel->nama_mapel }}</span>
                             @endforeach
                         </h5>
-                        <h5 class="card-title card-text mb-2">Kode Jadwal : {{ $guru->kode }}</h5>
                         @if ($guru->jk == 'L')
                             <h5 class="card-title card-text mb-2">Jenis Kelamin : Laki-laki</h5>
                         @else

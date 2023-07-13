@@ -30,7 +30,7 @@ class JadwalController extends Controller
     {
         $hari = Hari::all();
         $kelas = Kelas::OrderBy('nama_kelas', 'asc')->get();
-        $guru = Guru::OrderBy('kode', 'asc')->get();
+        $guru = Guru::OrderBy('nama_guru', 'asc')->get();
         return view('admin.jadwal.index', compact('hari', 'kelas', 'guru'));
     }
 
@@ -55,12 +55,12 @@ class JadwalController extends Controller
         $this->validate($request, [
             'hari_id' => 'required',
             'kelas_id' => 'required',
-            'guru_id' => 'required',
+            'kode_jadwal' => 'required',
             'jam_mulai' => 'required',
             'jam_selesai' => 'required',
         ]);
 
-        $guru = Guru::findorfail($request->guru_id);
+        $kode_jadwal = explode('-', $request->kode_jadwal);
         Jadwal::updateOrCreate(
             [
                 'id' => $request->jadwal_id
@@ -68,8 +68,8 @@ class JadwalController extends Controller
             [
                 'hari_id' => $request->hari_id,
                 'kelas_id' => $request->kelas_id,
-                'mapel_id' => $guru->mapel_id,
-                'guru_id' => $request->guru_id,
+                'mapel_id' => $kode_jadwal[1],
+                'guru_id' => $kode_jadwal[0],
                 'jam_mulai' => $request->jam_mulai,
                 'jam_selesai' => $request->jam_selesai,
             ]

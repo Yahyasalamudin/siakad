@@ -9,15 +9,12 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-2">
-                        <select class="form-control" id="pilih-kelas" onchange="getSiswaByKelas()">
+                        <select class="form-control" id="pilih_kelas" onchange="getSiswaByKelas()">
                             <option value="">Pilih Kelas</option>
-                            @foreach ($kelas as $data)
-                                <option value="{{ $data->id }}">{{ $data->nama_kelas }}</option>
-                            @endforeach
                         </select>
                     </div>
                     <div class="col-sm-3">
-                        <select class="form-control" id="pilih-siswa"></select>
+                        <select class="form-control" id="pilih_siswa"></select>
                     </div>
                     <div class="col-sm-3">
                         <div class="form-group">
@@ -35,17 +32,19 @@
                                 class="fa fa-search"></i> Cari</button>
                     </div>
                 </div>
-                <table class="table table-striped table-hover text-center">
+                <table class="table table-striped table-hover text-center" id="data-absensi">
                     <thead>
                         <tr>
+                            <th>Tanggal</th>
                             <th>Nama Siswa</th>
                             <th>Kelas</th>
+                            <th>Status Presensi</th>
                             <th>Jam Masuk</th>
                             <th>Jam Pulang</th>
                         </tr>
                     </thead>
-                    <tbody id="data-absensi">
-                        @foreach ($siswa as $data)
+                    <tbody>
+                        {{-- @foreach ($siswa as $data)
                             <tr>
                                 <td>{{ $data['nama_siswa'] }}</td>
                                 <td>{{ $data['kelas'] }}</td>
@@ -60,7 +59,7 @@
                                     @endif
                                 </td>
                             </tr>
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
                 </table>
             </div>
@@ -69,23 +68,25 @@
 @endsection
 @section('script')
     <script type="text/javascript">
+        getAllKelas();
+
         function getSiswaByKelas() {
             $.ajax({
                 type: "GET",
-                data: "kelas_id=" + $("#pilih-kelas").val(),
+                data: "id_kelas=" + $("#pilih_kelas").val(),
                 dataType: "JSON",
                 url: "{{ url('/bk/get-siswa') }}",
                 success: function(result) {
-                    $('#pilih-siswa').empty();
+                    $('#pilih_siswa').empty();
                     var option = $('<option value="">Pilih Siswa</option>');
-                    $('#pilih-siswa').append(option);
+                    $('#pilih_siswa').append(option);
                     if (result) {
                         $.each(result, function(index, val) {
-                            var option = $('<option></option>').attr('value', val.id).text(
+                            var option = $('<option></option>').attr('value', val.id_siswa).text(
                                 val
-                                .nama_siswa);
+                                .nama_lengkap);
                             // Append the option to a select element
-                            $('#pilih-siswa').append(option);
+                            $('#pilih_siswa').append(option);
                         });
                     }
                 },
@@ -96,11 +97,37 @@
             });
         }
 
+        function getAllKelas() {
+            $.ajax({
+                type: "GET",
+                dataType: "JSON",
+                url: "{{ url('/bk/get-kelas') }}",
+                success: function(result) {
+                    $('#pilih_kelas').empty();
+                    var option = $('<option value="">Pilih Kelas</option>');
+                    $('#pilih_kelas').append(option);
+                    if (result) {
+                        $.each(result, function(index, val) {
+                            var option = $('<option></option>').attr('value', val.id_kelas).text(
+                                val
+                                .tingkatan_kelas + " " + val.nama_kelas);
+                            // Append the option to a select element
+                            $('#pilih_kelas').append(option);
+                        });
+                    }
+                },
+                error: function(err) {
+                    toastr.error("Terjadi Kesalahan. Coba lagi nanti.");
+                },
+                complete: function() {}
+            });
+        }
+
         function getAbsensi() {
             $.ajax({
                 type: "GET",
                 dataType: "JSON",
-                url: "{{ url('/bk/absensi-siswa') }}",
+                url: "{{ url('/bk/get-absensi-siswa') }}",
                 data: {
                     pilih_kelas: $("#pilih_kelas").val(),
                     pilih_siswa: $("#pilih_siswa").val(),
@@ -114,13 +141,17 @@
                         $.each(result, function(index, val) {
                             const row = document.createElement('tr');
                             row.innerHTML = `
+                            <td>${val.tanggal}</td>
                             <td>${val.nama_siswa}</td>
                                 <td>${val.kelas}</td>
                                 <td>
-                                        ${val.jam_masuk}
+                                    ${val.status_presensi !== undefined ? val.status_presensi : 'Kosong'}
                                 </td>
                                 <td>
-                                        ${val.jam_pulang}
+                                    ${val.jam_masuk !== undefined ? val.jam_masuk : ''}
+                                </td>
+                                <td>
+                                    ${val.jam_pulang !== undefined ? val.jam_pulang : ''}
                                 </td>
                             `;
                             tbody.appendChild(row);
@@ -128,7 +159,7 @@
                     }
                 },
                 error: function() {
-                    toastr.error("Errors 404!");
+                    toastr.error("Terjadi Kesalahan. Coba lagi nanti.");
                 },
                 complete: function() {}
             });

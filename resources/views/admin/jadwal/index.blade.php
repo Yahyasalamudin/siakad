@@ -146,13 +146,15 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="guru_id">Kode Mapel</label>
-                                    <select id="guru_id" name="guru_id"
-                                        class="form-control @error('guru_id') is-invalid @enderror select2bs4">
+                                    <label for="kode_jadwal">Kode Mapel</label>
+                                    <select id="kode_jadwal" name="kode_jadwal"
+                                        class="form-control @error('kode_jadwal') is-invalid @enderror select2bs4">
                                         <option value="">-- Pilih Kode Mapel --</option>
                                         @foreach ($guru as $data)
-                                            <option value="{{ $data->id }}">
-                                                {{ $data->kode . ' - ' . $data->nama_guru }}</option>
+                                            @foreach ($data->mapel as $mapel)
+                                                <option value="{{ $data->id }}-{{ $mapel->id }}">
+                                                    {{ $mapel->nama_mapel . ' - ' . $data->nama_guru }}</option>
+                                            @endforeach
                                         @endforeach
                                     </select>
                                 </div>

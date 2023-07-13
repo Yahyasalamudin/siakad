@@ -18,7 +18,7 @@ class CreateGuruTable extends Migration
             $table->string('id_card', 10);
             $table->string('nip', 30)->nullable();
             $table->string('nama_guru', 50);
-            $table->string('kode', 6)->nullable();
+            $table->date('tmk', 50);
             $table->enum('jk', ['L', 'P']);
             $table->string('telp', 15)->nullable();
             $table->string('tmp_lahir', 50)->nullable();

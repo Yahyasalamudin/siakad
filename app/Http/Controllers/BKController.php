@@ -20,20 +20,9 @@ class BKController extends Controller
 
     public function index()
     {
-        $client = new \GuzzleHttp\Client();
-        $response = $client->get('http://localhost/absensi_mulu/api/absensi', [
-            'query' => [
-                'pilih_kelas' => 8,
-                'pilih_siswa' => 407,
-                'date_start' => "17-05-2023",
-                'date_end' => "31-05-2023",
-            ]
-        ]);
-
-        $jsonResponse = json_decode($response->getBody(), true);
-        $siswa = $jsonResponse['data'];
-        $kelas = Kelas::all();
-        return view('bk.absensi_siswa', compact('siswa', 'kelas'));
+        // 'date_start' => "17-05-2023",
+        //         'date_end' => "31-05-2023",
+        return view('bk.absensi_siswa');
     }
 
     public function store(Request $request)
@@ -72,10 +61,30 @@ class BKController extends Controller
         return view('bk.konseling_siswa', compact('kelas'));
     }
 
+    public function get_kelas()
+    {
+        $client = new \GuzzleHttp\Client();
+        $response = $client->get('http://localhost/absensi_mulu/api/kelas');
+
+        $jsonResponse = json_decode($response->getBody(), true);
+        $data = $jsonResponse['data'];
+
+        return json_encode($data);
+    }
+
     public function get_siswa()
     {
-        $siswa = Siswa::where('kelas_id', request('kelas_id'))->get();
-        return json_encode($siswa);
+        $client = new \GuzzleHttp\Client();
+        $response = $client->get('http://localhost/absensi_mulu/api/siswa', [
+            'query' => [
+                'id_kelas' => request('id_kelas'),
+            ]
+        ]);
+
+        $jsonResponse = json_decode($response->getBody(), true);
+        $data = $jsonResponse['data'];
+
+        return json_encode($data);
     }
 
     public function get_absensi_siswa()
@@ -86,7 +95,7 @@ class BKController extends Controller
                 'pilih_kelas' => request('pilih_kelas'),
                 'pilih_siswa' => request('pilih_siswa'),
                 'date_start' => "17-05-2023",
-                'date_end' => "17-05-2023",
+                'date_end' => "31-05-2023",
             ]
         ]);
 

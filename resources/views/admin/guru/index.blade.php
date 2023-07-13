@@ -39,7 +39,7 @@
                                     <div class="card-body">
                                         <ul>
                                             <li>rows 1 = nama guru</li>
-                                            <li>rows 2 = nip guru</li>
+                                            <li>rows 2 = nipm guru</li>
                                             <li>rows 3 = jenis kelamin</li>
                                             <li>rows 4 = mata pelajaran</li>
                                         </ul>
@@ -138,7 +138,7 @@
                                 <div class="form-group">
                                     <label for="jk">Jenis Kelamin</label>
                                     <select id="jk" name="jk"
-                                        class="select2bs4 form-control @error('jk') is-invalid @enderror">
+                                        class="form-control @error('jk') is-invalid @enderror">
                                         <option value="">-- Pilih Jenis Kelamin --</option>
                                         <option value="L">Laki-Laki</option>
                                         <option value="P">Perempuan</option>
@@ -153,7 +153,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="nip">NIP</label>
+                                    <label for="nip">NIPM</label>
                                     <input type="text" id="nip" name="nip"
                                         onkeypress="return inputAngka(event)"
                                         class="form-control @error('nip') is-invalid @enderror">
@@ -168,6 +168,12 @@
                                             <option value="{{ $data->id }}">{{ $data->nama_mapel }}</option>
                                         @endforeach
                                     </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tmk">Tanggal Mulai Kerja</label>
+                                    <input type="date" id="tmk" name="tmk"
+                                        class="form-control @error('tmk') is-invalid @enderror"
+                                        value="{{ date('Y-m-d') }}">
                                 </div>
                                 @php
                                     $kode = $max + 1;
@@ -188,12 +194,6 @@
                                     <input type="text" id="id_card" name="id_card" maxlength="5"
                                         onkeypress="return inputAngka(event)" value="{{ $id_card }}"
                                         class="form-control @error('id_card') is-invalid @enderror" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label for="kode">Kode Jadwal</label>
-                                    <input type="text" id="kode" name="kode" maxlength="3"
-                                        onkeyup="this.value = this.value.toUpperCase()"
-                                        class="form-control @error('kode') is-invalid @enderror">
                                 </div>
                                 <div class="form-group">
                                     <label for="foto">File input</label>
