@@ -37,7 +37,7 @@
                                         alt="Foto Kegiatan - {{ $data->user->name }}">
                                 </td>
                                 <td>
-                                    <form action="{{ route('cs.index', $data->id) }}" method="post">
+                                    <form action="{{ route('cs.destroy', $data->id) }}" method="post">
                                         @csrf
                                         @method('delete')
                                         {{-- <button type="button" class="btn btn-success btn-sm"
