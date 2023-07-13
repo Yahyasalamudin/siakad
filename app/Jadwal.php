@@ -100,5 +100,10 @@ class Jadwal extends Model
     return $rapot;
   }
 
+  public function jadwal()
+  {
+    return $this->belongsTo(Jadwal::class, 'tukar_jadwal_id', 'id');
+  }
+
   protected $table = 'jadwal';
 }

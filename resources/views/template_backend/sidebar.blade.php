@@ -141,7 +141,7 @@
                     <li class="nav-item">
                         <a href="{{ route('request.jadwal') }}" class="nav-link" id="pindahJadwal">
                             <i class="fas fa-calendar-check nav-icon"></i>
-                            <p>Permintaan Pindah Jadwal</p>
+                            <p>Pertukaran Jadwal</p>
                         </a>
                     </li>
                     <li class="nav-item">

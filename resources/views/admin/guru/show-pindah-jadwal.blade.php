@@ -17,11 +17,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($pindahJadwal as $data)
+                        @foreach ($jadwal as $data)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $data->jadwal->mapel->nama_mapel }}</td>
-                                <td>{{ $data->jadwal->kelas->nama_kelas }}</td>
+                                <td>{{ $data->mapel->nama_mapel }}</td>
+                                <td>{{ $data->kelas->nama_kelas }}</td>
                                 <td>
                                     <a href="{{ route('request.detail', Crypt::encrypt($data->id)) }}"
                                         class="btn btn-info btn-sm"><i class="nav-icon fas fa-search-plus"></i> &nbsp; Detail

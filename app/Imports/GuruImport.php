@@ -41,7 +41,6 @@ class GuruImport implements ToModel
             'nip' => $row[1],
             'jk' => $row[2],
             'foto' => $foto,
-            'mapel_id' => $mapel->id,
         ]);
     }
 }

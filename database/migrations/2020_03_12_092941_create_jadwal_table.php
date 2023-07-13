@@ -21,7 +21,8 @@ class CreateJadwalTable extends Migration
             $table->integer('guru_id');
             $table->time('jam_mulai');
             $table->time('jam_selesai');
-            $table->integer('pindah_jadwal_id')->nullable();
+            $table->integer('tukar_jadwal_id')->nullable();
+            $table->integer('status_permintaan')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

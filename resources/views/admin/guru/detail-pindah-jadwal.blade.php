@@ -17,27 +17,8 @@
                             <div class="card-body">
                                 <h5 class="card-title mb-3">Jadwal Awal</h5>
                                 <p class="card-text mb-0">
-                                    Mapel : {{ $data->jadwal->mapel->nama_mapel }}
+                                    Nama Guru : {{ $data->guru->nama_guru }}
                                 </p>
-                                <p class="card-text mb-0">
-                                    Kelas : {{ $data->kelas->nama_kelas }}
-                                </p>
-                                <p class="card-text mb-0">
-                                    Hari : {{ $data->jadwal->hari->nama_hari }}
-                                </p>
-                                <p class="card-text mb-0">
-                                    Jam Mulai : {{ $data->jadwal->jam_mulai }}
-                                </p>
-                                <p class="card-text mb-0">
-                                    Jam Selesai : {{ $data->jadwal->jam_selesai }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title mb-3">Permintaan Perpindahan Jadwal</h5>
                                 <p class="card-text mb-0">
                                     Mapel : {{ $data->mapel->nama_mapel }}
                                 </p>
@@ -55,8 +36,46 @@
                                 </p>
                             </div>
                         </div>
-                        <a href="{{ url('/permintaan/approve?id=' . $data->jadwal->id . '&id_request=' . $data->id) }}"
-                            class="btn btn-primary float-right">Setujui</a>
+                    </div>
+                    <div class="col-md-2">
+                        {{--  --}}
+                    </div>
+                    <div class="col-md-5">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title mb-3">Jadwal Tukar</h5>
+                                <p class="card-text mb-0">
+                                    Nama Guru : {{ $data->jadwal->guru->nama_guru }}
+                                </p>
+                                <p class="card-text mb-0">
+                                    Mapel : {{ $data->jadwal->mapel->nama_mapel }}
+                                </p>
+                                <p class="card-text mb-0">
+                                    Kelas : {{ $data->jadwal->kelas->nama_kelas }}
+                                </p>
+                                <p class="card-text mb-0">
+                                    Hari : {{ $data->jadwal->hari->nama_hari }}
+                                </p>
+                                <p class="card-text mb-0">
+                                    Jam Mulai : {{ $data->jadwal->jam_mulai }}
+                                </p>
+                                <p class="card-text mb-0">
+                                    Jam Selesai : {{ $data->jadwal->jam_selesai }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-block float-right">
+                        <a href="{{ route('approve', [
+                            'status' => 'tolak',
+                            'jadwal_id' => $data->id,
+                        ]) }}"
+                            class="btn btn-danger">Tolak</a>
+                        <a href="{{ route('approve', [
+                            'status' => 'setuju',
+                            'jadwal_id' => $data->id,
+                        ]) }}"
+                            class="btn btn-primary">Setujui</a>
                     </div>
                 </div>
             </div>

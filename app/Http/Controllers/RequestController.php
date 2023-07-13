@@ -11,29 +11,25 @@ class RequestController extends Controller
 {
     public function index()
     {
-        $pindahJadwal = PindahJadwal::get();
+        $jadwal = Jadwal::where('status_permintaan', 0)->where('tukar_jadwal_id', '!=', null)->get();
 
-        foreach ($pindahJadwal as $pindah) {
-            $guru = Guru::where('id', $pindah->guru_id)->get();
-        }
-
-        return view('admin.guru.pindah-jadwal', compact('guru'));
+        return view('admin.guru.pindah-jadwal', compact('jadwal'));
     }
 
     public function show($id)
     {
         $id = decrypt($id);
 
-        $pindahJadwal = PindahJadwal::where('guru_id', $id)->get();
+        $jadwal = Jadwal::where('guru_id', $id)->where('tukar_jadwal_id', '!=', null)->where('status_permintaan', 0)->get();
 
-        return view('admin.guru.show-pindah-jadwal', compact('pindahJadwal'));
+        return view('admin.guru.show-pindah-jadwal', compact('jadwal'));
     }
 
     public function detail($id)
     {
         $id = decrypt($id);
 
-        $data = PindahJadwal::find($id);
+        $data = Jadwal::find($id);
 
         return view('admin.guru.detail-pindah-jadwal', compact('data'));
     }
@@ -47,15 +43,27 @@ class RequestController extends Controller
      */
     public function approve(Request $request)
     {
-        $pindahJadwal = PindahJadwal::find($request->id_request);
+        $jadwal = Jadwal::find($request->jadwal_id);
 
-        Jadwal::find($request->id)->update([
-            'hari_id' => $pindahJadwal->hari_id,
-            'jam_mulai' => $pindahJadwal->jam_mulai,
-            'jam_selesai' => $pindahJadwal->jam_selesai
-        ]);
+        if ($request->status == 'tolak') {
+            $jadwal->update([
+                'tukar_jadwal_id' => null,
+                'status_permintaan' => null
+            ]);
 
-        return redirect()->back()->with('success', 'Permintaan sudah disetujui');
+            return redirect('/permintaan/guru')->with('error', 'Permintaan Telah Ditolak');
+        } else {
+            Jadwal::find($jadwal->tukar_jadwal_id)->update([
+                'tukar_jadwal_id' => $jadwal->id,
+                'status_permintaan' => 1,
+            ]);
+
+            $jadwal->update([
+                'status_permintaan' => 1
+            ]);
+
+            return redirect('/permintaan/guru')->with('success', 'Permintaan sudah disetujui');
+        }
     }
 
     /**

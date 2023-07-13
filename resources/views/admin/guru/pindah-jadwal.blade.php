@@ -1,7 +1,7 @@
 @extends('template_backend.home')
-@section('heading', 'Pindah Jadwal Guru')
+@section('heading', 'Tukar Jadwal Guru')
 @section('page')
-    <li class="breadcrumb-item active">Pindah Jadwal guru</li>
+    <li class="breadcrumb-item active">Tukar Jadwal guru</li>
 @endsection
 @section('content')
     <div class="col-md-12">
@@ -16,12 +16,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($guru as $data)
+                        @foreach ($jadwal as $data)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $data->nama_guru }}</td>
+                                <td>{{ $data->guru->nama_guru }}</td>
                                 <td>
-                                    <a href="{{ route('request.show', Crypt::encrypt($data->id)) }}"
+                                    <a href="{{ route('request.show', Crypt::encrypt($data->guru->id)) }}"
                                         class="btn btn-info btn-sm"><i class="nav-icon fas fa-search-plus"></i> &nbsp; Detail
                                     </a>
                                 </td>

@@ -10,10 +10,13 @@
                 <table class="table table-striped table-hover text-center">
                     <thead>
                         <tr>
+                            <th>Hari</th>
                             <th>Jam Pelajaran</th>
                             <th>Mata Pelajaran</th>
                             <th>Kelas</th>
-                            <th>Aksi</th>
+                            @if (auth()->user()->role == 'Guru')
+                                <th>Aksi</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody id="data-jadwal">
@@ -30,31 +33,64 @@
                         @else
                             @if ($jadwal->count() > 0)
                                 @foreach ($jadwal as $data)
-                                    <tr>
-                                        <td>{{ $data->jam_mulai . ' - ' . $data->jam_selesai }}</td>
-                                        <td>
-                                            <h5 class="card-text mb-0">{{ $data->mapel->nama_mapel }}</h5>
-                                            <p class="card-text"><small
-                                                    class="text-muted">{{ $data->guru->nama_guru }}</small>
-                                            </p>
-                                        </td>
-                                        <td>{{ $data->kelas->nama_kelas }}</td>
-                                        <td>
-                                            @if ($data->jam_mulai <= $jam_mulai && $data->jam_selesai >= $jam_selesai)
-                                                <a href="{{ route('absen.harian', [
-                                                    'kelas_id' => Crypt::encrypt($data->kelas->id),
-                                                    'jadwal_id' => Crypt::encrypt($data->id),
-                                                ]) }}"
-                                                    class="btn btn-primary">
-                                                    Absen Kehadiran
-                                                </a>
-                                            @else
-                                                <button type="button" class="btn btn-info" data-toggle="modal"
-                                                    data-target=".pindah-jadwal-{{ $data->id }}"> &nbsp; Pindah Jadwal
-                                                </button>
+                                    @if ($data->status_permintaan == 1)
+                                        <tr>
+                                            <td>{{ $data->jadwal->hari->nama_hari }}</td>
+                                            <td>{{ $data->jadwal->jam_mulai . ' - ' . $data->jadwal->jam_selesai }}</td>
+                                            <td>
+                                                <h5 class="card-text mb-0">{{ $data->mapel->nama_mapel }}</h5>
+                                                <p class="card-text"><small
+                                                        class="text-muted">{{ $data->guru->nama_guru }}</small>
+                                                </p>
+                                            </td>
+                                            <td>{{ $data->kelas->nama_kelas }}</td>
+                                            @if (auth()->user()->role == 'Guru')
+                                                <td>
+                                                    @if ($data->jam_mulai <= $jam_mulai && $data->jam_selesai >= $jam_selesai)
+                                                        <a href="{{ route('absen.harian', [
+                                                            'kelas_id' => Crypt::encrypt($data->kelas->id),
+                                                            'jadwal_id' => Crypt::encrypt($data->id),
+                                                        ]) }}"
+                                                            class="btn btn-primary">
+                                                            Absen Kehadiran
+                                                        </a>
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
                                             @endif
-                                        </td>
-                                    </tr>
+                                        </tr>
+                                    @else
+                                        <tr>
+                                            <td>{{ $data->hari->nama_hari }}</td>
+                                            <td>{{ $data->jam_mulai . ' - ' . $data->jam_selesai }}</td>
+                                            <td>
+                                                <h5 class="card-text mb-0">{{ $data->mapel->nama_mapel }}</h5>
+                                                <p class="card-text"><small
+                                                        class="text-muted">{{ $data->guru->nama_guru }}</small>
+                                                </p>
+                                            </td>
+                                            <td>{{ $data->kelas->nama_kelas }}</td>
+                                            @if (auth()->user()->role == 'Guru')
+                                                <td>
+                                                    @if ($data->jam_mulai <= $jam_mulai && $data->jam_selesai >= $jam_selesai)
+                                                        <a href="{{ route('absen.harian', [
+                                                            'kelas_id' => Crypt::encrypt($data->kelas->id),
+                                                            'jadwal_id' => Crypt::encrypt($data->id),
+                                                        ]) }}"
+                                                            class="btn btn-primary">
+                                                            Absen Kehadiran
+                                                        </a>
+                                                    @else
+                                                        <button type="button" class="btn btn-info" data-toggle="modal"
+                                                            data-target=".pindah-jadwal-{{ $data->id }}"> &nbsp; Pindah
+                                                            Jadwal
+                                                        </button>
+                                                    @endif
+                                                </td>
+                                            @endif
+                                        </tr>
+                                    @endif
 
                                     <div class="modal fade bd-example-modal-lg pindah-jadwal-{{ $data->id }}"
                                         tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
@@ -68,39 +104,28 @@
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
-                                                <form action="{{ route('pindah-jadwal') }}" method="post">
+                                                <form action="{{ route('tukar_jadwal') }}" method="post">
                                                     @csrf
+                                                    @method('put')
                                                     <div class="modal-body">
                                                         <div class="row">
-                                                            <div class="col-md-6">
+                                                            <div class="col-md">
                                                                 <input type="hidden" name="jadwal_id"
                                                                     value="{{ $data->id }}">
                                                                 <div class="form-group">
-                                                                    <label for="hari_id">Hari</label>
-                                                                    <select id="hari_id" name="hari_id"
-                                                                        class="form-control @error('hari_id') is-invalid @enderror select2bs4">
-                                                                        <option value="">-- Pilih Hari --</option>
-                                                                        @foreach ($days as $day)
-                                                                            <option value="{{ $day->id }}">
-                                                                                {{ $day->nama_hari }}
-                                                                            </option>
+                                                                    <label for="tukar_jadwal_id">Daftar Jadwal</label>
+                                                                    <select id="tukar_jadwal_id" name="tukar_jadwal_id"
+                                                                        class="form-control @error('tukar_jadwal_id') is-invalid @enderror select2bs4">
+                                                                        <option value="">-- Pilih Jadwal Lain --
+                                                                        </option>
+                                                                        @foreach ($tukar_jadwal as $jadwal)
+                                                                            @if ($jadwal->kelas_id == $data->kelas_id)
+                                                                                <option value="{{ $jadwal->id }}">
+                                                                                    {{ $jadwal->mapel->nama_mapel . ' - ' . $jadwal->guru->nama_guru }}
+                                                                                </option>
+                                                                            @endif
                                                                         @endforeach
                                                                     </select>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="jam_mulai">Jam Mulai</label>
-                                                                    <input type='time' id="jam_mulai" name='jam_mulai'
-                                                                        class="form-control @error('jam_mulai') is-invalid @enderror jam_mulai"
-                                                                        placeholder="{{ Date('H:i') }}">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="jam_selesai">Jam Selesai</label>
-                                                                    <input type='time' id="jam_selesai"
-                                                                        name='jam_selesai'
-                                                                        class="form-control @error('jam_selesai') is-invalid @enderror"
-                                                                        placeholder="{{ Date('H:i') }}">
                                                                 </div>
                                                             </div>
                                                         </div>

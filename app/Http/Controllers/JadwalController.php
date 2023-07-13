@@ -134,21 +134,14 @@ class JadwalController extends Controller
         return redirect()->back()->with('warning', 'Data jadwal berhasil dihapus! (Silahkan cek trash data jadwal)');
     }
 
-    public function pindah_jadwal(Request $request)
+    public function tukar_jadwal(Request $request)
     {
-        $jadwal = Jadwal::find($request->jadwal_id);
-
-        PindahJadwal::create([
-            'jadwal_id' => $jadwal->id,
-            'hari_id' => $request->hari_id,
-            'kelas_id' => $jadwal->kelas_id,
-            'mapel_id' => $jadwal->mapel_id,
-            'guru_id' => $jadwal->guru_id,
-            'jam_mulai' => $request->jam_mulai,
-            'jam_selesai' => $request->jam_selesai,
+        Jadwal::find($request->jadwal_id)->update([
+            'tukar_jadwal_id' => $request->tukar_jadwal_id,
+            'status_permintaan' => 0
         ]);
 
-        return redirect()->back()->with('success', 'Permintaan Perpindahan Jadwal Berhasil Dikirim');
+        return redirect()->back()->with('success', 'Permintaan Pertukaran Jadwal Berhasil Dikirim');
     }
 
     public function trash()

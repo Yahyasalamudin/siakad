@@ -17,21 +17,11 @@ use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware(['auth']);
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
         $user = auth()->user();
@@ -39,6 +29,11 @@ class HomeController extends Controller
         $jam = date('H:i:s', strtotime('+10 minutes'));
         $jadwal = Jadwal::OrderBy('jam_mulai')->OrderBy('jam_selesai')->OrderBy('kelas_id')
             ->where('hari_id', $hari)->where('jam_selesai', '>=', $jam);
+
+        $tukar_jadwal = [];
+        if ($user->role == "Guru") {
+            $tukar_jadwal = Jadwal::whereNotIn('guru_id', [$user->guru($user->id_card)->id])->get();
+        }
 
         $days = Hari::get();
 
@@ -49,7 +44,7 @@ class HomeController extends Controller
         $jadwal = $jadwal->get();
         $pengumuman = Pengumuman::first();
         $kehadiran = Kehadiran::all();
-        return view('home', compact('jadwal', 'pengumuman', 'kehadiran', 'days'));
+        return view('home', compact('jadwal', 'pengumuman', 'kehadiran', 'days', 'tukar_jadwal'));
     }
 
     public function admin()

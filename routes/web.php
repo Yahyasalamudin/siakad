@@ -68,7 +68,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/absen/harian', 'GuruController@absen')->name('absen.harian');
     Route::post('/absen/simpan', 'GuruController@simpan')->name('absen.simpan');
     Route::get('/jadwal/guru', 'JadwalController@guru')->name('jadwal.guru');
-    Route::post('/pindah/jadwal', 'JadwalController@pindah_jadwal')->name('pindah-jadwal');
+    Route::put('/pindah/jadwal', 'JadwalController@tukar_jadwal')->name('tukar_jadwal');
     Route::get('/nilai/get-nilai-siswa', 'NilaiController@get_nilai_siswa');
     Route::get('/nilai/get-siswa', 'NilaiController@get_siswa');
     Route::resource('/nilai', 'NilaiController');
@@ -158,8 +158,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/user', 'UserController');
 
     Route::get('permintaan/guru', 'RequestController@index')->name('request.jadwal');
-    Route::get('permintaan/guru/pindah-jadwal/{id}', 'RequestController@show')->name('request.show');
-    Route::get('permintaan/approve', 'RequestController@approve');
+    Route::get('permintaan/guru/tukar-jadwal/{id}', 'RequestController@show')->name('request.show');
+    Route::get('permintaan/approve', 'RequestController@approve')->name('approve');
     Route::get('permintaan/guru/detail/{id}', 'RequestController@detail')->name('request.detail');
   });
 });
