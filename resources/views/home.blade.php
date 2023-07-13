@@ -31,15 +31,15 @@
                             @if ($jadwal->count() > 0)
                                 @foreach ($jadwal as $data)
                                     <tr>
-                                        <td>{{ $data->jam_mulai . ' - ' . $data->jam_selesai }}</td>
-                                        <td>
+                                        <td class="px-5 text-bold">{{ $data->jam_mulai . ' - ' . $data->jam_selesai }}</td>
+                                        <td class="px-5">
                                             <h5 class="card-text mb-0">{{ $data->mapel->nama_mapel }}</h5>
                                             <p class="card-text"><small
                                                     class="text-muted">{{ $data->guru->nama_guru }}</small>
                                             </p>
                                         </td>
-                                        <td>{{ $data->kelas->nama_kelas }}</td>
-                                        <td>
+                                        <td class="px-5 text-nowrap">{{ $data->kelas->nama_kelas }}</td>
+                                        <td class="px-5">
                                             @if ($data->jam_mulai <= $jam_mulai && $data->jam_selesai >= $jam_selesai)
                                                 <a href="{{ route('absen.harian', [
                                                     'kelas_id' => Crypt::encrypt($data->kelas->id),
@@ -145,31 +145,6 @@
                     @if (!empty($pengumuman->isi))
                         {!! $pengumuman->isi !!}
                     @endif
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-6">
-        <div class="card card-info">
-            <div class="card-header">
-                <h3 class="card-title">
-                    Keterangan :
-                </h3>
-            </div>
-            <div class="card-body">
-                <div class="tab-content p-0">
-                    <table class="table" style="margin-top: -21px; margin-bottom: -10px;">
-                        @foreach ($kehadiran as $data)
-                            <tr>
-                                <td>
-                                    <div style="width:30px;height:30px;background:#{{ $data->color }}"></div>
-                                </td>
-                                <td>:</td>
-                                <td>{{ $data->ket }}</td>
-                            </tr>
-                        @endforeach
-                    </table>
                 </div>
             </div>
         </div>

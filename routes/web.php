@@ -55,6 +55,9 @@ Route::middleware(['auth'])->group(function () {
 
   // Aktivitas Tambahan
   Route::resource('/aktivitas-tambahan', 'AktivitasTambahanController');
+  Route::get('cs/aktivitas-tambahan', 'CleaningServiceController@index')->name('cs.index');
+  Route::post('cs/aktivitas-tambahan', 'CleaningServiceController@store')->name('cs.store');
+  // Route::destroy('cs/aktivitas-tambahan/{id}', 'CleaningServiceController@destroy')->name('cs.destroy');
 
   Route::middleware(['siswa'])->group(function () {
     Route::get('/jadwal/siswa', 'JadwalController@siswa')->name('jadwal.siswa');
@@ -67,6 +70,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/jurnal', 'JurnalController@index')->name('jurnal.index');
     Route::get('/absen/harian', 'GuruController@absen')->name('absen.harian');
     Route::post('/absen/simpan', 'GuruController@simpan')->name('absen.simpan');
+    Route::post('/absen/akhiri-absen/{id}', 'GuruController@akhiri_absen')->name('absen.akhiri_absen');
     Route::get('/jadwal/guru', 'JadwalController@guru')->name('jadwal.guru');
     Route::post('/pindah/jadwal', 'JadwalController@pindah_jadwal')->name('pindah-jadwal');
     Route::get('/nilai/get-nilai-siswa', 'NilaiController@get_nilai_siswa');

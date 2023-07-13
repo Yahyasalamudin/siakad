@@ -50,7 +50,16 @@ class UsersSeeder extends Seeder
             'email' => 'tri@gmail.com',
             'password' => Hash::make('12345678'),
             'role' => 'BK',
-            'id_card' => '00003',
+            'tingkatan_kelas' => '12',
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ]);
+
+        User::insert([
+            'name' => 'Nikolas M.Pd.',
+            'email' => 'nikolas@gmail.com',
+            'password' => Hash::make('12345678'),
+            'role' => 'CS',
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s')
         ]);

@@ -18,7 +18,13 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role', 'no_induk', 'id_card'
+        'name',
+        'email',
+        'password',
+        'role',
+        'no_induk',
+        'id_card',
+        'tingkatan_kelas'
     ];
 
     public function guru($id)
@@ -39,7 +45,8 @@ class User extends Authenticatable
     }
 
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**

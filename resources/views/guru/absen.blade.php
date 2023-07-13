@@ -9,13 +9,14 @@
     @endphp
     <form action="{{ route('absen.simpan') }}" method="post" class="col-md-12" enctype="multipart/form-data">
         @csrf
-        <div class="d-flex">
+        <div class="row">
             <div class="col-md-6">
                 <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">Absen Harian Guru</h3>
                     </div>
                     <div class="card-body">
+                        <input type="hidden" name="jadwal_id" value="{{ $jadwal->id }}">
                         <div class="form-group">
                             <label for="nama_guru">Nama Guru</label>
                             <input type="text" id="nama_guru" class="form-control" value="{{ auth()->user()->name }}"
@@ -32,9 +33,13 @@
                             <label for="ruang">Ruangan</label>
                             <input type="text" id="ruang" name="ruang" placeholder="Masukkan Ruangan"
                                 value="{{ old('ruang') }}" class="form-control @error('ruang') is-invalid @enderror">
-                            <input type="hidden" name="jadwal_id" value="{{ $jadwal->id }}">
                         </div>
                         <div class="form-group">
+                            <label for="ruang">Materi</label>
+                            <textarea name="materi" id="materi" rows="4" placeholder="Masukkan materi"
+                                class="form-control @error('ruang') is-invalid @enderror">{{ old('ruang') }}</textarea>
+                        </div>
+                        <div class="form-group mt-4">
                             <input type="checkbox" id="request_guru_tamu" name="request_guru_tamu"
                                 onclick="toggleInputGuruTamu(event)">
                             <label for="request_guru_tamu" class="ml-2">Request Guru Tamu</label>
@@ -59,76 +64,21 @@
                     <div class="card-header">
                         <h3 class="card-title">Upload Foto</h3>
                     </div>
-                    <div class="card-body">
-                        <div class="ml-2 col-sm-12">
-                            <div id="msg"></div>
-                            <input type="file" name="foto" class="file" accept="image/*">
-                            <div class="input-group my-3">
-                                <input type="text" class="form-control" disabled placeholder="Upload File"
-                                    id="file">
-                                <div class="input-group-append">
-                                    <button type="button" class="browse btn btn-primary">Browse...</button>
-                                </div>
-                            </div>
+                    <div class="card-body d-flex flex-column flex-md-row gap-4">
+                        <div class="ml-2 mb-4 col-sm-6">
+                            <input type="file" name="foto_awal" class="file" accept="image/*">
+                            <img src="https://placehold.it/200x200" id="preview-awal" style="width: 300px"
+                                class="img-thumbnail browse_foto_awal cursor-pointer">
                         </div>
-                        <div class="ml-2 col-sm-6">
-                            <img src="https://placehold.it/200x200" id="preview" style="width: 200px"
-                                class="img-thumbnail">
+                        <div class="ml-2 mb-4 col-sm-6">
+                            <input type="file" name="foto_akhir" class="file" accept="image/*">
+                            <img src="https://placehold.it/200x200" id="preview-akhir" style="width: 300px"
+                                class="img-thumbnail browse_foto_akhir cursor-pointer">
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12 mb-5">
-            <div class="card">
-                <div class="card-body">
-                    <table id="AbsenSiswa" class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th class="col-1">No</th>
-                                <th>Nama Siswa</th>
-                                <th class="col-3">
-                                    Absen
-                                    <button type="button" id="toggleCheckBtn" class="btn text-primary ml-2"
-                                        style="cursor: pointer;" onclick="toggleCheckAll()">Check All</button>
-                                </th>
-                                <th class="col-3">Keterangan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                                $siswa_id = 0;
-                                $jenis_absen = 0;
-                            @endphp
-                            @foreach ($siswa as $data)
-                                <tr>
-                                    <td>{{ $no++ }}</td>
-                                    <td>{{ $data->nama_siswa }}</td>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="hidden" name="input[{{ $siswa_id++ }}][siswa_id]"
-                                                value="{{ $data->id }}">
-                                            <input type="checkbox" class="custom-control-input checkboxAbsensi"
-                                                id="check-{{ $data->id }}" onchange="toggleKeterangan(event)">
-                                            <label class="custom-control-label" for="check-{{ $data->id }}"
-                                                data-id={{ $data->id }}>Hadir</label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <select class="custom-select" name="input[{{ $jenis_absen++ }}][jenis_absen]"
-                                            required id="keterangan-{{ $data->id }}">
-                                            <option selected value="">Keterangan</option>
-                                            <option>Sakit</option>
-                                            <option>Ijin</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <div class="card-footer d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary px-5 py-2 my-4">Selesai</button>
+                    <div class="card-footer d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary px-5 py-2">Selesai</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -137,18 +87,35 @@
 @section('script')
     <script>
         // upload file preview
-        $(document).on("click", ".browse", function() {
-            var file = $(this).parents().find(".file");
+        $(document).on("click", ".browse_foto_awal", function() {
+            var file = $(this).parents().find('input[name="foto_awal"]');
             file.trigger("click");
         });
-        $('input[type="file"]').change(function(e) {
+        $(document).on("click", ".browse_foto_akhir", function() {
+            // var file = $(this).parents().find('input[name="foto_akhir"]');
+            // file.trigger("click");
+            toastr.error('Foto akhir diisi saat jam akan berakhir')
+        });
+        $('input[name="foto_awal"]').change(function(e) {
             var fileName = e.target.files[0].name;
             $("#file").val(fileName);
 
             var reader = new FileReader();
             reader.onload = function(e) {
                 // get loaded data and render thumbnail.
-                document.getElementById("preview").src = e.target.result;
+                document.getElementById("preview-awal").src = e.target.result;
+            };
+            // read the image file as a data URL.
+            reader.readAsDataURL(this.files[0]);
+        });
+        $('input[name="foto_akhir"]').change(function(e) {
+            var fileName = e.target.files[0].name;
+            $("#file").val(fileName);
+
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                // get loaded data and render thumbnail.
+                document.getElementById("preview-akhir").src = e.target.result;
             };
             // read the image file as a data URL.
             reader.readAsDataURL(this.files[0]);

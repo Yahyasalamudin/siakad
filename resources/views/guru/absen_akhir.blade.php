@@ -1,37 +1,39 @@
 @extends('template_backend.home')
-@section('heading', 'Detail Absensi')
+@section('heading', 'Absen Harian Guru')
 @section('page')
-    <li class="breadcrumb-item active">Detail Absensi</li>
+    <li class="breadcrumb-item active">Absen Harian guru</li>
 @endsection
 @section('content')
     @php
         $no = 1;
     @endphp
-    <form action="{{ route('absen.simpan') }}" method="post" class="col-md-12" enctype="multipart/form-data">
+    <form action="{{ route('absen.akhiri_absen', $absensi->id) }}" method="post" class="col-md-12"
+        enctype="multipart/form-data">
         @csrf
-        <div class="d-flex">
+        <div class="row mb-5">
             <div class="col-md-6">
                 <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">Absen Harian Guru</h3>
                     </div>
                     <div class="card-body">
+                        <input type="hidden" name="jadwal_id" value="{{ $jadwal->id }}">
                         <div class="form-group">
                             <label for="nama_guru">Nama Guru</label>
-                            <input type="text" id="nama_guru" class="form-control"
-                                value="{{ $absensi->guru->nama_guru }}" readonly>
+                            <input type="text" id="nama_guru" class="form-control" value="{{ auth()->user()->name }}"
+                                readonly>
                         </div>
                         <div class="form-group">
                             <label for="mapel">Mapel</label>
                             <input type="text" id="mapel" name="mapel" maxlength="5"
                                 onkeypress="return inputAngka(event)"
                                 class="form-control @error('mapel') is-invalid @enderror"
-                                value="{{ $absensi->jadwal->mapel->nama_mapel }}" readonly>
+                                value="{{ $jadwal->mapel->nama_mapel }}" readonly>
                         </div>
                         <div class="form-group">
                             <label for="ruang">Ruangan</label>
-                            <input type="text" id="ruang" name="ruang"
-                                class="form-control @error('ruang') is-invalid @enderror" value="{{ $absensi->ruang }}"
+                            <input type="text" id="ruang" name="ruang" placeholder="Masukkan Ruangan"
+                                value="{{ $absensi->ruang }}" class="form-control @error('ruang') is-invalid @enderror"
                                 readonly>
                         </div>
                         <div class="form-group">
@@ -42,66 +44,92 @@
                         @if ($absensi->guru_tamu != null)
                             <div class="form-group">
                                 <label for="guru_tamu">Guru Tamu</label>
-                                <input type="text" id="guru_tamu" value="{{ $absensi->guru_tamu }}" name="guru_tamu"
-                                    class="form-control @error('guru_tamu') is-invalid @enderror"
-                                    value="{{ $absensi->guru_tamu }}" readonly>
+                                <input type="text" id="guru_tamu" name="guru_tamu" placeholder="Masukkan Guru Tamu"
+                                    readonly value="{{ $absensi->guru_tamu }}"
+                                    class="form-control @error('guru_tamu') is-invalid @enderror">
                             </div>
                             <div class="form-group">
                                 <label for="agensi">Agensi</label>
-                                <input type="text" id="agensi" name="agensi" value="{{ $absensi->agensi }}"
-                                    class="form-control @error('agensi') is-invalid @enderror"
-                                    value="{{ $absensi->agensi }}" readonly>
+                                <input type="text" id="agensi" name="agensi" placeholder="Masukkan Agensi" readonly
+                                    value="{{ $absensi->agensi }}"
+                                    class="form-control @error('agensi') is-invalid @enderror">
                             </div>
                         @endif
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-6 align-items-stretch">
+            <div class="col-md-6 mb-5 align-items-stretch">
                 <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">Upload Foto</h3>
                     </div>
-                    <div class="card-body">
-                        <div class="ml-2 col-sm-6">
-                            <h3 class="card-title mb-2 text-bold">Foto Awal</h3>
-                            <img src="{{ asset($absensi->foto_awal) }}" id="preview" style="width: 300px"
-                                alt="Foto Kegiatan - {{ $absensi->guru->nama_guru }}">
+                    <div class="card-body d-flex flex-column flex-md-row gap-4">
+                        <div class="ml-2 mb-4 col-sm-6">
+                            <input type="file" required name="foto_awal" class="file" accept="image/*">
+                            <img src="{{ asset($absensi->foto_awal) }}" id="preview-awal" style="width: 300px"
+                                class="img-thumbnail browse_foto_awal cursor-pointer">
                         </div>
-                        <div class="ml-2 mt-3 col-sm-6">
-                            <h3 class="card-title mb-2 text-bold">Foto Akhir</h3>
-                            <img src="{{ asset($absensi->foto_akhir) }}" id="preview" style="width: 300px"
-                                alt="Foto Kegiatan - {{ $absensi->guru->nama_guru }}">
+                        <div class="ml-2 mb-4 col-sm-6">
+                            <input type="file" required name="foto_akhir" class="file" accept="image/*">
+                            <img src="https://placehold.it/200x200" id="preview-akhir" style="width: 300px"
+                                class="img-thumbnail browse_foto_akhir cursor-pointer">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-12 mb-5">
+        <div class="mb-5">
             <div class="card">
-                <div class="card-body">
-                    <table id="AbsenSiswa" class="table table-bordered table-hover">
+                <div class="card-body table-responsive">
+                    <table id="AbsenSiswa" class="table table-bordered table-hover table-lg">
                         <thead>
                             <tr>
                                 <th class="col-1">No</th>
-                                <th>Nama Siswa</th>
-                                <th class="col-3">Keterangan</th>
+                                <th class="text-center">Nama Siswa</th>
+                                <th class="d-flex align-items-center">
+                                    Absen
+                                    <button type="button" id="toggleCheckBtn" class="btn text-primary text-nowrap ml-2"
+                                        style="cursor: pointer;" onclick="toggleCheckAll()">Check All</button>
+                                </th>
+                                <th>Keterangan</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                $siswa_id = 0;
+                                $jenis_absen = 0;
+                            @endphp
                             @foreach ($siswa as $data)
                                 <tr>
                                     <td>{{ $no++ }}</td>
-                                    <td>{{ $data->siswa->nama_siswa }}</td>
+                                    <td class="px-5">{{ $data->nama_siswa }}</td>
                                     <td>
-                                        {{ $data->jenis_absen }}
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="hidden" name="input[{{ $siswa_id++ }}][siswa_id]"
+                                                value="{{ $data->id }}">
+                                            <input type="checkbox" class="custom-control-input checkboxAbsensi"
+                                                id="check-{{ $data->id }}" onchange="toggleKeterangan(event)">
+                                            <label class="custom-control-label" for="check-{{ $data->id }}"
+                                                data-id={{ $data->id }}>Hadir</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <select class="custom-select" style="width: 200px"
+                                            name="input[{{ $jenis_absen++ }}][jenis_absen]" required
+                                            id="keterangan-{{ $data->id }}">
+                                            <option selected value="">Keterangan</option>
+                                            <option>Sakit</option>
+                                            <option>Ijin</option>
+                                        </select>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
-                <div class="card-footer d-flex py-5 justify-content-end">
+                <div class="card-footer d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary px-5 py-2 my-4">Simpan</button>
                 </div>
             </div>
         </div>
@@ -109,22 +137,35 @@
 @endsection
 @section('script')
     <script>
-        $("#AbsensiGuru").addClass("active");
-    </script>
-    <script>
         // upload file preview
-        $(document).on("click", ".browse", function() {
-            var file = $(this).parents().find(".file");
+        $(document).on("click", ".browse_foto_awal", function() {
+            // var file = $(this).parents().find('input[name="foto_awal"]');
+            // file.trigger("click");
+        });
+        $(document).on("click", ".browse_foto_akhir", function() {
+            var file = $(this).parents().find('input[name="foto_akhir"]');
             file.trigger("click");
         });
-        $('input[type="file"]').change(function(e) {
+        $('input[name="foto_awal"]').change(function(e) {
             var fileName = e.target.files[0].name;
             $("#file").val(fileName);
 
             var reader = new FileReader();
             reader.onload = function(e) {
                 // get loaded data and render thumbnail.
-                document.getElementById("preview").src = e.target.result;
+                document.getElementById("preview-awal").src = e.target.result;
+            };
+            // read the image file as a data URL.
+            reader.readAsDataURL(this.files[0]);
+        });
+        $('input[name="foto_akhir"]').change(function(e) {
+            var fileName = e.target.files[0].name;
+            $("#file").val(fileName);
+
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                // get loaded data and render thumbnail.
+                document.getElementById("preview-akhir").src = e.target.result;
             };
             // read the image file as a data URL.
             reader.readAsDataURL(this.files[0]);

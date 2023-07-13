@@ -108,9 +108,10 @@
                     $('#pilih_kelas').append(option);
                     if (result) {
                         $.each(result, function(index, val) {
-                            var option = $('<option></option>').attr('value', val.id_kelas).text(
-                                val
-                                .tingkatan_kelas + " " + val.nama_kelas);
+                            if (val.tingkatan_kelas == "{{ auth()->user()->tingkatan_kelas }}")
+                                var option = $('<option></option>').attr('value', val.id_kelas).text(
+                                    val
+                                    .tingkatan_kelas + " " + val.nama_kelas);
                             // Append the option to a select element
                             $('#pilih_kelas').append(option);
                         });

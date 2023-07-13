@@ -265,19 +265,25 @@ class GuruController extends Controller
         $kelas_id = decrypt($request->kelas_id);
         $jadwal_id = decrypt($request->jadwal_id);
 
-        $siswa = Siswa::where('kelas_id', $kelas_id)
-            ->orderBy('nama_siswa', 'ASC')
-            ->get();
-
+        $absensi = Absen::where('jadwal_id', $jadwal_id)->where('foto_akhir', null)->whereDate('created_at', now())->first();
         $jadwal = Jadwal::find($jadwal_id);
 
-        return view('guru.absen', compact('siswa', 'jadwal'));
+        if ($absensi == null) {
+            return view('guru.absen', compact('jadwal'));
+        } else {
+            $siswa = Siswa::where('kelas_id', $kelas_id)
+                ->orderBy('nama_siswa', 'ASC')
+                ->get();
+
+            return view('guru.absen_akhir', compact('jadwal', 'absensi', 'siswa'));
+        }
+
     }
 
     public function absen_guru(Request $request, $id)
     {
         $id = decrypt($id);
-        $absensi = Absen::where('guru_id', $id)->get();
+        $absensi = Absen::where('guru_id', $id)->where('foto_akhir', '!=', null)->get();
 
         return view('guru.absen_show', compact('absensi'));
     }
@@ -299,8 +305,9 @@ class GuruController extends Controller
     public function simpan(Request $request)
     {
         $this->validate($request, [
-            'foto' => 'required',
+            'foto_awal' => 'required',
             'ruang' => 'required',
+            'materi' => 'required',
         ]);
 
         if ($request->request_guru_tamu != null) {
@@ -312,8 +319,8 @@ class GuruController extends Controller
 
         $user = auth()->user();
 
-        if ($request->foto) {
-            $foto = $request->foto;
+        if ($request->foto_awal) {
+            $foto = $request->foto_awal;
             $new_foto = date('siHdmY') . "_" . $foto->getClientOriginalName();
             $foto->move('uploads/absensi/', $new_foto);
             $nameFoto = 'uploads/absensi/' . $new_foto;
@@ -325,7 +332,19 @@ class GuruController extends Controller
             'agensi' => $request->agensi,
             'jadwal_id' => $request->jadwal_id,
             'ruang' => $request->ruang,
-            'foto' => $nameFoto
+            'materi' => $request->materi,
+            'foto_awal' => $nameFoto,
+            'foto_akhir' => null,
+        ]);
+
+        return redirect('home')->with('success', 'Anda telah berhasil absen');
+    }
+
+    public function akhiri_absen(Request $request, $id)
+    {
+        $this->validate($request, [
+            'input' => 'required',
+            'foto_akhir' => 'required',
         ]);
 
         foreach ($request->input as $input) {
@@ -338,6 +357,17 @@ class GuruController extends Controller
                 'updated_at' => Carbon::now()
             ]);
         }
+
+        if ($request->foto_akhir) {
+            $foto = $request->foto_akhir;
+            $new_foto = date('siHdmY') . "_" . $foto->getClientOriginalName();
+            $foto->move('uploads/absensi/', $new_foto);
+            $nameFoto = 'uploads/absensi/' . $new_foto;
+        }
+
+        Absen::find($id)->update([
+            'foto_akhir' => $nameFoto,
+        ]);
 
         return redirect('home')->with('success', 'Anda telah berhasil absen');
     }

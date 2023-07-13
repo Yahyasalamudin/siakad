@@ -47,7 +47,10 @@
                 class="btn btn-dark mx-2 mb-2">{{ __('Guru') }}
                 &nbsp; <i class="nav-icon fas fa-user"></i></button>
             <button type="button" onclick="handleSelectRole(event)" data-role="bk"
-                class="btn btn-success mx-2 mb-2">{{ __('Bk') }}
+                class="btn btn-success mx-2 mb-2">{{ __('BK') }}
+                &nbsp; <i class="nav-icon fas fa-user"></i></button>
+            <button type="button" onclick="handleSelectRole(event)" data-role="cs"
+                class="btn btn-success mx-2 mb-2">{{ __('CS') }}
                 &nbsp; <i class="nav-icon fas fa-user"></i></button>
         </div>
     </div>
