@@ -174,29 +174,4 @@
             </div>
         </div>
     </div>
-
-    <div class="col-md-6">
-        <div class="card card-info">
-            <div class="card-header">
-                <h3 class="card-title">
-                    Keterangan :
-                </h3>
-            </div>
-            <div class="card-body">
-                <div class="tab-content p-0">
-                    <table class="table" style="margin-top: -21px; margin-bottom: -10px;">
-                        @foreach ($kehadiran as $data)
-                            <tr>
-                                <td>
-                                    <div style="width:30px;height:30px;background:#{{ $data->color }}"></div>
-                                </td>
-                                <td>:</td>
-                                <td>{{ $data->ket }}</td>
-                            </tr>
-                        @endforeach
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection

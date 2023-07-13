@@ -24,6 +24,7 @@ class UserController extends Controller
     {
         $user = User::all();
         $user = $user->groupBy('role');
+
         return view('admin.user.index', compact('user'));
     }
 
@@ -87,6 +88,15 @@ class UserController extends Controller
             } else {
                 return redirect()->back()->with('error', 'Maaf User ini tidak terdaftar sebagai siswa!');
             }
+        } elseif ($request->role == 'BK') {
+            User::create([
+                'name' => $request->name,
+                'tingkatan_kelas' => $request->tingkatan_kelas,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => $request->role,
+            ]);
+            return redirect()->back()->with('success', 'Berhasil menambahkan user Admin baru!');
         } else {
             User::create([
                 'name' => $request->name,
@@ -236,10 +246,10 @@ class UserController extends Controller
     {
         if (Auth::user()->role == 'Guru') {
             $this->validate($request, [
-                'name'      => 'required',
-                'mapel_id'  => 'required',
-                'jk'        => 'required',
-                'telp'      => 'required',
+                'name' => 'required',
+                'mapel_id' => 'required',
+                'jk' => 'required',
+                'telp' => 'required',
                 'tmp_lahir' => 'required',
                 'tgl_lahir' => 'required',
             ]);
@@ -253,9 +263,9 @@ class UserController extends Controller
             }
             $guru_data = [
                 'nama_guru' => $request->name,
-                'mapel_id'  => $request->mapel_id,
-                'jk'        => $request->jk,
-                'telp'      => $request->telp,
+                'mapel_id' => $request->mapel_id,
+                'jk' => $request->jk,
+                'telp' => $request->telp,
                 'tmp_lahir' => $request->tmp_lahir,
                 'tgl_lahir' => $request->tgl_lahir
             ];
@@ -263,11 +273,11 @@ class UserController extends Controller
             return redirect()->route('profile')->with('success', 'Profile anda berhasil diperbarui!');
         } elseif (Auth::user()->role == 'Siswa') {
             $this->validate($request, [
-                'name'      => 'required',
-                'jk'        => 'required',
-                'kelas_id'  => 'required',
-                'nis'       => 'required',
-                'telp'      => 'required',
+                'name' => 'required',
+                'jk' => 'required',
+                'kelas_id' => 'required',
+                'nis' => 'required',
+                'telp' => 'required',
                 'tmp_lahir' => 'required',
                 'tgl_lahir' => 'required',
             ]);
@@ -280,13 +290,13 @@ class UserController extends Controller
                 $user->update($user_data);
             }
             $siswa_data = [
-                'nis'        => $request->nis,
+                'nis' => $request->nis,
                 'nama_siswa' => $request->name,
-                'jk'         => $request->jk,
-                'kelas_id'   => $request->kelas_id,
-                'telp'       => $request->telp,
-                'tmp_lahir'  => $request->tmp_lahir,
-                'tgl_lahir'  => $request->tgl_lahir,
+                'jk' => $request->jk,
+                'kelas_id' => $request->kelas_id,
+                'telp' => $request->telp,
+                'tmp_lahir' => $request->tmp_lahir,
+                'tgl_lahir' => $request->tgl_lahir,
             ];
             $siswa->update($siswa_data);
             return redirect()->route('profile')->with('success', 'Profile anda berhasil diperbarui!');

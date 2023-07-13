@@ -13,8 +13,9 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form action="{{ route('jadwal.store') }}" method="post">
+            <form action="{{ route('jadwal.update', $jadwal->id) }}" method="post">
                 @csrf
+                @method('put')
                 <div class="card-body">
                     <div class="row">
                         <input type="hidden" name="jadwal_id" value="{{ $jadwal->id }}">
@@ -40,18 +41,6 @@
                                         <option value="{{ $data->id }}"
                                             @if ($jadwal->kelas_id == $data->id) selected @endif>{{ $data->nama_kelas }}
                                         </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="guru_id">Kode Mapel</label>
-                                <select id="guru_id" name="guru_id"
-                                    class="form-control @error('guru_id') is-invalid @enderror select2bs4">
-                                    <option value="" @if ($jadwal->guru_id) selected @endif>-- Pilih Kode
-                                        Mapel --</option>
-                                    @foreach ($guru as $data)
-                                        <option value="{{ $data->id }}"
-                                            @if ($jadwal->guru_id == $data->id) selected @endif>{{ $data->kode }}</option>
                                     @endforeach
                                 </select>
                             </div>

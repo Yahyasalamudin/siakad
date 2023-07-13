@@ -27,6 +27,7 @@
                                 <span class="badge badge-info p-2">{{ $mapel->nama_mapel }}</span>
                             @endforeach
                         </h5>
+                        <h5 class="card-title card-text mb-2">Tanggal Mulai Kerja : {{ $guru->tmk }}</h5>
                         @if ($guru->jk == 'L')
                             <h5 class="card-title card-text mb-2">Jenis Kelamin : Laki-laki</h5>
                         @else

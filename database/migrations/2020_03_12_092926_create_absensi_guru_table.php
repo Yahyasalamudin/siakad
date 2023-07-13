@@ -20,7 +20,9 @@ class CreateAbsensiGuruTable extends Migration
             $table->string('agensi')->nullable();
             $table->integer('jadwal_id');
             $table->string('ruang');
-            $table->string('foto');
+            $table->text('materi');
+            $table->string('foto_awal');
+            $table->string('foto_akhir')->nullable();
             $table->timestamps();
         });
     }

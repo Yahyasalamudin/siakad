@@ -61,7 +61,7 @@ class JadwalController extends Controller
         ]);
 
         $kode_jadwal = explode('-', $request->kode_jadwal);
-        Jadwal::updateOrCreate(
+        Jadwal::create(
             [
                 'id' => $request->jadwal_id
             ],
@@ -104,7 +104,7 @@ class JadwalController extends Controller
         $jadwal = Jadwal::findorfail($id);
         $hari = Hari::all();
         $kelas = Kelas::all();
-        $guru = Guru::OrderBy('kode', 'asc')->get();
+        $guru = Guru::OrderBy('nama_guru', 'asc')->get();
         return view('admin.jadwal.edit', compact('jadwal', 'hari', 'kelas', 'guru'));
     }
 
@@ -117,7 +117,23 @@ class JadwalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // 
+        $this->validate($request, [
+            'hari_id' => 'required',
+            'kelas_id' => 'required',
+            'jam_mulai' => 'required',
+            'jam_selesai' => 'required',
+        ]);
+
+        Jadwal::find($id)->update(
+            [
+                'hari_id' => $request->hari_id,
+                'kelas_id' => $request->kelas_id,
+                'jam_mulai' => $request->jam_mulai,
+                'jam_selesai' => $request->jam_selesai,
+            ]
+        );
+
+        return redirect()->back()->with('success', 'Data jadwal berhasil diperbarui!');
     }
 
     /**

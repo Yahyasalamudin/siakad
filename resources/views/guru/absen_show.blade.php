@@ -23,7 +23,7 @@
                                 <td>{{ $data->created_at }}</td>
                                 <td>{{ $data->jadwal->mapel->nama_mapel }}</td>
                                 <td>
-                                    <a href="{{ route('absen.detail', Crypt::encrypt($data->id)) }}"
+                                    <a href="{{ route('absen.detail', Crypt::encrypt($data->jadwal_id)) }}"
                                         class="btn btn-info btn-sm"><i class="nav-icon fas fa-search-plus"></i> &nbsp; Detail
                                     </a>
                                 </td>

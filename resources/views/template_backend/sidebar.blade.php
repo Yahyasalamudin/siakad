@@ -273,6 +273,13 @@
                             <p>Jadwal</p>
                         </a>
                     </li>
+                @elseif (Auth::user()->role == 'CS')
+                    <li class="nav-item">
+                        <a href="{{ route('cs.index') }}" class="nav-link">
+                            <i class="fas fa-calendar-plus nav-icon"></i>
+                            <p>Aktivitas Tambahan</p>
+                        </a>
+                    </li>
                 @elseif (Auth::user()->role == 'BK')
                     <li class="nav-item">
                         <a href="{{ route('bk.absensi') }}" class="nav-link">
