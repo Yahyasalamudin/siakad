@@ -57,7 +57,7 @@ Route::middleware(['auth'])->group(function () {
   Route::resource('/aktivitas-tambahan', 'AktivitasTambahanController');
   Route::get('cs/aktivitas-tambahan', 'CleaningServiceController@index')->name('cs.index');
   Route::post('cs/aktivitas-tambahan', 'CleaningServiceController@store')->name('cs.store');
-  // Route::destroy('cs/aktivitas-tambahan/{id}', 'CleaningServiceController@destroy')->name('cs.destroy');
+  Route::delete('cs/aktivitas-tambahan/{id}', 'CleaningServiceController@destroy')->name('cs.destroy');
 
   Route::middleware(['siswa'])->group(function () {
     Route::get('/jadwal/siswa', 'JadwalController@siswa')->name('jadwal.siswa');
