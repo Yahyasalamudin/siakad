@@ -200,7 +200,7 @@ class UsersSeeder extends Seeder
         ]);
         User::insert([
             'name' => "M. Rahman Fiqi Satriya, S.Psi.",
-            'email' => '.@gmail.com',
+            'email' => 'rahmanfiqi@gmail.com',
             'password' => Hash::make('12345678'),
             'role' => 'Guru',
             'id_card' => '00020',
@@ -380,7 +380,7 @@ class UsersSeeder extends Seeder
         ]);
         User::insert([
             'name' => "Busar",
-            'email' => 'busa",@gmail.com',
+            'email' => 'busar@gmail.com',
             'password' => Hash::make('12345678'),
             'role' => 'Guru',
             'id_card' => '0004',
@@ -443,7 +443,7 @@ class UsersSeeder extends Seeder
         ]);
         User::insert([
             'name' => "Trianto",
-            'email' => 'triant",@gmail.com',
+            'email' => 'trianto@gmail.com',
             'password' => Hash::make('12345678'),
             'role' => 'Guru',
             'id_card' => '00047',
@@ -517,7 +517,7 @@ class UsersSeeder extends Seeder
 
         User::insert([
             'name' => 'Nikolas M.Pd.',
-            'email' => 'nikolasm@gmail.com',
+            'email' => 'nikolas@gmail.com',
             'password' => Hash::make('12345678'),
             'role' => 'CS',
             'created_at' => date('Y-m-d H:i:s'),
