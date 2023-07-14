@@ -22,8 +22,8 @@
                     <tbody id="data-jadwal">
                         @php
                             $hari = date('w');
-                            $jam_mulai = date('H:i:s');
-                            $jam_selesai = date('H:i:s', strtotime('+10 minutes'));
+                            $jam_mulai = date('H:i:s', strtotime('+10 minutes'));
+                            $jam_selesai = date('H:i:s', strtotime('-10 minutes'));
                         @endphp
                         @if ($hari == 0)
                             <tr>

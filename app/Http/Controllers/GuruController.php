@@ -326,6 +326,15 @@ class GuruController extends Controller
             $nameFoto = 'uploads/absensi/' . $new_foto;
         }
 
+        $jadwal = Jadwal::find($request->jadwal_id);
+
+        $status = null;
+        if ($jadwal->jam_mulai < now()->format('H:i:s')) {
+            $status = 'terlambat';
+        } else {
+            $status = 'tepat_waktu';
+        }
+
         Absen::create([
             'guru_id' => $user->guru($user->id_card)->id,
             'guru_tamu' => $request->guru_tamu,
@@ -333,6 +342,7 @@ class GuruController extends Controller
             'jadwal_id' => $request->jadwal_id,
             'ruang' => $request->ruang,
             'materi' => $request->materi,
+            'keterangan' => $status,
             'foto_awal' => $nameFoto,
             'foto_akhir' => null,
         ]);

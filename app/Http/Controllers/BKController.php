@@ -33,6 +33,12 @@ class BKController extends Controller
             'kelas' => 'required',
         ]);
 
+        if ($request->jenis_konseling == 'pribadi') {
+            $this->validate($request, [
+                'siswa' => 'required',
+            ]);
+        }
+
         $user = auth()->user();
 
         $nameFoto = null;
@@ -72,7 +78,7 @@ class BKController extends Controller
         return json_encode($data);
     }
 
-    public function get_siswa()
+    public function get_siswa_from_api()
     {
         $client = new \GuzzleHttp\Client();
         $response = $client->get('http://localhost/absensi_mulu/api/siswa', [
@@ -83,6 +89,14 @@ class BKController extends Controller
 
         $jsonResponse = json_decode($response->getBody(), true);
         $data = $jsonResponse['data'];
+
+        return json_encode($data);
+    }
+
+    public function get_siswa(Request $request)
+    {
+        $client = new \GuzzleHttp\Client();
+        $data = Siswa::where('kelas_id', $request->kelas_id)->get();
 
         return json_encode($data);
     }

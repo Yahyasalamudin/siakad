@@ -3,10 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\CleaningService;
+use App\JadwalCS;
 use Illuminate\Http\Request;
 
 class CleaningServiceController extends Controller
 {
+    public function dashboard()
+    {
+        // $aktivitas = AktivitasTambahan::latest()->get();
+        $hari = date('w');
+        $jam = date('H:i:s', strtotime('-10 minutes'));
+        $jadwalcs = JadwalCS::OrderBy('jam_mulai')->OrderBy('jam_selesai')
+            ->where('hari_id', $hari)->where('jam_selesai', '>=', $jam)->get();
+
+        return view('cs.home', compact('jadwalcs'));
+    }
+
     public function index()
     {
         $aktivitas = CleaningService::latest()->get();

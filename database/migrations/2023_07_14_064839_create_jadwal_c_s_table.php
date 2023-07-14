@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCleaningServicesTable extends Migration
+class CreateJadwalCSTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,15 @@ class CreateCleaningServicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('cleaning_services', function (Blueprint $table) {
+        Schema::create('jadwal_cs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('jadwal_cs_id');
-            $table->string('kegiatan');
-            $table->string('foto');
             $table->integer('user_id');
+            $table->string('tempat');
+            $table->integer('hari_id');
+            $table->time('jam_mulai');
+            $table->time('jam_selesai');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -30,6 +32,6 @@ class CreateCleaningServicesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cleaning_services');
+        Schema::dropIfExists('jadwal_c_s');
     }
 }

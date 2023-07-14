@@ -26,7 +26,7 @@ class HomeController extends Controller
     {
         $user = auth()->user();
         $hari = date('w');
-        $jam = date('H:i:s', strtotime('+10 minutes'));
+        $jam = date('H:i:s', strtotime('-10 minutes'));
         $jadwal = Jadwal::OrderBy('jam_mulai')->OrderBy('jam_selesai')->OrderBy('kelas_id')
             ->where('hari_id', $hari)->where('jam_selesai', '>=', $jam);
 

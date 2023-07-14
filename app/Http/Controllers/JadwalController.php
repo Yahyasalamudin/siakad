@@ -63,9 +63,6 @@ class JadwalController extends Controller
         $kode_jadwal = explode('-', $request->kode_jadwal);
         Jadwal::create(
             [
-                'id' => $request->jadwal_id
-            ],
-            [
                 'hari_id' => $request->hari_id,
                 'kelas_id' => $request->kelas_id,
                 'mapel_id' => $kode_jadwal[1],

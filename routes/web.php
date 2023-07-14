@@ -55,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
 
   // Aktivitas Tambahan
   Route::resource('/aktivitas-tambahan', 'AktivitasTambahanController');
+  Route::get('cs/dashboard', 'CleaningServiceController@dashboard')->name('cs.dashboard');
   Route::get('cs/aktivitas-tambahan', 'CleaningServiceController@index')->name('cs.index');
   Route::post('cs/aktivitas-tambahan', 'CleaningServiceController@store')->name('cs.store');
   Route::delete('cs/aktivitas-tambahan/{id}', 'CleaningServiceController@destroy')->name('cs.destroy');
@@ -75,6 +76,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/pindah/jadwal', 'JadwalController@tukar_jadwal')->name('tukar_jadwal');
     Route::get('/nilai/get-nilai-siswa', 'NilaiController@get_nilai_siswa');
     Route::get('/nilai/get-siswa', 'NilaiController@get_siswa');
+    Route::resource('/modul', 'ModulController');
     Route::resource('/nilai', 'NilaiController');
     Route::resource('/ulangan', 'UlanganController');
     Route::resource('/sikap', 'SikapController');
@@ -86,7 +88,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/absensi-siswa', 'BKController@index')->name('bk.absensi');
     Route::get('/konseling-siswa', 'BKController@create')->name('bk.konseling');
     Route::post('/konseling-siswa', 'BKController@store')->name('bk.store');
-    Route::get('/bk/get-siswa', 'BKController@get_siswa');
+    Route::get('/get-siswa', 'BKController@get_siswa');
+    Route::get('/bk/get-siswa', 'BKController@get_siswa_from_api');
     Route::get('/bk/get-kelas', 'BKController@get_kelas');
     Route::get('/bk/get-absensi-siswa', 'BKController@get_absensi_siswa');
     Route::get('/bk/konseling-siswa', 'BKController@get_konseling_siswa');
@@ -149,6 +152,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/jadwal/import_excel', 'JadwalController@import_excel')->name('jadwal.import_excel');
     Route::delete('/jadwal/deleteAll', 'JadwalController@deleteAll')->name('jadwal.deleteAll');
     Route::resource('/jadwal', 'JadwalController');
+    Route::resource('/jadwalcs', 'JadwalCSController');
     Route::get('/ulangan-kelas', 'UlanganController@create')->name('ulangan-kelas');
     Route::get('/ulangan-siswa/{id}', 'UlanganController@edit')->name('ulangan-siswa');
     Route::get('/ulangan-show/{id}', 'UlanganController@ulangan')->name('ulangan-show');

@@ -21,6 +21,7 @@ class CreateAbsensiGuruTable extends Migration
             $table->integer('jadwal_id');
             $table->string('ruang');
             $table->text('materi');
+            $table->enum('keterangan', ['terlambat', 'tepat_waktu']);
             $table->string('foto_awal');
             $table->string('foto_akhir')->nullable();
             $table->timestamps();

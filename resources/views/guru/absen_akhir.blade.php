@@ -66,7 +66,7 @@
                     </div>
                     <div class="card-body d-flex flex-column flex-md-row gap-4">
                         <div class="ml-2 mb-4 col-sm-6">
-                            <input type="file" required name="foto_awal" class="file" accept="image/*">
+                            <input type="file" name="foto_awal" class="file" accept="image/*">
                             <img src="{{ asset($absensi->foto_awal) }}" id="preview-awal" style="width: 300px"
                                 class="img-thumbnail browse_foto_awal cursor-pointer">
                         </div>

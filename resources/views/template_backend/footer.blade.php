@@ -1,6 +1,6 @@
 <footer class="main-footer">
         <marquee>
-            <strong>Copyright &copy; <script>document.write(new Date().getFullYear());</script> &diams; <a href="http://smkn1jenpo.sch.id/">SMK NEGERI 1 PIRAMID</a>. </strong>
+            <strong>Copyright &copy; <script>document.write(new Date().getFullYear());</script> &diams; <a href="">SMK MULU</a>. </strong>
         </marquee>
     </footer>
 

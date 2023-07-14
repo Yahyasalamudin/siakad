@@ -44,6 +44,11 @@ class User extends Authenticatable
         return $this->hasMany(AktivitasTambahan::class)->withDefault();
     }
 
+    public function jadwal_cs()
+    {
+        return $this->hasMany(JadwalCS::class, 'user_id', 'id');
+    }
+
     protected $hidden = [
         'password',
         'remember_token',

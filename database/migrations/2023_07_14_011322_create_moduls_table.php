@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCleaningServicesTable extends Migration
+class CreateModulsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateCleaningServicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('cleaning_services', function (Blueprint $table) {
+        Schema::create('moduls', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('jadwal_cs_id');
-            $table->string('kegiatan');
-            $table->string('foto');
-            $table->integer('user_id');
+            $table->string('tahun');
+            $table->integer('guru_id');
+            $table->integer('mapel_id');
+            $table->string('semester');
+            $table->string('file_modul');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateCleaningServicesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cleaning_services');
+        Schema::dropIfExists('moduls');
     }
 }

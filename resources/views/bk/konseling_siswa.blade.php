@@ -198,7 +198,7 @@
                 type: "GET",
                 data: "kelas_id=" + $("#tingkat_kelas").val(),
                 dataType: "JSON",
-                url: "{{ url('/bk/get-siswa') }}",
+                url: "{{ url('/get-siswa') }}",
                 success: function(result) {
                     $('#siswa').empty();
                     var option = $('<option value="">Pilih Siswa</option>');

@@ -72,7 +72,13 @@
                             <li class="nav-item">
                                 <a href="{{ route('jadwal.index') }}" class="nav-link" id="DataJadwal">
                                     <i class="fas fa-calendar-alt nav-icon"></i>
-                                    <p>Data Jadwal</p>
+                                    <p>Data Jadwal Pelajaran</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('jadwalcs.index') }}" class="nav-link" id="DataJadwal">
+                                    <i class="fas fa-calendar-alt nav-icon"></i>
+                                    <p>Data Jadwal CS</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -222,6 +228,12 @@
                             <p>Aktivitas Tambahan</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('modul.index') }}" class="nav-link">
+                            <i class="fas fa-calendar-plus nav-icon"></i>
+                            <p>Upload Modul</p>
+                        </a>
+                    </li>
                     {{-- <li class="nav-item has-treeview" id="liNilaiGuru">
                         <a href="#" class="nav-link" id="NilaiGuru">
                             <i class="nav-icon fas fa-file-signature"></i>
@@ -274,6 +286,12 @@
                         </a>
                     </li>
                 @elseif (Auth::user()->role == 'CS')
+                    <li class="nav-item">
+                        <a href="{{ route('cs.dashboard') }}" class="nav-link">
+                            <i class="fas fa-calendar-plus nav-icon"></i>
+                            <p>Dashboard CS</p>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('cs.index') }}" class="nav-link">
                             <i class="fas fa-calendar-plus nav-icon"></i>
