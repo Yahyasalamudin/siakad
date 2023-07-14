@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('page', 'Login Authentication')
+@section('page', 'SMK Mulu')
 @section('content')
     <div class="card-body login-card-body">
         <p class="login-box-msg">Sign in to start your session</p>

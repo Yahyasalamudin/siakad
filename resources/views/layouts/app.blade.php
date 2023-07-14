@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Sistem Informasi Akademik Sekolah</title>
+    <title>Sistem Management SMK MULU</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
@@ -12,12 +12,12 @@
     <link rel="shrotcut icon" href="{{ asset('img/favicon.ico') }}">
 </head>
 
-<body class="hold-transition login-page"
+<body class="hold-transition login-page my-3"
     style="background-image: url('{{ asset('img/wallup.jpg') }}'); background-size: cover; background-attachment: fixed;">
     <div class="login-box">
         <div class="login-logo">
             <!--<img src="{{ asset('img/logosiakad.png') }}" width="100%" alt="">-->
-            <h1 class="text-white">SM - SMK MULU</h1>
+            <h1 class="text-white">Sistem Management</h1>
         </div>
 
         <div class="login-logo" style="color: white;">
@@ -34,7 +34,7 @@
                     <script>
                         document.write(new Date().getFullYear());
                     </script> &diams; <a href="http://piramidsoft.com/" style="color: white;">SMK
-                        Negeri 1 Piramid</a>.
+                        Muhamaddiyah Lumajang</a>.
                 </strong>
             </marquee>
         </footer>
