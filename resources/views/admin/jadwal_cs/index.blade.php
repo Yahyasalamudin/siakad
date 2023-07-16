@@ -183,7 +183,7 @@
     <script>
         $("#MasterData").addClass("active");
         $("#liMasterData").addClass("menu-open");
-        $("#DataJadwal").addClass("active");
+        $("#DataJadwalCS").addClass("active");
         $("#jam_mulai,#jam_selesai").timepicker({
             timeFormat: 'HH:mm'
         });
