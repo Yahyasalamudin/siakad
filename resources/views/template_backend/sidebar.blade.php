@@ -76,7 +76,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('jadwalcs.index') }}" class="nav-link" id="DataJadwal">
+                                <a href="{{ route('jadwalcs.index') }}" class="nav-link" id="DataJadwalCS">
                                     <i class="fas fa-calendar-alt nav-icon"></i>
                                     <p>Data Jadwal CS</p>
                                 </a>

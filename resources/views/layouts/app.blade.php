@@ -17,7 +17,7 @@
     <div class="login-box">
         <div class="login-logo">
             <!--<img src="{{ asset('img/logosiakad.png') }}" width="100%" alt="">-->
-            <h1 class="text-white">Sistem Management</h1>
+            <h1 class="text-white">Sistem Managemen</h1>
         </div>
 
         <div class="login-logo" style="color: white;">
@@ -34,7 +34,7 @@
                     <script>
                         document.write(new Date().getFullYear());
                     </script> &diams; <a href="http://piramidsoft.com/" style="color: white;">SMK
-                        Muhamaddiyah Lumajang</a>.
+                        Muhammadiyah Lumajang</a>.
                 </strong>
             </marquee>
         </footer>

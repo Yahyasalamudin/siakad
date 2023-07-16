@@ -77,6 +77,7 @@
                                         <option value="Operator">Operator</option>
                                         <option value="Guru">Guru</option>
                                         <option value="BK">BK</option>
+                                        <option value="CS">CS</option>
                                         <option value="Siswa">Siswa</option>
                                     </select>
                                     @error('role')
@@ -138,7 +139,7 @@
                     $("#noId").html(
                         `<label for="nomer">Nomer Induk Siswa</label><input id="nomer" type="text" placeholder="No Induk Siswa" class="form-control" name="nomer" autocomplete="off">`
                     );
-                } else if (kel == "Admin" || kel == "Operator") {
+                } else if (kel == "Admin" || kel == "Operator" || kel == "CS") {
                     $("#noId").html(
                         `<label for="name">Username</label><input id="name" type="text" placeholder="Username" class="form-control" name="name" autocomplete="off">`
                     );

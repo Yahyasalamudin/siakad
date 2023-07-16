@@ -9,7 +9,7 @@ class AktivitasTambahanController extends Controller
 {
     public function index()
     {
-        $aktivitas = AktivitasTambahan::latest()->get();
+        $aktivitas = AktivitasTambahan::where('user_id', auth()->user()->id)->get();
 
         return view('aktivitas_tambahan.index', compact('aktivitas'));
     }
