@@ -56,6 +56,6 @@
     <script>
         $("#MasterData").addClass("active");
         $("#liMasterData").addClass("menu-open");
-        $("#DataJadwal").addClass("active");
+        $("#DataJadwalCS").addClass("active");
     </script>
 @endsection
