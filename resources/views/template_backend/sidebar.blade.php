@@ -76,9 +76,16 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('jadwalcs.index') }}" class="nav-link" id="DataJadwalCS">
+                                <a href="{{ route('jadwal.karyawan.index', 'cs') }}" class="nav-link" id="DataJadwalCS">
                                     <i class="fas fa-calendar-alt nav-icon"></i>
                                     <p>Data Jadwal CS</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('jadwal.karyawan.index', 'satpam') }}" class="nav-link"
+                                    id="DataJadwalCS">
+                                    <i class="fas fa-calendar-alt nav-icon"></i>
+                                    <p>Data Jadwal Satpam</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -287,13 +294,26 @@
                     </li>
                 @elseif (Auth::user()->role == 'CS')
                     <li class="nav-item">
-                        <a href="{{ route('cs.dashboard') }}" class="nav-link">
+                        <a href="{{ route('karyawan.dashboard') }}" class="nav-link">
                             <i class="fas fa-calendar-plus nav-icon"></i>
                             <p>Dashboard CS</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('cs.index') }}" class="nav-link">
+                        <a href="{{ route('karyawan.index') }}" class="nav-link">
+                            <i class="fas fa-calendar-plus nav-icon"></i>
+                            <p>Aktivitas Tambahan</p>
+                        </a>
+                    </li>
+                @elseif (Auth::user()->role == 'Satpam')
+                    <li class="nav-item">
+                        <a href="{{ route('karyawan.dashboard') }}" class="nav-link">
+                            <i class="fas fa-calendar-plus nav-icon"></i>
+                            <p>Dashboard Satpam</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('karyawan.index') }}" class="nav-link">
                             <i class="fas fa-calendar-plus nav-icon"></i>
                             <p>Aktivitas Tambahan</p>
                         </a>

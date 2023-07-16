@@ -55,10 +55,10 @@ Route::middleware(['auth'])->group(function () {
 
   // Aktivitas Tambahan
   Route::resource('/aktivitas-tambahan', 'AktivitasTambahanController');
-  Route::get('cs/dashboard', 'CleaningServiceController@dashboard')->name('cs.dashboard');
-  Route::get('cs/aktivitas-tambahan', 'CleaningServiceController@index')->name('cs.index');
-  Route::post('cs/aktivitas-tambahan', 'CleaningServiceController@store')->name('cs.store');
-  Route::delete('cs/aktivitas-tambahan/{id}', 'CleaningServiceController@destroy')->name('cs.destroy');
+  Route::get('karyawan/dashboard', 'KaryawanController@dashboard')->name('karyawan.dashboard');
+  Route::get('karyawan/aktivitas-tambahan', 'KaryawanController@index')->name('karyawan.index');
+  Route::post('karyawan/aktivitas-tambahan', 'KaryawanController@store')->name('karyawan.store');
+  Route::delete('karyawan/aktivitas-tambahan/{id}', 'KaryawanController@destroy')->name('cs.destroy');
 
   Route::middleware(['siswa'])->group(function () {
     Route::get('/jadwal/siswa', 'JadwalController@siswa')->name('jadwal.siswa');
@@ -66,6 +66,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/sikap/siswa', 'SikapController@siswa')->name('sikap.siswa');
     Route::get('/rapot/siswa', 'RapotController@siswa')->name('rapot.siswa');
   });
+
+  Route::get('/karyawan/absen/harian', 'KaryawanController@absen')->name('karyawan.absen.harian');
+  Route::post('/karyawan/absen/simpan', 'KaryawanController@simpan_absen')->name('karyawan.absen.simpan');
 
   Route::middleware(['guru'])->group(function () {
     Route::get('/jurnal', 'JurnalController@index')->name('jurnal.index');
@@ -152,7 +155,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/jadwal/import_excel', 'JadwalController@import_excel')->name('jadwal.import_excel');
     Route::delete('/jadwal/deleteAll', 'JadwalController@deleteAll')->name('jadwal.deleteAll');
     Route::resource('/jadwal', 'JadwalController');
-    Route::resource('/jadwalcs', 'JadwalCSController');
+    Route::get('/jadwalkaryawan/{role}/all', 'JadwalKaryawanController@index')->name('jadwal.karyawan.index');
+    Route::resource('/jadwalkaryawan', 'JadwalKaryawanController')->except(['index']);
     Route::get('/ulangan-kelas', 'UlanganController@create')->name('ulangan-kelas');
     Route::get('/ulangan-siswa/{id}', 'UlanganController@edit')->name('ulangan-siswa');
     Route::get('/ulangan-show/{id}', 'UlanganController@ulangan')->name('ulangan-show');

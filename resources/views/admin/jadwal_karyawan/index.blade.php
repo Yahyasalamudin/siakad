@@ -94,7 +94,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $data->name }}</td>
                                 <td>
-                                    <a href="{{ route('jadwalcs.show', Crypt::encrypt($data->id)) }}"
+                                    <a href="{{ route('jadwalkaryawan.show', Crypt::encrypt($data->id)) }}"
                                         class="btn btn-info btn-sm"><i class="nav-icon fas fa-search-plus"></i> &nbsp;
                                         Detail</a>
                                 </td>
@@ -121,7 +121,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('jadwalcs.store') }}" method="post">
+                    <form action="{{ route('jadwalkaryawan.store') }}" method="post">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">

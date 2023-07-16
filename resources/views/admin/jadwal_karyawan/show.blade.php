@@ -1,6 +1,6 @@
 @extends('template_backend.home')
 @section('heading')
-    Data Jadwal CS {{ $cs->name }}
+    Data Jadwal {{ $karyawan->role . ' ' . $karyawan->name }}
 @endsection
 @section('page')
     <li class="breadcrumb-item active"><a href="{{ route('jadwal.index') }}">Jadwal</a></li>
@@ -25,7 +25,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($jadwalcs as $data)
+                        @foreach ($jadwal as $data)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $data->hari->nama_hari }}</td>
@@ -34,7 +34,7 @@
                                 </td>
                                 <td>{{ $data->jam_mulai }} - {{ $data->jam_selesai }}</td>
                                 <td>
-                                    <form action="{{ route('jadwalcs.destroy', $data->id) }}" method="post">
+                                    <form action="{{ route('jadwalkaryawan.destroy', $data->id) }}" method="post">
                                         @csrf
                                         @method('delete')
                                         {{-- <a href="{{ route('jadwal.edit', Crypt::encrypt($data->id)) }}"

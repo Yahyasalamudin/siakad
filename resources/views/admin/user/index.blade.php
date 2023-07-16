@@ -74,11 +74,12 @@
                                         value="{{ old('role') }}" autocomplete="role">
                                         <option value="">-- Select {{ __('Level User') }} --</option>
                                         <option value="Admin">Admin</option>
-                                        <option value="Operator">Operator</option>
+                                        <option value="Operator">Tata Usaha</option>
                                         <option value="Guru">Guru</option>
                                         <option value="BK">BK</option>
                                         <option value="CS">CS</option>
-                                        <option value="Siswa">Siswa</option>
+                                        <option value="Satpam">Satpam</option>
+                                        {{-- <option value="Siswa">Siswa</option> --}}
                                     </select>
                                     @error('role')
                                         <span class="invalid-feedback" role="alert">
@@ -139,7 +140,7 @@
                     $("#noId").html(
                         `<label for="nomer">Nomer Induk Siswa</label><input id="nomer" type="text" placeholder="No Induk Siswa" class="form-control" name="nomer" autocomplete="off">`
                     );
-                } else if (kel == "Admin" || kel == "Operator" || kel == "CS") {
+                } else if (kel == "Admin" || kel == "Operator" || kel == "CS" || kel == "Satpam") {
                     $("#noId").html(
                         `<label for="name">Username</label><input id="name" type="text" placeholder="Username" class="form-control" name="name" autocomplete="off">`
                     );
