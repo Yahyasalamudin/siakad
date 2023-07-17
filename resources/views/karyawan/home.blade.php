@@ -1,3 +1,6 @@
+@php
+    use Carbon\Carbon;
+@endphp
 @extends('template_backend.home')
 @section('heading', 'Dashboard')
 @section('page')
@@ -38,12 +41,31 @@
                                     </td>
                                     <td>
                                         @if ($data->jam_mulai <= $jam_mulai && $data->jam_selesai >= $jam_selesai)
-                                            <a href="{{ route('karyawan.absen.harian', [
-                                                'jadwal_id' => Crypt::encrypt($data->id),
-                                            ]) }}"
-                                                class="btn btn-primary">
-                                                Absen Kehadiran
-                                            </a>
+                                            @php
+                                                $absen = $data->absen_karyawan->first();
+                                                $created_at = '';
+                                                
+                                                if (!empty($absen)) {
+                                                    $created_at = Carbon::parse($absen->created_at);
+                                                }
+                                                $today = Carbon::now();
+                                            @endphp
+
+                                            @if ($created_at != '')
+                                                @if ($created_at->isSameDay($today))
+                                                    -
+                                                @else
+                                                    <a href="{{ route('karyawan.absen.harian', ['jadwal_id' => Crypt::encrypt($data->id)]) }}"
+                                                        class="btn btn-primary">
+                                                        Absen Kehadiran
+                                                    </a>
+                                                @endif
+                                            @else
+                                                <a href="{{ route('karyawan.absen.harian', ['jadwal_id' => Crypt::encrypt($data->id)]) }}"
+                                                    class="btn btn-primary">
+                                                    Absen Kehadiran
+                                                </a>
+                                            @endif
                                         @else
                                             -
                                         @endif

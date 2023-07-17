@@ -1,7 +1,7 @@
 @extends('template_backend.home')
 @section('heading', 'Data Jadwal')
 @section('page')
-    <li class="breadcrumb-item active">Data Jadwal Cleaning Service</li>
+    <li class="breadcrumb-item active">Data Jadwal {{ $role }}</li>
 @endsection
 @section('content')
     <div class="col-md-12">
@@ -9,7 +9,7 @@
             <div class="card-header">
                 <h3 class="card-title">
                     <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target=".tambah-jadwal">
-                        <i class="nav-icon fas fa-folder-plus"></i> &nbsp; Tambah Data Jadwal CS
+                        <i class="nav-icon fas fa-folder-plus"></i> &nbsp; Tambah Data Jadwal {{ $role }}
                     </button>
                     {{-- <a href="{{ route('jadwal.export_excel') }}" class="btn btn-success btn-sm my-3" target="_blank"><i
                             class="nav-icon fas fa-file-export"></i> &nbsp; EXPORT EXCEL</a>
@@ -84,7 +84,7 @@
                     <thead>
                         <tr>
                             <th>No.</th>
-                            <th>Nama CS</th>
+                            <th>Nama {{ $role }}</th>
                             <th>Lihat Jadwal</th>
                         </tr>
                     </thead>
@@ -126,10 +126,10 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="user_id">Nama CS</label>
+                                    <label for="user_id">Nama {{ $role }}</label>
                                     <select id="user_id" name="user_id"
                                         class="form-control @error('user_id') is-invalid @enderror select2bs4">
-                                        <option value="">-- Pilih CS --</option>
+                                        <option value="">-- Pilih {{ $role }} --</option>
                                         @foreach ($users as $data)
                                             <option value="{{ $data->id }}">{{ $data->name }}</option>
                                         @endforeach
@@ -181,9 +181,12 @@
 @endsection
 @section('script')
     <script>
+        var role = "{{ $role }}";
+        console.log(role);
+
         $("#MasterData").addClass("active");
         $("#liMasterData").addClass("menu-open");
-        $("#DataJadwalCS").addClass("active");
+        $("#DataJadwal" + role).addClass("active");
         $("#jam_mulai,#jam_selesai").timepicker({
             timeFormat: 'HH:mm'
         });

@@ -48,7 +48,7 @@
                             <li class="nav-item">
                                 <a href="{{ route('paket.index') }}" class="nav-link" id="DataPaket">
                                     <i class="fas fa-book nav-icon"></i>
-                                    <p>Data Paket</p>
+                                    <p>Konsentrasi Keahlian</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -76,14 +76,14 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('jadwal.karyawan.index', 'cs') }}" class="nav-link" id="DataJadwalCS">
+                                <a href="{{ route('jadwal.karyawan.index', 'cs') }}" class="nav-link" id="DataJadwalcs">
                                     <i class="fas fa-calendar-alt nav-icon"></i>
                                     <p>Data Jadwal CS</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('jadwal.karyawan.index', 'satpam') }}" class="nav-link"
-                                    id="DataJadwalCS">
+                                    id="DataJadwalsatpam">
                                     <i class="fas fa-calendar-alt nav-icon"></i>
                                     <p>Data Jadwal Satpam</p>
                                 </a>
@@ -300,7 +300,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('karyawan.index') }}" class="nav-link">
+                        <a href="{{ route('aktivitas-tambahan.index') }}" class="nav-link">
                             <i class="fas fa-calendar-plus nav-icon"></i>
                             <p>Aktivitas Tambahan</p>
                         </a>

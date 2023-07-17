@@ -1,7 +1,7 @@
 @extends('template_backend.home')
-@section('heading', 'Data Paket')
+@section('heading', 'Konsentrasi Keahlian')
 @section('page')
-    <li class="breadcrumb-item active">Data Paket</li>
+    <li class="breadcrumb-item active">Konsentrasi Keahlian</li>
 @endsection
 @section('content')
     <div class="col-md-12">
@@ -10,7 +10,7 @@
                 <h3 class="card-title">
                     <button type="button" class="btn btn-primary btn-sm" onclick="getCreatePaket()" data-toggle="modal"
                         data-target="#form-paket">
-                        <i class="nav-icon fas fa-folder-plus"></i> &nbsp; Tambah Data Paket
+                        <i class="nav-icon fas fa-folder-plus"></i> &nbsp; Tambah Konsentrasi Keahlian
                     </button>
                 </h3>
             </div>
@@ -171,7 +171,7 @@
     @section('script')
         <script>
             function getCreatePaket() {
-                $("#judul").text('Tambah Data Paket');
+                $("#judul").text('Tambah Konsentrasi Keahlian');
                 $('#id').val('');
                 $('#form_ket').html('');
                 $('#form_ket').html(`
@@ -195,7 +195,7 @@
                         // console.log(result);
                         if (result) {
                             $.each(result, function(index, val) {
-                                $("#judul").text('Edit Data Paket : ' + val.ket);
+                                $("#judul").text('Edit Konsentrasi Keahlian : ' + val.ket);
                                 $('#form_ket').html('');
                                 $("#form_ket").append(form_ket);
                                 $('#id').val(val.id);

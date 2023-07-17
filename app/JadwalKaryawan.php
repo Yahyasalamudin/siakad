@@ -12,4 +12,9 @@ class JadwalKaryawan extends Model
     {
         return $this->belongsTo(Hari::class, 'hari_id', 'id');
     }
+
+    public function absen_karyawan()
+    {
+        return $this->hasMany(AbsenKaryawan::class, 'jadwal_id', 'id');
+    }
 }

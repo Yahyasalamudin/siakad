@@ -14,7 +14,7 @@ class JadwalKaryawanController extends Controller
         $users = User::where('role', $role)->get();
         $hari = Hari::all();
 
-        return view('admin.jadwal_karyawan.index', compact('users', 'hari'));
+        return view('admin.jadwal_karyawan.index', compact('users', 'hari', 'role'));
     }
 
     public function store(Request $request)

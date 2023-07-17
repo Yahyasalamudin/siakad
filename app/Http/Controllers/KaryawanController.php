@@ -14,8 +14,9 @@ class KaryawanController extends Controller
         // $aktivitas = AktivitasTambahan::latest()->get();
         $hari = date('w');
         $jam = date('H:i:s', strtotime('-10 minutes'));
-        $jadwal = JadwalKaryawan::OrderBy('jam_mulai')->OrderBy('jam_selesai')
-            ->where('hari_id', $hari)->where('user_id', auth()->user()->id)->where('jam_selesai', '>=', $jam)->get();
+        // $jadwal = JadwalKaryawan::OrderBy('jam_mulai')->OrderBy('jam_selesai')
+        //     ->where('hari_id', $hari)->where('user_id', auth()->user()->id)->where('jam_selesai', '>=', $jam)->get();
+        $jadwal = JadwalKaryawan::OrderBy('jam_mulai')->OrderBy('jam_selesai')->get();
 
         return view('karyawan.home', compact('jadwal'));
     }

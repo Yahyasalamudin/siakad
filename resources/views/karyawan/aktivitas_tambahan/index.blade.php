@@ -37,7 +37,7 @@
                                         alt="Foto Kegiatan - {{ $data->user->name }}">
                                 </td>
                                 <td>
-                                    <form action="{{ route('cs.destroy', $data->id) }}" method="post">
+                                    <form action="{{ route('aktivitas.destroy', $data->id) }}" method="post">
                                         @csrf
                                         @method('delete')
                                         {{-- <button type="button" class="btn btn-success btn-sm"
@@ -54,11 +54,8 @@
                     </tbody>
                 </table>
             </div>
-            <!-- /.card-body -->
         </div>
-        <!-- /.card -->
     </div>
-    <!-- /.col -->
 
     <!-- Extra large modal -->
     <div class="modal fade bd-example-modal-md" id="form-paket" tabindex="-1" role="dialog"
