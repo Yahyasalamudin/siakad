@@ -26,7 +26,11 @@
                     <tbody>
                         @foreach ($user as $role => $data)
                             <tr>
-                                <td>{{ $role }}</td>
+                                @if ($role == 'Operator')
+                                    <td>Tata Usaha</td>
+                                @else
+                                    <td>{{ $role }}</td>
+                                @endif
                                 <td>{{ $data->count() }}</td>
                                 <td>
                                     <a href="{{ route('user.show', Crypt::encrypt($role)) }}" class="btn btn-info btn-sm"><i

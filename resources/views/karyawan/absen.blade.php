@@ -3,7 +3,7 @@
     Absen Harian {{ auth()->user()->role . ' ' . ucwords(auth()->user()->name) }}
 @endsection
 @section('page')
-    <li class="breadcrumb-item active">Absen Harian guru</li>
+    <li class="breadcrumb-item active">Absen Harian {{ auth()->user()->role }}</li>
 @endsection
 @section('content')
     @php
@@ -15,7 +15,7 @@
             <div class="col-md-6">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Absen Harian Guru</h3>
+                        <h3 class="card-title">Absen Harian {{ auth()->user()->role }}</h3>
                     </div>
                     <div class="card-body">
                         <input type="hidden" name="jadwal_id" value="{{ $jadwal->id }}">

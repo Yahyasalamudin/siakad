@@ -30,7 +30,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $data->nama_mapel }}</td>
-                                @if ($data->paket_id == 9)
+                                @if ($data->paket_id == 0)
                                     <td>{{ 'Semua' }}</td>
                                 @else
                                     <td>{{ $data->paket->ket }}</td>
@@ -85,7 +85,7 @@
                                     <select id="paket_id" name="paket_id"
                                         class="form-control @error('paket_id') is-invalid @enderror select2bs4">
                                         <option value="">-- Pilih Paket Mapel --</option>
-                                        <option value="9">Semua</option>
+                                        <option value="0">Semua</option>
                                         @foreach ($paket as $data)
                                             <option value="{{ $data->id }}">{{ $data->ket }}</option>
                                         @endforeach

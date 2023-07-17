@@ -20,7 +20,7 @@
                     <thead>
                         <tr>
                             <th>No.</th>
-                            <th>Paket</th>
+                            <th>Konsentrasi Keahlian</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>

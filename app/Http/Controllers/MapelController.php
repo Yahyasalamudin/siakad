@@ -107,17 +107,15 @@ class MapelController extends Controller
      */
     public function destroy($id)
     {
-        $mapel = Mapel::findorfail($id);
-        $countJadwal = Jadwal::where('mapel_id', $mapel->id)->count();
-        if ($countJadwal >= 1) {
-            $jadwal = Jadwal::where('mapel_id', $mapel->id)->delete();
-        } else {
-        }
-        $countGuru = Guru::where('mapel_id', $mapel->id)->count();
+        $mapel = Mapel::findOrFail($id);
+        $countGuru = Guru::whereHas('mapel', function ($query) use ($mapel) {
+            $query->where('mapel_id', $mapel->id);
+        })->count();
+
         if ($countGuru >= 1) {
-            $guru = Guru::where('mapel_id', $mapel->id)->delete();
-        } else {
+            return redirect()->back()->with('error', 'Data mapel sudah digunakan!');
         }
+
         $mapel->delete();
         return redirect()->back()->with('warning', 'Data mapel berhasil dihapus! (Silahkan cek trash data mapel)');
     }
@@ -132,16 +130,7 @@ class MapelController extends Controller
     {
         $id = Crypt::decrypt($id);
         $mapel = Mapel::withTrashed()->findorfail($id);
-        $countJadwal = Jadwal::withTrashed()->where('mapel_id', $mapel->id)->count();
-        if ($countJadwal >= 1) {
-            $jadwal = Jadwal::withTrashed()->where('mapel_id', $mapel->id)->restore();
-        } else {
-        }
-        $countGuru = Guru::withTrashed()->where('mapel_id', $mapel->id)->count();
-        if ($countGuru >= 1) {
-            $guru = Guru::withTrashed()->where('mapel_id', $mapel->id)->restore();
-        } else {
-        }
+
         $mapel->restore();
         return redirect()->back()->with('info', 'Data mapel berhasil direstore! (Silahkan cek data mapel)');
     }

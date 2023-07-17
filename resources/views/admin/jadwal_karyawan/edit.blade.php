@@ -1,7 +1,8 @@
 @extends('template_backend.home')
 @section('heading', 'Edit Jadwal')
 @section('page')
-    <li class="breadcrumb-item active"><a href="{{ route('jadwal.index') }}">Jadwal</a></li>
+    <li class="breadcrumb-item active"><a href="{{ route('jadwal.karyawan.index', strtolower($karyawan->role)) }}">Jadwal</a>
+    </li>
     <li class="breadcrumb-item active">Edit Jadwal</li>
 @endsection
 @section('content')
@@ -13,7 +14,7 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form action="{{ route('jadwal.update', $jadwal->id) }}" method="post">
+            <form action="{{ route('jadwalkaryawan.update', $jadwal->id) }}" method="post">
                 @csrf
                 @method('put')
                 <div class="card-body">
@@ -28,18 +29,6 @@
                                     @foreach ($hari as $data)
                                         <option value="{{ $data->id }}"
                                             @if ($jadwal->hari_id == $data->id) selected @endif>{{ $data->nama_hari }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="kelas_id">Kelas</label>
-                                <select id="kelas_id" name="kelas_id"
-                                    class="form-control @error('kelas_id') is-invalid @enderror select2bs4">
-                                    <option value="">-- Pilih Kelas --</option>
-                                    @foreach ($kelas as $data)
-                                        <option value="{{ $data->id }}"
-                                            @if ($jadwal->kelas_id == $data->id) selected @endif>{{ $data->nama_kelas }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -75,7 +64,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#back').click(function() {
-                window.location = "{{ route('jadwal.show', Crypt::encrypt($jadwal->kelas_id)) }}";
+                window.location = "{{ route('jadwalkaryawan.show', Crypt::encrypt($jadwal->kelas_id)) }}";
             });
         });
         $("#MasterData").addClass("active");

@@ -39,7 +39,7 @@
             </marquee>
         </footer>
 
-        <div class="d-flex justify-content-center flex-wrap my-4">
+        {{-- <div class="d-flex justify-content-center flex-wrap my-4">
             <button type="button" onclick="handleSelectRole(event)" data-role="admin"
                 class="btn btn-info mx-2 mb-2">{{ __('Admin') }}
                 &nbsp; <i class="nav-icon fas fa-user"></i></button>
@@ -52,7 +52,7 @@
             <button type="button" onclick="handleSelectRole(event)" data-role="cs"
                 class="btn btn-success mx-2 mb-2">{{ __('CS') }}
                 &nbsp; <i class="nav-icon fas fa-user"></i></button>
-        </div>
+        </div> --}}
     </div>
 
     <!-- jQuery -->

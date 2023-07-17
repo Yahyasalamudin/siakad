@@ -1,5 +1,7 @@
 @extends('template_backend.home')
-@section('heading', 'Data Jadwal')
+@section('heading')
+    Data Jadwal {{ $role }}
+@endsection
 @section('page')
     <li class="breadcrumb-item active">Data Jadwal {{ $role }}</li>
 @endsection

@@ -3,7 +3,7 @@
     <!-- Brand Logo -->
     <a href="" class="brand-link" style="">
         <img src="{{ asset('img/favicon.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3">
-        <span class="brand-text font-weight-light">SMK MULU</span>
+        <span class="brand-text font-weight-light">SM - SMK MULU</span>
     </a>
 
     <!-- Sidebar -->

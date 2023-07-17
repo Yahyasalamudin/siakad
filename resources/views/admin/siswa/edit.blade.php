@@ -67,10 +67,6 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="telp">Nomor Telpon/HP</label>
-                    <input type="text" id="telp" name="telp" value="{{ $siswa->telp }}" onkeypress="return inputAngka(event)" class="form-control @error('telp') is-invalid @enderror">
-                </div>
-                <div class="form-group">
                     <label for="tgl_lahir">Tanggal Lahir</label>
                     <input type="date" id="tgl_lahir" name="tgl_lahir" value="{{ $siswa->tgl_lahir }}" class="form-control @error('tgl_lahir') is-invalid @enderror">
                 </div>

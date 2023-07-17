@@ -70,7 +70,6 @@ class SiswaController extends Controller
             'nama_siswa' => $request->nama_siswa,
             'jk' => $request->jk,
             'kelas_id' => $request->kelas_id,
-            'telp' => $request->telp,
             'tmp_lahir' => $request->tmp_lahir,
             'tgl_lahir' => $request->tgl_lahir,
             'foto' => $nameFoto
@@ -135,7 +134,6 @@ class SiswaController extends Controller
             'nama_siswa' => $request->nama_siswa,
             'jk' => $request->jk,
             'kelas_id' => $request->kelas_id,
-            'telp' => $request->telp,
             'tmp_lahir' => $request->tmp_lahir,
             'tgl_lahir' => $request->tgl_lahir,
         ];

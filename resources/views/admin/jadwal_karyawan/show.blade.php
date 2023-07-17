@@ -1,6 +1,6 @@
 @extends('template_backend.home')
 @section('heading')
-    Data Jadwal {{ $karyawan->role . ' ' . $karyawan->name }}
+    Data Jadwal {{ $karyawan->role . ' ' . ucwords($karyawan->name) }}
 @endsection
 @section('page')
     <li class="breadcrumb-item active"><a href="{{ route('jadwal.index') }}">Jadwal</a></li>
@@ -9,7 +9,8 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <a href="{{ route('jadwal.index') }}" class="btn btn-default btn-sm"><i class="nav-icon fas fa-arrow-left"></i>
+                <a href="{{ route('jadwal.karyawan.index', strtolower($karyawan->role)) }}" class="btn btn-default btn-sm"><i
+                        class="nav-icon fas fa-arrow-left"></i>
                     &nbsp; Kembali</a>
             </div>
             <!-- /.card-header -->
@@ -37,9 +38,9 @@
                                     <form action="{{ route('jadwalkaryawan.destroy', $data->id) }}" method="post">
                                         @csrf
                                         @method('delete')
-                                        {{-- <a href="{{ route('jadwal.edit', Crypt::encrypt($data->id)) }}"
+                                        <a href="{{ route('jadwalkaryawan.edit', Crypt::encrypt($data->id)) }}"
                                             class="btn btn-success btn-sm"><i class="nav-icon fas fa-edit"></i> &nbsp;
-                                            Edit</a> --}}
+                                            Edit</a>
                                         <button class="btn btn-danger btn-sm"><i class="nav-icon fas fa-trash-alt"></i>
                                             &nbsp; Hapus</button>
                                     </form>
