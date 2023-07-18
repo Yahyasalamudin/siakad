@@ -76,9 +76,63 @@
                                 class="img-thumbnail browse_foto_akhir cursor-pointer">
                         </div>
                     </div>
-                    <div class="card-footer d-flex justify-content-end">
+                    {{-- <div class="card-footer d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary px-5 py-2">Selesai</button>
-                    </div>
+                    </div> --}}
+                </div>
+            </div>
+        </div>
+        <div class="mb-5">
+            <div class="card">
+                <div class="card-body table-responsive">
+                    <table id="AbsenSiswa" class="table table-bordered table-hover table-lg">
+                        <thead>
+                            <tr>
+                                <th class="col-1">No</th>
+                                <th class="text-center">Nama Siswa</th>
+                                <th class="d-flex align-items-center">
+                                    Absen
+                                    <button type="button" id="toggleCheckBtn" class="btn text-primary text-nowrap ml-2"
+                                        style="cursor: pointer;" onclick="toggleCheckAll()">Check All</button>
+                                </th>
+                                <th>Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                $siswa_id = 0;
+                                $jenis_absen = 0;
+                            @endphp
+                            @foreach ($siswa as $data)
+                                <tr>
+                                    <td>{{ $no++ }}</td>
+                                    <td class="px-5">{{ $data->nama_siswa }}</td>
+                                    <td>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="hidden" name="input[{{ $siswa_id++ }}][siswa_id]"
+                                                value="{{ $data->id }}">
+                                            <input type="checkbox" class="custom-control-input checkboxAbsensi"
+                                                id="check-{{ $data->id }}" onchange="toggleKeterangan(event)">
+                                            <label class="custom-control-label" for="check-{{ $data->id }}"
+                                                data-id={{ $data->id }}>Hadir</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <select class="custom-select" style="width: 200px"
+                                            name="input[{{ $jenis_absen++ }}][jenis_absen]" required
+                                            id="keterangan-{{ $data->id }}">
+                                            <option selected value="">Keterangan</option>
+                                            <option>Sakit</option>
+                                            <option>Ijin</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary px-5 py-2 my-4">Simpan</button>
                 </div>
             </div>
         </div>
@@ -92,9 +146,9 @@
             file.trigger("click");
         });
         $(document).on("click", ".browse_foto_akhir", function() {
-            // var file = $(this).parents().find('input[name="foto_akhir"]');
-            // file.trigger("click");
-            toastr.error('Foto akhir diisi saat jam akan berakhir')
+            var file = $(this).parents().find('input[name="foto_akhir"]');
+            file.trigger("click");
+            // toastr.error('Foto akhir diisi saat jam akan berakhir')
         });
         $('input[name="foto_awal"]').change(function(e) {
             var fileName = e.target.files[0].name;

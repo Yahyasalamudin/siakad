@@ -77,6 +77,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/absen/akhiri-absen/{id}', 'GuruController@akhiri_absen')->name('absen.akhiri_absen');
     Route::get('/jadwal/guru', 'JadwalController@guru')->name('jadwal.guru');
     Route::put('/pindah/jadwal', 'JadwalController@tukar_jadwal')->name('tukar_jadwal');
+    Route::get('/jadwal/history_tukar_jadwal', 'JadwalController@history_tukar_jadwal')->name('jadwal.history_tukar_jadwal');
     Route::get('/nilai/get-nilai-siswa', 'NilaiController@get_nilai_siswa');
     Route::get('/nilai/get-siswa', 'NilaiController@get_siswa');
     Route::resource('/modul', 'ModulController');
@@ -154,6 +155,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/jadwal/export_excel', 'JadwalController@export_excel')->name('jadwal.export_excel');
     Route::post('/jadwal/import_excel', 'JadwalController@import_excel')->name('jadwal.import_excel');
     Route::delete('/jadwal/deleteAll', 'JadwalController@deleteAll')->name('jadwal.deleteAll');
+    Route::delete('/jadwalkaryawan/deleteAll', 'JadwalKaryawanController@deleteAll')->name('jadwalkaryawan.deleteAll');
     Route::resource('/jadwal', 'JadwalController');
     Route::get('/jadwalkaryawan/{role}/all', 'JadwalKaryawanController@index')->name('jadwal.karyawan.index');
     Route::get('/jadwalkaryawan/{id}/hari', 'JadwalKaryawanController@show_hari')->name('jadwal.karyawan.hari');

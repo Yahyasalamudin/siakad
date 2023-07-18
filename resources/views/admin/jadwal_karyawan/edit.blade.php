@@ -64,7 +64,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#back').click(function() {
-                window.location = "{{ route('jadwalkaryawan.show', Crypt::encrypt($jadwal->kelas_id)) }}";
+                window.location = "{{ route('jadwalkaryawan.show', Crypt::encrypt($jadwal->user_id)) }}";
             });
         });
         $("#MasterData").addClass("active");

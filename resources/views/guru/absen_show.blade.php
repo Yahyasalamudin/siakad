@@ -12,7 +12,7 @@
                         <tr>
                             <th>No.</th>
                             <th>Tanggal Absensi</th>
-                            <th>Keterangan</th>
+                            {{-- <th>Keterangan</th> --}}
                             <th>Mapel</th>
                             <th>Cek Absensi</th>
                         </tr>
@@ -22,7 +22,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $data->created_at }}</td>
-                                <td>
+                                {{-- <td>
                                     @if ($data->keterangan == 'tepat_waktu')
                                         <span class="badge badge-pill badge-success p-3">
                                             Tepat Waktu
@@ -32,7 +32,7 @@
                                             Terlambat
                                         </span>
                                     @endif
-                                </td>
+                                </td> --}}
                                 <td>{{ $data->jadwal->mapel->nama_mapel }}</td>
                                 <td>
                                     <a href="{{ route('absen.detail', Crypt::encrypt($data->jadwal_id)) }}"
