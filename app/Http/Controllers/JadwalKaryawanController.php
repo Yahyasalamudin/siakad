@@ -76,11 +76,22 @@ class JadwalKaryawanController extends Controller
         return redirect()->back()->with('success', 'Data jadwal berhasil diperbarui!');
     }
 
-    public function show($id)
+    public function show_hari($id)
     {
         $id = decrypt($id);
         $karyawan = User::find($id);
-        $jadwal = JadwalKaryawan::where('user_id', $id)->get();
+        $hari = Hari::get();
+
+        return view('admin.jadwal_karyawan.show_hari', compact('hari', 'karyawan'));
+    }
+
+    public function show($id, $user_id)
+    {
+        $hari_id = decrypt($id);
+        $user_id = decrypt($user_id);
+
+        $karyawan = User::find($user_id);
+        $jadwal = JadwalKaryawan::where('hari_id', $hari_id)->where('user_id', $user_id)->get();
 
         return view('admin.jadwal_karyawan.show', compact('jadwal', 'karyawan'));
     }

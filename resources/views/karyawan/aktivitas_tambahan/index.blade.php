@@ -218,6 +218,6 @@
 
             $("#MasterData").addClass("active");
             $("#liMasterData").addClass("menu-open");
-            $("#DataPaket").addClass("active");
+            $("#AktivitasTambahan").addClass("active");
         </script>
     @endsection

@@ -40,11 +40,6 @@
                                     <form action="{{ route('aktivitas-tambahan.destroy', $data->id) }}" method="post">
                                         @csrf
                                         @method('delete')
-                                        {{-- <button type="button" class="btn btn-success btn-sm"
-                                            onclick="getEditPaket({{ $data->id }})" data-toggle="modal"
-                                            data-target="#form-paket">
-                                            <i class="nav-icon fas fa-edit"></i> &nbsp; Edit
-                                        </button> --}}
                                         <button class="btn btn-danger btn-sm"><i class="nav-icon fas fa-trash-alt"></i>
                                             &nbsp; Hapus</button>
                                     </form>
@@ -221,6 +216,6 @@
 
             $("#MasterData").addClass("active");
             $("#liMasterData").addClass("menu-open");
-            $("#DataPaket").addClass("active");
+            $("#AktivitasTambahan").addClass("active");
         </script>
     @endsection

@@ -156,7 +156,9 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/jadwal/deleteAll', 'JadwalController@deleteAll')->name('jadwal.deleteAll');
     Route::resource('/jadwal', 'JadwalController');
     Route::get('/jadwalkaryawan/{role}/all', 'JadwalKaryawanController@index')->name('jadwal.karyawan.index');
-    Route::resource('/jadwalkaryawan', 'JadwalKaryawanController')->except(['index']);
+    Route::get('/jadwalkaryawan/{id}/hari', 'JadwalKaryawanController@show_hari')->name('jadwal.karyawan.hari');
+    Route::get('/jadwalkaryawan/{id}/{user_id}', 'JadwalKaryawanController@show')->name('jadwalkaryawan.show');
+    Route::resource('/jadwalkaryawan', 'JadwalKaryawanController')->except(['index', 'show']);
     Route::get('/ulangan-kelas', 'UlanganController@create')->name('ulangan-kelas');
     Route::get('/ulangan-siswa/{id}', 'UlanganController@edit')->name('ulangan-siswa');
     Route::get('/ulangan-show/{id}', 'UlanganController@ulangan')->name('ulangan-show');

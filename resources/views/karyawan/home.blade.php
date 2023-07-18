@@ -119,3 +119,10 @@
         </div>
     </div>
 @endsection
+@section('script')
+    <script>
+        $("#MasterData").addClass("active");
+        $("#liMasterData").addClass("menu-open");
+        $("#JadwalKaryawan").addClass("active");
+    </script>
+@endsection

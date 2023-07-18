@@ -82,8 +82,54 @@
                     <thead>
                         <tr>
                             <th>No.</th>
-                            <th>Nama Mapel</th>
-                            <th>Lihat Guru</th>
+                            <th>Nama</th>
+                            <th>Id Card</th>
+                            <th>NIPM</th>
+                            <th>Foto</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($guru as $data)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $data->nama_guru }}</td>
+                                <td>{{ $data->id_card }}</td>
+                                <td>{{ $data->nip }}</td>
+                                <td>
+                                    <a href="{{ asset($data->foto) }}" data-toggle="lightbox"
+                                        data-title="Foto {{ $data->nama_guru }}" data-gallery="gallery"
+                                        data-footer='<a href="{{ route('guru.ubah-foto', Crypt::encrypt($data->id)) }}" id="linkFotoGuru" class="btn btn-link btn-block btn-light"><i class="nav-icon fas fa-file-upload"></i> &nbsp; Ubah Foto</a>'>
+                                        <img src="{{ asset($data->foto) }}" width="130px" class="img-fluid mb-2">
+                                    </a>
+                                    {{-- https://siakad.didev.id/guru/ubah-foto/{{$data->id}} --}}
+                                </td>
+                                <td>
+                                    <form action="{{ route('guru.destroy', $data->id) }}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <a href="{{ route('guru.show', Crypt::encrypt($data->id)) }}"
+                                            class="btn btn-info btn-sm mt-2"><i class="nav-icon fas fa-id-card"></i> &nbsp;
+                                            Detail</a>
+                                        <a href="{{ route('guru.edit', Crypt::encrypt($data->id)) }}"
+                                            class="btn btn-success btn-sm mt-2"><i class="nav-icon fas fa-edit"></i> &nbsp;
+                                            Edit</a>
+                                        <button class="btn btn-danger btn-sm mt-2"><i class="nav-icon fas fa-trash-alt"></i>
+                                            &nbsp; Hapus</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            {{-- <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Nama Guru</th>
+                            <th>Lihat Mapel</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -100,7 +146,7 @@
                         @endforeach
                     </tbody>
                 </table>
-            </div>
+            </div> --}}
         </div>
     </div>
 
@@ -115,65 +161,74 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form action="{{ route('guru.store') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('guru.store') }}" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="nama_guru">Nama Guru</label>
                                     <input type="text" id="nama_guru" name="nama_guru"
-                                        class="form-control @error('nama_guru') is-invalid @enderror">
+                                        class="form-control @error('nama_guru') is-invalid @enderror"
+                                        value="{{ old('nama_guru') }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="tmp_lahir">Tempat Lahir</label>
-                                    <input type="text" id="tmp_lahir" name="tmp_lahir"
-                                        class="form-control @error('tmp_lahir') is-invalid @enderror">
+                                    <label for="tempat_lahir">Tempat Lahir</label>
+                                    <input type="text" id="tempat_lahir" name="tempat_lahir"
+                                        class="form-control @error('tempat_lahir') is-invalid @enderror"
+                                        value="{{ old('tempat_lahir') }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="tgl_lahir">Tanggal Lahir</label>
-                                    <input type="date" id="tgl_lahir" name="tgl_lahir"
-                                        class="form-control @error('tgl_lahir') is-invalid @enderror">
+                                    <label for="tanggal_lahir">Tanggal Lahir</label>
+                                    <input type="date" id="tanggal_lahir" name="tanggal_lahir"
+                                        class="form-control @error('tanggal_lahir') is-invalid @enderror"
+                                        value="{{ old('tanggal_lahir', date('Y-m-d')) }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="jk">Jenis Kelamin</label>
-                                    <select id="jk" name="jk"
-                                        class="form-control @error('jk') is-invalid @enderror">
+                                    <label for="jenis_kelamin">Jenis Kelamin</label>
+                                    <select id="jenis_kelamin" name="jenis_kelamin"
+                                        class="form-control @error('jenis_kelamin') is-invalid @enderror">
                                         <option value="">-- Pilih Jenis Kelamin --</option>
-                                        <option value="L">Laki-Laki</option>
-                                        <option value="P">Perempuan</option>
+                                        <option value="L" @if (old('jenis_kelamin') == 'L') selected @endif>Laki-Laki
+                                        </option>
+                                        <option value="P" @if (old('jenis_kelamin') == 'P') selected @endif>Perempuan
+                                        </option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="telp">Nomor Telpon/HP</label>
                                     <input type="text" id="telp" name="telp"
                                         onkeypress="return inputAngka(event)"
-                                        class="form-control @error('telp') is-invalid @enderror">
+                                        class="form-control @error('telp') is-invalid @enderror"
+                                        value="{{ old('telp') }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="nip">NIPM</label>
-                                    <input type="text" id="nip" name="nip"
+                                    <label for="nipm">NIPM</label>
+                                    <input type="text" id="nipm" name="nipm"
                                         onkeypress="return inputAngka(event)"
-                                        class="form-control @error('nip') is-invalid @enderror">
+                                        class="form-control @error('nipm') is-invalid @enderror"
+                                        value="{{ old('nipm') }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="mapel_id">Mapel</label>
-                                    <select id="mapel_id" name="mapel_id[]"
-                                        class="select2bs4 form-control @error('mapel_id') is-invalid @enderror"
+                                    <label for="mapel">Mapel</label>
+                                    <select id="mapel" name="mapel[]"
+                                        class="select2bs4 form-control @error('mapel') is-invalid @enderror"
                                         id="multiple-checkboxes" multiple="multiple">
                                         <option value="">-- Pilih Mapel --</option>
                                         @foreach ($mapel as $data)
-                                            <option value="{{ $data->id }}">{{ $data->nama_mapel }}</option>
+                                            <option value="{{ $data->id }}"
+                                                @if (old('mapel') == $data->id) selected @endif>{{ $data->nama_mapel }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="tmk">Tanggal Mulai Kerja</label>
-                                    <input type="date" id="tmk" name="tmk"
-                                        class="form-control @error('tmk') is-invalid @enderror"
-                                        value="{{ date('Y-m-d') }}">
+                                    <label for="tanggal_mulai_kerja">Tanggal Mulai Kerja</label>
+                                    <input type="date" id="tanggal_mulai_kerja" name="tanggal_mulai_kerja"
+                                        class="form-control @error('tanggal_mulai_kerja') is-invalid @enderror"
+                                        value="{{ old('tanggal_mulai_kerja', date('Y-m-d')) }}">
                                 </div>
                                 @php
                                     $kode = $max + 1;
@@ -208,14 +263,14 @@
                                 </div>
                             </div>
                         </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><i
-                            class='nav-icon fas fa-arrow-left'></i> &nbsp; Kembali</button>
-                    <button type="submit" class="btn btn-primary"><i class="nav-icon fas fa-save"></i> &nbsp;
-                        Tambahkan</button>
-                    </form>
-                </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i
+                                class='nav-icon fas fa-arrow-left'></i> &nbsp; Kembali</button>
+                        <button type="submit" class="btn btn-primary"><i class="nav-icon fas fa-save"></i> &nbsp;
+                            Tambahkan</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

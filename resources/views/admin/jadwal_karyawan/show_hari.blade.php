@@ -10,12 +10,38 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <a href="{{ route('jadwal.karyawan.hari', Crypt::encrypt($karyawan->id)) }}" class="btn btn-default btn-sm"><i
+                <a href="{{ route('jadwal.karyawan.index', strtolower($karyawan->role)) }}" class="btn btn-default btn-sm"><i
                         class="nav-icon fas fa-arrow-left"></i>
                     &nbsp; Kembali</a>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Hari</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($hari as $data)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $data->nama_hari }}</td>
+                                <td>
+                                    <a href="{{ route('jadwalkaryawan.show', ['id' => Crypt::encrypt($data->id), 'user_id' => Crypt::encrypt($karyawan->id)]) }}"
+                                        class="btn btn-info btn-sm"><i class="nav-icon fas fa-search-plus">
+                                        </i> &nbsp;
+                                        Detail
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            {{-- <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped table-hover">
                     <thead>
                         <tr>
@@ -50,7 +76,7 @@
                         @endforeach
                     </tbody>
                 </table>
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection

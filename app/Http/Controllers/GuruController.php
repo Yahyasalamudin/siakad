@@ -30,19 +30,11 @@ class GuruController extends Controller
      */
     public function index()
     {
+        $guru = Guru::orderBy('nama_guru')->get();
         $mapel = Mapel::orderBy('nama_mapel')->get();
         $max = Guru::max('id_card');
-        return view('admin.guru.index', compact('mapel', 'max'));
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        // 
+        return view('admin.guru.index', compact('guru', 'mapel', 'max'));
     }
 
     /**
@@ -56,8 +48,12 @@ class GuruController extends Controller
         $this->validate($request, [
             'id_card' => 'required',
             'nama_guru' => 'required',
-            'mapel_id' => 'required',
-            'jk' => 'required'
+            'mapel' => 'required',
+            'jenis_kelamin' => 'required',
+            'nipm' => 'required',
+            'tanggal_mulai_kerja' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required',
         ]);
 
         if ($request->foto) {
@@ -66,7 +62,7 @@ class GuruController extends Controller
             $foto->move('uploads/guru/', $new_foto);
             $nameFoto = 'uploads/guru/' . $new_foto;
         } else {
-            if ($request->jk == 'L') {
+            if ($request->jenis_kelamin == 'L') {
                 $nameFoto = 'uploads/guru/35251431012020_male.webp';
             } else {
                 $nameFoto = 'uploads/guru/23171022042020_female.jpg';
@@ -75,17 +71,17 @@ class GuruController extends Controller
 
         $guru = Guru::create([
             'id_card' => $request->id_card,
-            'nip' => $request->nip,
+            'nip' => $request->nipm,
             'nama_guru' => $request->nama_guru,
-            'tmk' => $request->tmk,
-            'jk' => $request->jk,
+            'tmk' => $request->tanggal_mulai_kerja,
+            'jk' => $request->jenis_kelamin,
             'telp' => $request->telp,
-            'tmp_lahir' => $request->tmp_lahir,
-            'tgl_lahir' => $request->tgl_lahir,
+            'tmp_lahir' => $request->tempat_lahir,
+            'tgl_lahir' => $request->tanggal_lahir,
             'foto' => $nameFoto
         ]);
 
-        foreach ($request->mapel_id as $mapel_id) {
+        foreach ($request->mapel as $mapel_id) {
             $guru->mapel()->attach($guru->id, ['mapel_id' => $mapel_id]);
         }
 
@@ -277,7 +273,6 @@ class GuruController extends Controller
 
             return view('guru.absen_akhir', compact('jadwal', 'absensi', 'siswa'));
         }
-
     }
 
     public function absen_guru(Request $request, $id)

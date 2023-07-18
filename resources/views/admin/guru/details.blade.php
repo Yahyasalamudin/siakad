@@ -10,8 +10,9 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <a href="{{ route('guru.mapel', Crypt::encrypt($guru->mapel_id)) }}" class="btn btn-default btn-sm"><i
-                        class='nav-icon fas fa-arrow-left'></i> &nbsp; Kembali</a>
+                <a href="{{ route('guru.index') }}" class="btn btn-default btn-sm"><i class='nav-icon fas fa-arrow-left'></i>
+                    &nbsp;
+                    Kembali</a>
             </div>
             <div class="card-body">
                 <div class="row no-gutters ml-2 mb-2 mr-2">

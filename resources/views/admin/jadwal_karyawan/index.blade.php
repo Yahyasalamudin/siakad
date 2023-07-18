@@ -96,9 +96,11 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $data->name }}</td>
                                 <td>
-                                    <a href="{{ route('jadwalkaryawan.show', Crypt::encrypt($data->id)) }}"
-                                        class="btn btn-info btn-sm"><i class="nav-icon fas fa-search-plus"></i> &nbsp;
-                                        Detail</a>
+                                    <a href="{{ route('jadwal.karyawan.hari', Crypt::encrypt($data->id)) }}"
+                                        class="btn btn-info btn-sm"><i class="nav-icon fas fa-search-plus">
+                                        </i> &nbsp;
+                                        Detail
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach
@@ -184,7 +186,6 @@
 @section('script')
     <script>
         var role = "{{ $role }}";
-        console.log(role);
 
         $("#MasterData").addClass("active");
         $("#liMasterData").addClass("menu-open");

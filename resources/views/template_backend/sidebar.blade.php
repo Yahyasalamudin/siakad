@@ -241,6 +241,12 @@
                             <p>Upload Modul</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('jadwal.history_tukar_jadwal') }}" class="nav-link">
+                            <i class="fas fa-calendar-plus nav-icon"></i>
+                            <p>History Tukar Jadwal</p>
+                        </a>
+                    </li>
                     {{-- <li class="nav-item has-treeview" id="liNilaiGuru">
                         <a href="#" class="nav-link" id="NilaiGuru">
                             <i class="nav-icon fas fa-file-signature"></i>
@@ -294,26 +300,26 @@
                     </li>
                 @elseif (Auth::user()->role == 'CS')
                     <li class="nav-item">
-                        <a href="{{ route('karyawan.dashboard') }}" class="nav-link">
+                        <a href="{{ route('karyawan.dashboard') }}" class="nav-link" id="JadwalKaryawan">
                             <i class="fas fa-calendar-plus nav-icon"></i>
                             <p>Dashboard CS</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('aktivitas-tambahan.index') }}" class="nav-link">
+                        <a href="{{ route('aktivitas-tambahan.index') }}" class="nav-link" id="AktivitasTambahan">
                             <i class="fas fa-calendar-plus nav-icon"></i>
                             <p>Aktivitas Tambahan</p>
                         </a>
                     </li>
                 @elseif (Auth::user()->role == 'Satpam')
                     <li class="nav-item">
-                        <a href="{{ route('karyawan.dashboard') }}" class="nav-link">
+                        <a href="{{ route('karyawan.dashboard') }}" class="nav-link" id="JadwalKaryawan">
                             <i class="fas fa-calendar-plus nav-icon"></i>
                             <p>Dashboard Satpam</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('karyawan.index') }}" class="nav-link">
+                        <a href="{{ route('aktivitas-tambahan.index') }}" class="nav-link" id="AktivitasTambahan">
                             <i class="fas fa-calendar-plus nav-icon"></i>
                             <p>Aktivitas Tambahan</p>
                         </a>
