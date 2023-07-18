@@ -65,7 +65,7 @@
             <div class="modal fade" id="dropTable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <form method="post" action="{{ route('jadwal.deleteAll') }}">
+                    <form method="post" action="{{ route('jadwalkaryawan.deleteAll') }}">
                         @csrf
                         @method('delete')
                         <div class="modal-content">

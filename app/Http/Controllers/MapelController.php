@@ -138,16 +138,6 @@ class MapelController extends Controller
     public function kill($id)
     {
         $mapel = Mapel::withTrashed()->findorfail($id);
-        $countJadwal = Jadwal::withTrashed()->where('mapel_id', $mapel->id)->count();
-        if ($countJadwal >= 1) {
-            $jadwal = Jadwal::withTrashed()->where('mapel_id', $mapel->id)->forceDelete();
-        } else {
-        }
-        $countGuru = Guru::withTrashed()->where('mapel_id', $mapel->id)->count();
-        if ($countGuru >= 1) {
-            $guru = Guru::withTrashed()->where('mapel_id', $mapel->id)->forceDelete();
-        } else {
-        }
         $mapel->forceDelete();
         return redirect()->back()->with('success', 'Data mapel berhasil dihapus secara permanent');
     }

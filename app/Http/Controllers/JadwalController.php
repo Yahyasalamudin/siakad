@@ -157,6 +157,16 @@ class JadwalController extends Controller
         return redirect()->back()->with('success', 'Permintaan Pertukaran Jadwal Berhasil Dikirim');
     }
 
+    public function history_tukar_jadwal()
+    {
+        $guru = Guru::where('id_card', Auth::user()->id_card)->first();
+        $jadwal = Jadwal::orderBy('hari_id')->OrderBy('jam_mulai')
+            ->where('guru_id', $guru->id)
+            ->where('tukar_jadwal_id', '!=', null)
+            ->get();
+        return view('guru.history_tukar_jadwal', compact('jadwal', 'guru'));
+    }
+
     public function trash()
     {
         $jadwal = Jadwal::onlyTrashed()->get();
