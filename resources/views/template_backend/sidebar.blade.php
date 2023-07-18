@@ -241,12 +241,12 @@
                             <p>Upload Modul</p>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a href="{{ route('jadwal.history_tukar_jadwal') }}" class="nav-link">
                             <i class="fas fa-calendar-plus nav-icon"></i>
                             <p>History Tukar Jadwal</p>
                         </a>
-                    </li>
+                    </li> --}}
                     {{-- <li class="nav-item has-treeview" id="liNilaiGuru">
                         <a href="#" class="nav-link" id="NilaiGuru">
                             <i class="nav-icon fas fa-file-signature"></i>
