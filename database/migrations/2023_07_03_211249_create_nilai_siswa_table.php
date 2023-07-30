@@ -17,7 +17,7 @@ class CreateNilaiSiswaTable extends Migration
             $table->bigIncrements('id');
             $table->integer('nilai_id');
             $table->integer('siswa_id');
-            $table->integer('nilai');
+            $table->integer('nilai')->nullable();
             $table->timestamps();
         });
     }

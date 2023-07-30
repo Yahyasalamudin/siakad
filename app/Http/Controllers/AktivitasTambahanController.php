@@ -4,15 +4,24 @@ namespace App\Http\Controllers;
 
 use App\AktivitasTambahan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class AktivitasTambahanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $aktivitas = AktivitasTambahan::where('user_id', auth()->user()->id)->get();
+        $user_id = $request->user_id != null ? Crypt::decrypt($request->user_id) : auth()->user()->id;
+        $aktivitas = AktivitasTambahan::where('user_id', $user_id)->get();
 
-        return view('aktivitas_tambahan.index', compact('aktivitas'));
+        return view('aktivitas_tambahan.index', compact('aktivitas', 'user_id'));
     }
+
+    // public function aktivitas_tambahan_all(Request $request)
+    // {
+    //     $aktivitas = AktivitasTambahan::where('user_id', $request->user_id)->where('status', $request->status)->get();
+
+    //     return json_encode($aktivitas);
+    // }
 
     public function store(Request $request)
     {

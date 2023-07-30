@@ -160,7 +160,19 @@
                     <li class="nav-item">
                         <a href="{{ route('guru.absensi') }}" class="nav-link" id="AbsensiGuru">
                             <i class="fas fa-calendar-check nav-icon"></i>
-                            <p>Absensi Guru</p>
+                            <p>Rekap Absensi Guru</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('karyawan.all', 'CS') }}" class="nav-link" id="RekapAbsenCS">
+                            <i class="fas fa-calendar-plus nav-icon"></i>
+                            <p>Rekap Absensi CS</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('karyawan.all', 'Satpam') }}" class="nav-link" id="RekapAbsenSatpam">
+                            <i class="fas fa-calendar-plus nav-icon"></i>
+                            <p>Rekap Absensi Satpam</p>
                         </a>
                     </li>
                     {{-- <li class="nav-item has-treeview" id="liNilai">
@@ -202,6 +214,26 @@
                         <a href="{{ route('admin.pengumuman') }}" class="nav-link" id="Pengumuman">
                             <i class="nav-icon fas fa-clipboard"></i>
                             <p>Pengumuman</p>
+                        </a>
+                    </li>
+                @elseif(Auth::user()->role == 'Waka Kurikulum' || Auth::user()->role == 'Pokja Kurikulum')
+                    <li class="nav-item">
+                        <a href="{{ route('guru.absensi') }}" class="nav-link" id="AbsensiGuru">
+                            <i class="fas fa-calendar-check nav-icon"></i>
+                            <p>Absensi Guru</p>
+                        </a>
+                    </li>
+                @elseif(Auth::user()->role == 'Waka Sarpras' || Auth::user()->role == 'Pokja Sarpras')
+                    <li class="nav-item">
+                        <a href="{{ route('karyawan.all', 'CS') }}" class="nav-link" id="RekapAbsenCS">
+                            <i class="fas fa-calendar-plus nav-icon"></i>
+                            <p>Rekap Absensi CS</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('karyawan.all', 'Satpam') }}" class="nav-link" id="RekapAbsenSatpam">
+                            <i class="fas fa-calendar-plus nav-icon"></i>
+                            <p>Rekap Absensi Satpam</p>
                         </a>
                     </li>
                 @elseif (Auth::user()->role == 'Guru' && Auth::user()->guru(Auth::user()->id_card))
@@ -311,6 +343,12 @@
                             <p>Aktivitas Tambahan</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('absensikaryawan.index') }}" class="nav-link" id="RekapAbsenCS">
+                            <i class="fas fa-calendar-plus nav-icon"></i>
+                            <p>Rekap Absensi CS</p>
+                        </a>
+                    </li>
                 @elseif (Auth::user()->role == 'Satpam')
                     <li class="nav-item">
                         <a href="{{ route('karyawan.dashboard') }}" class="nav-link" id="JadwalKaryawan">
@@ -322,6 +360,12 @@
                         <a href="{{ route('aktivitas-tambahan.index') }}" class="nav-link" id="AktivitasTambahan">
                             <i class="fas fa-calendar-plus nav-icon"></i>
                             <p>Aktivitas Tambahan</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('absensikaryawan.index') }}" class="nav-link" id="RekapAbsenCS">
+                            <i class="fas fa-calendar-plus nav-icon"></i>
+                            <p>Rekap Absensi Satpam</p>
                         </a>
                     </li>
                 @elseif (Auth::user()->role == 'BK')

@@ -24,6 +24,7 @@ class CreateAbsensiGuruTable extends Migration
             $table->enum('keterangan', ['terlambat', 'tepat_waktu']);
             $table->string('foto_awal');
             $table->string('foto_akhir')->nullable();
+            $table->enum('status', ['dikonfirmasi', 'ditolak', 'proses'])->default('proses');
             $table->timestamps();
         });
     }

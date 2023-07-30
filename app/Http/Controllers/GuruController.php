@@ -282,7 +282,16 @@ class GuruController extends Controller
     public function absen_guru(Request $request, $id)
     {
         $id = decrypt($id);
-        $absensi = Absen::where('guru_id', $id)->where('foto_akhir', '!=', null)->get();
+        $tanggal_awal = $request->tanggal_awal ?: now();
+        $tanggal_akhir = $request->tanggal_akhir ?: now();
+
+        $absensi = Absen::where('guru_id', $id)->where('foto_akhir', '!=', null)
+            ->when($request->status, function ($query, $status) {
+                return $query->where('status', $status);
+            })
+            ->whereDate('created_at', '>=', $tanggal_awal)
+            ->whereDate('created_at', '<=', $tanggal_akhir)
+            ->get();
 
         return view('guru.absen_show', compact('absensi'));
     }
@@ -291,12 +300,12 @@ class GuruController extends Controller
     {
         $jadwal_id = Crypt::decrypt($id);
 
-        $siswa = AbsenSiswa::where('jadwal_id', $jadwal_id)
+        $absensi = Absen::where('jadwal_id', $jadwal_id)->first();
+
+        $siswa = AbsenSiswa::where('absen_id', $absensi->id)
             ->join('siswa', 'absen_siswa.siswa_id', '=', 'siswa.id')
             ->orderBy('siswa.nama_siswa', 'ASC')
             ->get();
-
-        $absensi = Absen::where('jadwal_id', $jadwal_id)->first();
 
         return view('guru.absensi_detail', compact('siswa', 'absensi'));
     }
@@ -341,18 +350,7 @@ class GuruController extends Controller
         //     $status = 'tepat_waktu';
         // }
 
-        foreach ($request->input as $input) {
-            AbsenSiswa::insert([
-                'siswa_id' => $input['siswa_id'],
-                'jenis_absen' => isset($input['jenis_absen']) ? $input['jenis_absen'] : 'Hadir',
-                'jadwal_id' => $request->jadwal_id,
-                'ruang' => $request->ruang,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ]);
-        }
-
-        Absen::create([
+        $absen = Absen::create([
             'guru_id' => $user->guru($user->id_card)->id,
             'guru_tamu' => $request->guru_tamu,
             'agensi' => $request->agensi,
@@ -363,6 +361,18 @@ class GuruController extends Controller
             'foto_awal' => $fotoAwalName,
             'foto_akhir' => $fotoAkhirName,
         ]);
+
+        foreach ($request->input as $input) {
+            AbsenSiswa::insert([
+                'siswa_id' => $input['siswa_id'],
+                'jenis_absen' => isset($input['jenis_absen']) ? $input['jenis_absen'] : 'Hadir',
+                'absen_id' => $absen->id,
+                'absen_id' => $absen->id,
+                'ruang' => $request->ruang,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]);
+        }
 
         return redirect('home')->with('success', 'Anda telah berhasil absen');
     }
@@ -441,5 +451,28 @@ class GuruController extends Controller
         } else {
             return redirect()->back()->with('warning', 'Data table guru kosong!');
         }
+    }
+
+    public function konfirmasi_absen($id)
+    {
+        $absen = Absen::find($id);
+        $absen->update(['status' => 'dikonfirmasi']);
+
+        if ($absen->status == 'dikonfirmasi') {
+            return redirect()->back()->with('success', 'Absen berhasil dikonfirmasi.');
+        }
+        return redirect()->back()->with('error', 'Absen gagal dikonfirmasi.');
+    }
+
+    public function tolak_absen($id)
+    {
+        $absen = Absen::find($id);
+        $absen->update(['status' => 'ditolak']);
+
+        if ($absen->status == 'ditolak') {
+            return redirect()->back()->with('success', 'Absen berhasil ditolak.');
+        }
+
+        return redirect()->back()->with('error', 'Absen gagal ditolak.');
     }
 }

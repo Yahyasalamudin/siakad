@@ -20,6 +20,7 @@ class CreateAbsenKaryawansTable extends Migration
             $table->string('keterangan');
             $table->string('foto_awal');
             $table->string('foto_akhir');
+            $table->enum('status', ['dikonfirmasi', 'ditolak', 'proses'])->default('proses');
             $table->timestamps();
         });
     }

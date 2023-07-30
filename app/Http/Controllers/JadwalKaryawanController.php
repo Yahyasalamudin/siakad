@@ -44,9 +44,11 @@ class JadwalKaryawanController extends Controller
     public function edit($id)
     {
         $id = Crypt::decrypt($id);
+
         $jadwal = JadwalKaryawan::findorfail($id);
         $karyawan = User::find($jadwal->user_id);
         $hari = Hari::all();
+
         return view('admin.jadwal_karyawan.edit', compact('jadwal', 'hari', 'karyawan'));
     }
 

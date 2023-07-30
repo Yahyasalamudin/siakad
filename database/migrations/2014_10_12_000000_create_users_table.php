@@ -19,7 +19,20 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['Admin', 'Guru', 'Siswa', 'Operator', 'BK', 'CS', 'Satpam']);
+            $table->enum('role', [
+                'Admin',
+                'Guru',
+                'Siswa',
+                'Operator',
+                'BK',
+                'CS',
+                'Satpam',
+                'Waka Kurikulum',
+                'Pokja Kurikulum',
+                'Waka Sarpras',
+                'Pokja Sarpras',
+                'Kaprogli'
+            ]);
             $table->string('no_induk')->nullable();
             $table->string('tingkatan_kelas')->nullable();
             $table->string('id_card')->nullable();

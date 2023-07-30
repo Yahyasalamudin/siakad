@@ -55,7 +55,7 @@
             </div>
         </form>
 
-        <p class="mb-1">
+        {{-- <p class="mb-1">
             @if (Route::has('password.request'))
                 <a class="text-center" href="{{ route('password.request') }}">
                     {{ __('Lupa Password?') }}
@@ -64,7 +64,7 @@
         </p>
         <p class="mb-0">
             <a class="text-center" href="{{ route('register') }}">Buat Akun Baru</a>
-        </p>
+        </p> --}}
     </div>
 @endsection
 @section('script')

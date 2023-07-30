@@ -116,7 +116,7 @@
 
     @error('id_card')
         <script>
-            toastr.error("Maaf User ini tidak terdaftar sebagai Guru SMKN 1 Jenangan Ponorogo!");
+            toastr.error("Maaf User ini tidak terdaftar sebagai Guru SMK MUHAMMADIYAH LUMAJANG!");
         </script>
     @enderror
     @error('guru')
@@ -126,7 +126,7 @@
     @enderror
     @error('no_induk')
         <script>
-            toastr.error("Maaf User ini tidak terdaftar sebagai Siswa SMKN 1 Jenangan Ponorogo!");
+            toastr.error("Maaf User ini tidak terdaftar sebagai Siswa SMK MUHAMMADIYAH LUMAJANG!");
         </script>
     @enderror
     @error('siswa')
@@ -144,7 +144,6 @@
             toastr.error("{{ Session('error') }}");
         </script>
     @endif
-
 </body>
 
 </html>

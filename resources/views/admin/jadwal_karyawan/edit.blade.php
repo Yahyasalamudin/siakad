@@ -62,13 +62,16 @@
 @endsection
 @section('script')
     <script type="text/javascript">
+        var role = "{{ $karyawan->role }}"
+
         $(document).ready(function() {
             $('#back').click(function() {
-                window.location = "{{ route('jadwalkaryawan.show', Crypt::encrypt($jadwal->user_id)) }}";
+                window.location =
+                    "{{ route('jadwalkaryawan.show', ['id' => Crypt::encrypt($jadwal->hari_id), 'user_id' => Crypt::encrypt($jadwal->user_id)]) }}";
             });
         });
         $("#MasterData").addClass("active");
         $("#liMasterData").addClass("menu-open");
-        $("#DataJadwal").addClass("active");
+        $("#DataJadwal" + role.toLowerCase()).addClass("active");
     </script>
 @endsection

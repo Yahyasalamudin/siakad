@@ -6,15 +6,16 @@
 @section('content')
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">
-                    <button type="button" class="btn btn-primary btn-sm" onclick="getCreatePaket()" data-toggle="modal"
-                        data-target="#form-paket">
-                        <i class="nav-icon fas fa-folder-plus"></i> &nbsp; Tambah Aktivitas Tambahan
-                    </button>
-                </h3>
-            </div>
-            <!-- /.card-header -->
+            @if ($user_id == auth()->user()->id)
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <button type="button" class="btn btn-primary btn-sm" onclick="getCreatePaket()" data-toggle="modal"
+                            data-target="#form-paket">
+                            <i class="nav-icon fas fa-folder-plus"></i> &nbsp; Tambah Aktivitas Tambahan
+                        </button>
+                    </h3>
+                </div>
+            @endif
             <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped table-hover">
                     <thead>
@@ -40,7 +41,8 @@
                                     <form action="{{ route('aktivitas-tambahan.destroy', $data->id) }}" method="post">
                                         @csrf
                                         @method('delete')
-                                        <button class="btn btn-danger btn-sm"><i class="nav-icon fas fa-trash-alt"></i>
+                                        <button @if ($user_id != auth()->user()->id) disabled @endif
+                                            class="btn btn-danger btn-sm"><i class="nav-icon fas fa-trash-alt"></i>
                                             &nbsp; Hapus</button>
                                     </form>
                                 </td>

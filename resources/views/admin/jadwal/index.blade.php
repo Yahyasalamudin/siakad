@@ -16,9 +16,9 @@
                     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#importExcel">
                         <i class="nav-icon fas fa-file-import"></i> &nbsp; IMPORT EXCEL
                     </button>
-                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#dropTable">
+                    {{-- <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#dropTable">
                         <i class="nav-icon fas fa-minus-circle"></i> &nbsp; Drop
-                    </button>
+                    </button> --}}
                 </h3>
             </div>
             <div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

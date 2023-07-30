@@ -171,53 +171,54 @@
                 </div>
             </div>
         </div>
-    @endsection
-    @section('script')
-        <script>
-            function getCreatePaket() {
-                $("#judul").text('Tambah Aktivitas');
-                $('#id').val('');
-                $('#form_ket').html('');
-                $('#form_ket').html(`
+    </div>
+@endsection
+@section('script')
+    <script>
+        function getCreatePaket() {
+            $("#judul").text('Tambah Aktivitas');
+            $('#id').val('');
+            $('#form_ket').html('');
+            $('#form_ket').html(`
         <label for="kegiatan">Kegiatan</label>
         <input type='text' id="kegiatan" name='kegiatan' class="form-control @error('kegiatan') is-invalid @enderror" placeholder="{{ __('Kegiatan') }}">
         <label for="foto">Foto</label>
         <input type='file' id="foto" name='foto' class="form-control @error('foto') is-invalid @enderror" placeholder="{{ __('foto') }}">
       `);
-            }
+        }
 
-            function getEditPaket(id) {
-                var parent = id;
-                var form_ket = (`
+        function getEditPaket(id) {
+            var parent = id;
+            var form_ket = (`
                   <label for="ket">Nama Paket</label>
         <input type='text' id="ket" name='ket' class="form-control @error('ket') is-invalid @enderror" placeholder="{{ __('Nama Paket') }}">
                 `);
-                $.ajax({
-                    type: "GET",
-                    data: "id=" + parent,
-                    dataType: "JSON",
-                    url: "{{ url('/paket/edit/json') }}",
-                    success: function(result) {
-                        // console.log(result);
-                        if (result) {
-                            $.each(result, function(index, val) {
-                                $("#judul").text('Edit Data Paket : ' + val.ket);
-                                $('#form_ket').html('');
-                                $("#form_ket").append(form_ket);
-                                $('#id').val(val.id);
-                                $('#ket').val(val.ket);
-                            });
-                        }
-                    },
-                    error: function() {
-                        toastr.error("Errors 404!");
-                    },
-                    complete: function() {}
-                });
-            }
+            $.ajax({
+                type: "GET",
+                data: "id=" + parent,
+                dataType: "JSON",
+                url: "{{ url('/paket/edit/json') }}",
+                success: function(result) {
+                    // console.log(result);
+                    if (result) {
+                        $.each(result, function(index, val) {
+                            $("#judul").text('Edit Data Paket : ' + val.ket);
+                            $('#form_ket').html('');
+                            $("#form_ket").append(form_ket);
+                            $('#id').val(val.id);
+                            $('#ket').val(val.ket);
+                        });
+                    }
+                },
+                error: function() {
+                    toastr.error("Errors 404!");
+                },
+                complete: function() {}
+            });
+        }
 
-            $("#MasterData").addClass("active");
-            $("#liMasterData").addClass("menu-open");
-            $("#AktivitasTambahan").addClass("active");
-        </script>
-    @endsection
+        $("#MasterData").addClass("active");
+        $("#liMasterData").addClass("menu-open");
+        $("#AktivitasTambahan").addClass("active");
+    </script>
+@endsection

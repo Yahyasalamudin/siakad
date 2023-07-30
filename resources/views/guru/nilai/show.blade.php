@@ -46,8 +46,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="tingkat_kelas">Tingkat Kelas</label>
-                                <select name="tingkat_kelas" id="tingkat_kelas" onchange="getNilaiSiswa()""
-                                    class="form-control" onchange="getSiswaByKelas(event)">
+                                <select name="tingkat_kelas" id="tingkat_kelas" onchange="getNilaiSiswa()"
+                                    class="form-control">
                                     <option value="">Pilih Kelas</option>
                                     @foreach ($kelas as $data)
                                         <option value="{{ $data->id }}">
@@ -55,9 +55,20 @@
                                     @endforeach
                                 </select>
                             </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="jenis_penilaian">Jenis Penilaian</label>
+                                <select name="jenis_penilaian" id="jenis_penilaian" onchange="getNilaiSiswa()"
+                                    class="form-control">
+                                    <option value="">Pilih Jenis Penilaian</option>
+                                    <option value="submatif">Submatif</option>
+                                    <option value="formatif">Formatif</option>
+                                </select>
+                            </div>
                             <div class="form-group">
                                 <label for="jenis_rombel">Jenis Rombongan Belajar</label>
-                                <select name="jenis_rombel" id="jenis_rombel" onchange="getNilaiSiswa()""
+                                <select name="jenis_rombel" id="jenis_rombel" onchange="getNilaiSiswa()"
                                     class="form-control">
                                     <option value="reguler">Reguler
                                     </option>
@@ -74,21 +85,6 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="konten">Konten</label>
-                                <textarea type="text" id="konten" name="konten" class="form-control" rows="4" readonly></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="tujuan_pembelajaran">Tujuan Pembelajaran</label>
-                                <textarea type="text" id="tujuan_pembelajaran" name="tujuan_pembelajaran" class="form-control" rows="4"
-                                    readonly></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="materi">Materi</label>
-                                <textarea type="text" id="materi" name="materi" class="form-control" rows="4" readonly></textarea>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <!-- /.card-body -->
@@ -99,43 +95,63 @@
                         <span class="badge badge-warning col-12 p-4 my-4 d-none" id="BadgeNotFound">
                             <h6 class="p-0 m-0">Data Tidak Ditemukan.</h6>
                         </span>
-                        <table id="AbsenSiswa" class="table table-bordered table-hover">
+                        <table id="TabelPertemuan" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
                                     <th class="col-1">No</th>
-                                    <th>No Induk</th>
-                                    <th>NIS</th>
-                                    <th>Nama Siswa</th>
-                                    <th>Jenis Kelamin</th>
-                                    <th>No Telepon</th>
-                                    <th>Nilai</th>
+                                    <th>Konten</th>
+                                    <th>Tujuan Pembelajaran</th>
+                                    <th>Materi</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- @foreach ($nilai_siswa->siswa as $data)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $data->no_induk }}</td>
-                                        <td>{{ $data->nis }}</td>
-                                        <td>{{ $data->nama_siswa }}</td>
-                                        <td>{{ $data->jk }}</td>
-                                        <td>{{ $data->telp }}</td>
-                                        <td>{{ $data->pivot->nilai }}</td>
-                                    </tr>
-                                @endforeach --}}
                             </tbody>
                         </table>
                     </div>
-                    {{-- <div class="card-footer">
-                        <a href="#" name="kembali" class="btn btn-default" id="back"><i
-                                class='nav-icon fas fa-arrow-left'></i> &nbsp; Kembali</a> &nbsp;
-                        <button name="submit" class="btn btn-primary"><i class="nav-icon fas fa-save"></i> &nbsp;
-                            Simpan</button>
-                    </div> --}}
                 </div>
             </div>
             <!-- /.card -->
         </form>
+    </div>
+
+    <!-- Extra large modal -->
+    <div class="modal fade modal-data-nilai" id="modal-data-nilai" tabindex="-1" role="dialog"
+        aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Data Nilai</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table id="TabelNilaiSiswa" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th class="col-1">No</th>
+                                <th>No Induk</th>
+                                <th>NIS</th>
+                                <th>Nama Siswa</th>
+                                <th>Jenis Kelamin</th>
+                                <th>Nilai</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i
+                            class='nav-icon fas fa-arrow-left'></i> &nbsp; Kembali</button>
+                    <a href="#" id="edit-btn" class="btn btn-primary text-light"><i
+                            class="nav-icon fas fa-edit"></i>
+                        &nbsp;
+                        Edit</a>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 @section('script')
@@ -144,50 +160,6 @@
             $('#back').click(function() {
                 window.location = "{{ url('/') }}";
             });
-
-            // $('#AddNilai').on('submit', function(e) {
-            //     e.preventDefault();
-            //     clearErrors();
-
-            //     let formData = $(this).serialize();
-            //     $.ajax({
-            //         type: 'POST',
-            //         url: '{{ route('nilai.store') }}',
-            //         data: formData,
-            //         dataType: 'json',
-            //         success: function(response) {
-            //             toastr.success('Berhasil menambahkan nilai');
-            //             window.location.href = response.redirect_url;
-            //         },
-            //         error: function(xhr, textStatus, errorThrown) {
-            //             if (xhr.status === 422) {
-            //                 var errors = xhr.responseJSON.errors;
-            //                 displayErrors(errors);
-            //             }
-            //         }
-            //     });
-            // })
-
-            // function clearErrors() {
-            //     $('input').removeClass('is-invalid');
-            //     $('select').removeClass('is-invalid');
-            //     $('textarea').removeClass('is-invalid');
-            // }
-
-            // function displayErrors(errors) {
-            //     clearErrors();
-            //     for (var field in errors) {
-            //         if (errors.hasOwnProperty(field)) {
-            //             var messages = errors[field];
-            //             for (var i = 0; i < messages.length; i++) {
-            //                 toastr.error(messages[i]);
-            //                 $('input[name="' + field + '"]').addClass('is-invalid');
-            //                 $('select[name="' + field + '"]').addClass('is-invalid');
-            //                 $('textarea[name="' + field + '"]').addClass('is-invalid');
-            //             }
-            //         }
-            //     }
-            // }
         });
 
         $("#NilaiGuru").addClass("active");
@@ -200,10 +172,8 @@
             let semester = document.getElementById('semester');
             let tingkat_kelas = document.getElementById('tingkat_kelas');
             let jenis_rombel = document.getElementById('jenis_rombel');
+            let jenis_penilaian = document.getElementById('jenis_penilaian');
             let mapel = document.getElementById('mapel');
-            let konten = document.getElementById('konten');
-            let tujuan_pembelajaran = document.getElementById('tujuan_pembelajaran');
-            let materi = document.getElementById('materi');
 
             $.ajax({
                 type: "GET",
@@ -211,6 +181,7 @@
                     'tahun': tahun.value,
                     'semester': semester.value,
                     'tingkat_kelas': tingkat_kelas.value,
+                    'jenis_penilaian': jenis_penilaian.value,
                     'jenis_rombel': jenis_rombel.value,
                     'mapel': mapel.value,
                 },
@@ -220,23 +191,20 @@
                     if (result) {
                         $("#BadgeNotFound").addClass('d-none');
 
-                        konten.value = result.konten;
-                        tujuan_pembelajaran.value = result.tujuan_pembelajaran;
-                        materi.value = result.materi;
-
-                        const tbody = document.querySelector('#AbsenSiswa tbody');
+                        const tbody = document.querySelector('#TabelPertemuan tbody');
                         tbody.innerHTML = "";
-                        $.each(result.siswa, function(index, val) {
+                        $.each(result, function(index, val) {
                             const row = document.createElement('tr');
                             row.innerHTML = `
-                                <input type="hidden" name="input[${index}][siswa_id]" value="${val.id}">
-                                <td>${val.id}</td>
-                                <td>${val.no_induk}</td>
-                                <td>${val.nis}</td>
-                                <td>${val.nama_siswa}</td>
-                                <td>${val.jk}</td>
-                                <td>${val.telp}</td>
-                                <td>${val.pivot.nilai}</td>
+                                <td>${index + 1}</td>
+                                <td>${val.konten}</td>
+                                <td>${val.tujuan_pembelajaran}</td>
+                                <td>${val.materi}</td>
+                                <td>
+                                    <button type="button" data-toggle="modal" data-target=".modal-data-nilai" data-detail='${JSON.stringify(val)}' class="btn btn-primary detail-btn">
+                                        Detail
+                                    </button>
+                                </td>
                             `;
                             tbody.appendChild(row);
                         });
@@ -251,6 +219,29 @@
                     toastr.error("Terjadi kesalahan. Coba lagi nanti.");
                 },
                 complete: function() {}
+            });
+
+            $(document).on('click', '.detail-btn', function() {
+                const detailData = $(this).data('detail');
+
+                const tbody = document.querySelector('#TabelNilaiSiswa tbody');
+                tbody.innerHTML = "";
+                $.each(detailData.siswa, function(index, val) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <input type="hidden" name="siswa_id" value="${val.id}">
+                        <td>${index + 1}</td>
+                        <td>${val.no_induk}</td>
+                        <td>${val.nis}</td>
+                        <td>${val.nama_siswa}</td>
+                        <td>${val.jk}</td>
+                        <td>${val.pivot.nilai ?? "Kosong"}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+                const edit_btn = document.getElementById('edit-btn');
+                edit_btn.href = `{{ url('nilai/${detailData.id}/edit/') }}`
             });
         }
     </script>

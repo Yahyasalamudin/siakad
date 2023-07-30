@@ -23,7 +23,18 @@
                                 <td>
                                     <a href="{{ route('absen.show', Crypt::encrypt($data->id)) }}"
                                         class="btn btn-info btn-sm"><i class="nav-icon fas fa-search-plus"></i> &nbsp; Detail
+                                        Absensi
                                     </a>
+                                    @php
+                                        $user = \App\User::where('id_card', $data->id_card)->first();
+                                    @endphp
+                                    @if ($user)
+                                        <a href="{{ route('aktivitas-tambahan.index', ['user_id' => Crypt::encrypt($user->id)]) }}"
+                                            class="btn btn-secondary btn-sm"><i class="nav-icon fas fa-search-plus">
+                                            </i> &nbsp;
+                                            Detail Aktivitas Tambahan
+                                        </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

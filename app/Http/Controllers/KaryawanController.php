@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\AbsenKaryawan;
 use App\JadwalKaryawan;
 use App\Karyawan;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class KaryawanController extends Controller
 {
@@ -14,9 +16,10 @@ class KaryawanController extends Controller
         // $aktivitas = AktivitasTambahan::latest()->get();
         $hari = date('w');
         $jam = date('H:i:s', strtotime('-10 minutes'));
-        // $jadwal = JadwalKaryawan::OrderBy('jam_mulai')->OrderBy('jam_selesai')
-        //     ->where('hari_id', $hari)->where('user_id', auth()->user()->id)->where('jam_selesai', '>=', $jam)->get();
-        $jadwal = JadwalKaryawan::OrderBy('jam_mulai')->OrderBy('jam_selesai')->get();
+        $jadwal = JadwalKaryawan::OrderBy('jam_mulai')->OrderBy('jam_selesai')
+            ->where('hari_id', $hari)->where('user_id', auth()->user()->id)->where('jam_selesai', '>=', $jam)->get();
+
+        // $jadwal = JadwalKaryawan::OrderBy('jam_mulai')->OrderBy('jam_selesai')->get();
 
         return view('karyawan.home', compact('jadwal'));
     }
@@ -99,5 +102,64 @@ class KaryawanController extends Controller
         ]);
 
         return redirect('karyawan/dashboard')->with('success', 'Anda telah berhasil absen');
+    }
+
+    public function karyawan_all($role)
+    {
+        $karyawan = User::where('role', $role)->get();
+
+        return view('karyawan.karyawan-all', compact('karyawan', 'role'));
+    }
+
+    public function rekap_absen(Request $request)
+    {
+        $user_id = $request->user_id != null ? Crypt::decrypt($request->user_id) : auth()->user()->id;
+
+        $tanggal_awal = $request->tanggal_awal ?: now();
+        $tanggal_akhir = $request->tanggal_akhir ?: now();
+
+        $karyawan = User::find($user_id);
+        $absen_karyawan = AbsenKaryawan::where('user_id', $user_id)
+            ->when($request->status, function ($query, $status) {
+                return $query->where('status', $status);
+            })
+            ->whereDate('created_at', '>=', $tanggal_awal)
+            ->whereDate('created_at', '<=', $tanggal_akhir)
+            ->get();
+
+        return view('karyawan.rekap-absen', compact('karyawan', 'absen_karyawan', 'user_id'));
+    }
+
+    public function get_rekap_absen(Request $request)
+    {
+        $karyawan = User::find($request->user_id);
+        $absen_karyawan = AbsenKaryawan::where('user_id', $karyawan->id)
+            ->where('status', $request->status)->get();
+
+        return response()->json($absen_karyawan);
+        // return json_encode($absen_karyawan);
+    }
+
+    public function konfirmasi_absen($id)
+    {
+        $absen_karyawan = AbsenKaryawan::find($id);
+        $absen_karyawan->update(['status' => 'dikonfirmasi']);
+
+        if ($absen_karyawan->status == 'dikonfirmasi') {
+            return redirect()->back()->with('success', 'Absen berhasil dikonfirmasi.');
+        }
+        return redirect()->back()->with('error', 'Absen gagal dikonfirmasi.');
+    }
+
+    public function tolak_absen($id)
+    {
+        $absen_karyawan = AbsenKaryawan::find($id);
+        $absen_karyawan->update(['status' => 'ditolak']);
+
+        if ($absen_karyawan->status == 'ditolak') {
+            return redirect()->back()->with('success', 'Absen berhasil ditolak.');
+        }
+
+        return redirect()->back()->with('error', 'Absen gagal ditolak.');
     }
 }

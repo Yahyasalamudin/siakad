@@ -55,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
 
   // Aktivitas Tambahan
   Route::resource('/aktivitas-tambahan', 'AktivitasTambahanController');
+  // Route::get('aktivitas-tambahan/all', 'AktivitasTambahanController@aktivitas_tambahan_all')->name('aktivitas-tambahan.all');
   Route::get('karyawan/dashboard', 'KaryawanController@dashboard')->name('karyawan.dashboard');
   Route::get('karyawan/aktivitas-tambahan', 'KaryawanController@index')->name('karyawan.index');
   Route::post('karyawan/aktivitas-tambahan', 'KaryawanController@store')->name('karyawan.store');
@@ -69,9 +70,15 @@ Route::middleware(['auth'])->group(function () {
 
   Route::get('/karyawan/absen/harian', 'KaryawanController@absen')->name('karyawan.absen.harian');
   Route::post('/karyawan/absen/simpan', 'KaryawanController@simpan_absen')->name('karyawan.absen.simpan');
+  Route::get('/karyawan/{role}/all', 'KaryawanController@karyawan_all')->name('karyawan.all');
+  Route::get('/karyawan/rekap/absen', 'KaryawanController@rekap_absen')->name('absensikaryawan.index');
+  Route::put('/karyawan/rekap/absen/confirm/{id}', 'KaryawanController@konfirmasi_absen')->name('absensikaryawan.confirm');
+  Route::put('/karyawan/rekap/absen/reject/{id}', 'KaryawanController@tolak_absen')->name('absensikaryawan.reject');
+  Route::put('/absen/confirm/{id}', 'GuruController@konfirmasi_absen')->name('absen.confirm');
+  Route::put('/absen/reject/{id}', 'GuruController@tolak_absen')->name('absen.reject');
 
   Route::middleware(['guru'])->group(function () {
-    Route::get('/jurnal', 'JurnalController@index')->name('jurnal.index');
+    // Route::get('/jurnal', 'JurnalController@index')->name('jurnal.index');
     Route::get('/absen/harian', 'GuruController@absen')->name('absen.harian');
     Route::post('/absen/simpan', 'GuruController@simpan')->name('absen.simpan');
     Route::post('/absen/akhiri-absen/{id}', 'GuruController@akhiri_absen')->name('absen.akhiri_absen');
@@ -99,6 +106,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/bk/konseling-siswa', 'BKController@get_konseling_siswa');
   });
 
+  Route::get('/guru/absensi', 'GuruController@absensi')->name('guru.absensi');
+
   Route::middleware(['admin'])->group(function () {
     Route::middleware(['trash'])->group(function () {
       Route::get('/jadwal/trash', 'JadwalController@trash')->name('jadwal.trash');
@@ -124,7 +133,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/home', 'HomeController@admin')->name('admin.home');
     Route::get('/admin/pengumuman', 'PengumumanController@index')->name('admin.pengumuman');
     Route::post('/admin/pengumuman/simpan', 'PengumumanController@simpan')->name('admin.pengumuman.simpan');
-    Route::get('/guru/absensi', 'GuruController@absensi')->name('guru.absensi');
     Route::get('/guru/kehadiran/{id}', 'GuruController@kehadiran')->name('guru.kehadiran');
     Route::get('/absen/json', 'GuruController@json');
     Route::get('/guru/mapel/{id}', 'GuruController@mapel')->name('guru.mapel');
@@ -157,10 +165,11 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/jadwal/deleteAll', 'JadwalController@deleteAll')->name('jadwal.deleteAll');
     Route::delete('/jadwalkaryawan/deleteAll', 'JadwalKaryawanController@deleteAll')->name('jadwalkaryawan.deleteAll');
     Route::resource('/jadwal', 'JadwalController');
+    Route::get('/jadwalkaryawan/edit/{id}', 'JadwalKaryawanController@edit')->name('jadwalkaryawan.edit');
     Route::get('/jadwalkaryawan/{role}/all', 'JadwalKaryawanController@index')->name('jadwal.karyawan.index');
-    Route::get('/jadwalkaryawan/{id}/hari', 'JadwalKaryawanController@show_hari')->name('jadwal.karyawan.hari');
+    Route::get('/jadwalkaryawan/hari/{id}', 'JadwalKaryawanController@show_hari')->name('jadwal.karyawan.hari');
     Route::get('/jadwalkaryawan/{id}/{user_id}', 'JadwalKaryawanController@show')->name('jadwalkaryawan.show');
-    Route::resource('/jadwalkaryawan', 'JadwalKaryawanController')->except(['index', 'show']);
+    Route::resource('/jadwalkaryawan', 'JadwalKaryawanController')->except(['index', 'show', 'edit']);
     Route::get('/ulangan-kelas', 'UlanganController@create')->name('ulangan-kelas');
     Route::get('/ulangan-siswa/{id}', 'UlanganController@edit')->name('ulangan-siswa');
     Route::get('/ulangan-show/{id}', 'UlanganController@ulangan')->name('ulangan-show');

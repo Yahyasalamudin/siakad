@@ -31,6 +31,14 @@
                                 </select>
                             </div>
                             <div class="form-group">
+                                <label for="jenis_penilaian">Jenis Penilaian</label>
+                                <select name="jenis_penilaian" id="jenis_penilaian" class="form-control">
+                                    <option value="">Pilih Jenis Penilaian</option>
+                                    <option value="submatif">Submatif</option>
+                                    <option value="formatif">Formatif</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label for="tingkat_kelas">Tingkat Kelas</label>
                                 <select name="tingkat_kelas" id="tingkat_kelas" class="form-control"
                                     onchange="getSiswaByKelas(event)">
@@ -85,7 +93,6 @@
                                     <th>NIS</th>
                                     <th>Nama Siswa</th>
                                     <th>Jenis Kelamin</th>
-                                    <th>No Telepon</th>
                                     <th>Nilai</th>
                                 </tr>
                             </thead>
@@ -192,9 +199,8 @@
                                 <td>${val.nis}</td>
                                 <td>${val.nama_siswa}</td>
                                 <td>${val.jk}</td>
-                                <td>${val.telp}</td>
                                 <td>
-                                    <input type="text" placeholder="0" name="input[${index}][nilai]" class="form-control" required>
+                                    <input type="text" placeholder="0" name="input[${index}][nilai]" class="form-control">
                                 </td>
                             `;
                             tbody.appendChild(row);

@@ -263,13 +263,20 @@ class UserController extends Controller
             }
             $guru_data = [
                 'nama_guru' => $request->name,
-                'mapel_id' => $request->mapel_id,
                 'jk' => $request->jk,
                 'telp' => $request->telp,
                 'tmp_lahir' => $request->tmp_lahir,
                 'tgl_lahir' => $request->tgl_lahir
             ];
             $guru->update($guru_data);
+
+            $guru->mapel()->detach();
+            foreach ($request->mapel_id as $mapel_id) {
+                $guru->mapel()->attach($guru->id, ['mapel_id' => $mapel_id]);
+            }
+
+            $guru->update($guru_data);
+
             return redirect()->route('profile')->with('success', 'Profile anda berhasil diperbarui!');
         } elseif (Auth::user()->role == 'Siswa') {
             $this->validate($request, [

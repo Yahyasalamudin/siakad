@@ -23,6 +23,7 @@ class CreateNilaiTable extends Migration
             $table->text('konten');
             $table->text('tujuan_pembelajaran');
             $table->text('materi');
+            $table->enum('jenis_penilaian', ['submatif', 'formatif'])->default('formatif');
             $table->timestamps();
         });
     }

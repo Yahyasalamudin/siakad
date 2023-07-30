@@ -78,7 +78,12 @@
                                         value="{{ old('role') }}" autocomplete="role">
                                         <option value="">-- Select {{ __('Level User') }} --</option>
                                         <option value="Admin">Admin</option>
-                                        <option value="Operator">Tata Usaha</option>
+                                        {{-- <option value="Operator">Tata Usaha</option> --}}
+                                        <option value="Waka Kurikulum">Waka Kurikulum</option>
+                                        <option value="Waka Sarpras">Waka Sarpras</option>
+                                        <option value="Pokja Kurikulum">Pokja Kurikulum</option>
+                                        <option value="Pokja Sarpras">Pokja Sarpras</option>
+                                        <option value="Kaprogli">Kaprogli</option>
                                         <option value="Guru">Guru</option>
                                         <option value="BK">BK</option>
                                         <option value="CS">CS</option>
@@ -144,7 +149,9 @@
                     $("#noId").html(
                         `<label for="nomer">Nomer Induk Siswa</label><input id="nomer" type="text" placeholder="No Induk Siswa" class="form-control" name="nomer" autocomplete="off">`
                     );
-                } else if (kel == "Admin" || kel == "Operator" || kel == "CS" || kel == "Satpam") {
+                } else if (kel == "Admin" || kel == "Operator" || kel == "CS" || kel == "Satpam" || kel ==
+                    "Waka Kurikulum" || kel == "Pokja Kurikulum" || kel == "Waka Sarpras" || kel ==
+                    "Pokja Sarpras" || kel == "Kaprogli") {
                     $("#noId").html(
                         `<label for="name">Username</label><input id="name" type="text" placeholder="Username" class="form-control" name="name" autocomplete="off">`
                     );
