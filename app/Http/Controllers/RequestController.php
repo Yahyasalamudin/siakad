@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Guru;
+use App\HistoryTukarJadwal;
 use App\Jadwal;
 use App\PindahJadwal;
 use Illuminate\Http\Request;
@@ -44,6 +45,13 @@ class RequestController extends Controller
     public function approve(Request $request)
     {
         $jadwal = Jadwal::find($request->jadwal_id);
+
+        HistoryTukarJadwal::insert([
+            'approval_user_id' => auth()->user()->id,
+            'jadwal_id' => $jadwal->id,
+            'tukar_jadwal_id' => $jadwal->tukar_jadwal_id,
+            'status_permintaan' => $request->status == 'tolak' ? 0 : 1,
+        ]);
 
         if ($request->status == 'tolak') {
             $jadwal->update([

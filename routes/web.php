@@ -84,7 +84,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/absen/akhiri-absen/{id}', 'GuruController@akhiri_absen')->name('absen.akhiri_absen');
     Route::get('/jadwal/guru', 'JadwalController@guru')->name('jadwal.guru');
     Route::put('/pindah/jadwal', 'JadwalController@tukar_jadwal')->name('tukar_jadwal');
-    Route::get('/jadwal/history_tukar_jadwal', 'JadwalController@history_tukar_jadwal')->name('jadwal.history_tukar_jadwal');
     Route::get('/nilai/get-nilai-siswa', 'NilaiController@get_nilai_siswa');
     Route::get('/nilai/get-siswa', 'NilaiController@get_siswa');
     Route::resource('/modul', 'ModulController');
@@ -106,6 +105,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/bk/konseling-siswa', 'BKController@get_konseling_siswa');
   });
 
+  Route::post('/bk/edit-kelas/{id}', 'BKController@edit_tingkatan_kelas');
   Route::get('/guru/absensi', 'GuruController@absensi')->name('guru.absensi');
 
   Route::middleware(['admin'])->group(function () {
@@ -186,5 +186,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('permintaan/guru/tukar-jadwal/{id}', 'RequestController@show')->name('request.show');
     Route::get('permintaan/approve', 'RequestController@approve')->name('approve');
     Route::get('permintaan/guru/detail/{id}', 'RequestController@detail')->name('request.detail');
+    Route::get('/history-tukar-jadwal', 'HistoryTukarJadwalController@index')->name('jadwal.history_tukar_jadwal');
+    Route::get('/history-tukar-jadwal/show/{id}', 'HistoryTukarJadwalController@show')->name('jadwal.history_tukar_jadwal.show');
+    Route::get('/history-tukar-jadwal/detail/{id}', 'HistoryTukarJadwalController@detail')->name('jadwal.history_tukar_jadwal.detail');
+    Route::get('/nilai_siswa', 'NilaiController@show')->name('nilai.all');
+    Route::get('/nilai_siswa/get_mapel_guru/{id}', 'NilaiController@get_mapel_guru')->name('nilai.get_mapel_guru');
+    Route::get('/nilai_siswa/get-nilai-siswa', 'NilaiController@get_nilai_siswa');
   });
 });

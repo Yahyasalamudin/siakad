@@ -42,7 +42,7 @@
                                         <td>
                                             @if ($data->jam_mulai <= $jam_mulai && $data->jam_selesai >= $jam_selesai)
                                                 @php
-                                                    $absen = $data->absen_karyawan->first();
+                                                    $absen = $data->absen_karyawan->last();
                                                     $created_at = '';
                                                     
                                                     if (!empty($absen)) {
@@ -53,7 +53,7 @@
                                                 @endphp
 
                                                 @if ($created_at != '')
-                                                    @if ($created_at->isSameDay($today))
+                                                    @if ($created_at->isSameDay($today) && $created_at->isSameYear($today))
                                                         -
                                                     @else
                                                         <a href="{{ route('karyawan.absen.harian', ['jadwal_id' => Crypt::encrypt($data->id)]) }}"

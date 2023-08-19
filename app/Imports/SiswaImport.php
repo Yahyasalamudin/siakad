@@ -22,12 +22,14 @@ class SiswaImport implements ToModel
             $foto = 'uploads/siswa/50271431012020_female.jpg';
         }
 
-        return new Siswa([
-            'nama_siswa' => $row[0],
-            'no_induk' => $row[1],
-            'jk' => $row[2],
-            'foto' => $foto,
-            'kelas_id' => $kelas->id,
-        ]);
+        if ($kelas != null) {
+            return new Siswa([
+                'nama_siswa' => $row[0],
+                'no_induk' => $row[1],
+                'jk' => $row[2],
+                'foto' => $foto,
+                'kelas_id' => $kelas->id,
+            ]);
+        }
     }
 }

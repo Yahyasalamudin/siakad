@@ -40,7 +40,7 @@
                                         <ul>
                                             <li>rows 1 = nama siswa</li>
                                             <li>rows 2 = no induk siswa</li>
-                                            <li>rows 3 = jenis kelamin</li>
+                                            <li>rows 3 = jenis kelamin (L/P)</li>
                                             <li>rows 4 = nama kelas</li>
                                         </ul>
                                     </div>

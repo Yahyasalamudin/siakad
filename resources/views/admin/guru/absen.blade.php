@@ -21,8 +21,8 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $data->nama_guru }}</td>
                                 <td>
-                                    <a href="{{ route('absen.show', Crypt::encrypt($data->id)) }}"
-                                        class="btn btn-info btn-sm"><i class="nav-icon fas fa-search-plus"></i> &nbsp; Detail
+                                    <a href="{{ route('absen.show', $data->id) }}" class="btn btn-info btn-sm"><i
+                                            class="nav-icon fas fa-search-plus"></i> &nbsp; Detail
                                         Absensi
                                     </a>
                                     @php

@@ -20,6 +20,8 @@ use App\Http\Controllers\Controller;
 use App\Nilai;
 use App\Siswa;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Exception;
 
 class GuruController extends Controller
 {
@@ -281,7 +283,6 @@ class GuruController extends Controller
 
     public function absen_guru(Request $request, $id)
     {
-        $id = decrypt($id);
         $tanggal_awal = $request->tanggal_awal ?: now();
         $tanggal_akhir = $request->tanggal_akhir ?: now();
 
@@ -298,9 +299,7 @@ class GuruController extends Controller
 
     public function absen_detail($id)
     {
-        $jadwal_id = Crypt::decrypt($id);
-
-        $absensi = Absen::where('jadwal_id', $jadwal_id)->first();
+        $absensi = Absen::find($id);
 
         $siswa = AbsenSiswa::where('absen_id', $absensi->id)
             ->join('siswa', 'absen_siswa.siswa_id', '=', 'siswa.id')
@@ -331,50 +330,52 @@ class GuruController extends Controller
         if ($request->foto_awal) {
             $fotoAwal = $request->foto_awal;
             $new_foto_awal = date('siHdmY') . "_" . $fotoAwal->getClientOriginalName();
-            $fotoAwal->move('uploads/absensi-karyawan/', $new_foto_awal);
-            $fotoAwalName = 'uploads/absensi-karyawan/' . $new_foto_awal;
+            $fotoAwal->move('uploads/absensi/', $new_foto_awal);
+            $fotoAwalName = 'uploads/absensi/' . $new_foto_awal;
         }
 
         if ($request->foto_akhir) {
             $fotoAkhir = $request->foto_akhir;
             $new_foto_akhir = date('siHdmY') . "_" . $fotoAkhir->getClientOriginalName();
-            $fotoAkhir->move('uploads/absensi-karyawan/', $new_foto_akhir);
-            $fotoAkhirName = 'uploads/absensi-karyawan/' . $new_foto_akhir;
+            $fotoAkhir->move('uploads/absensi/', $new_foto_akhir);
+            $fotoAkhirName = 'uploads/absensi/' . $new_foto_akhir;
         }
 
-        // $jadwal = Jadwal::find($request->jadwal_id);
-        // $status = null;
-        // if ($jadwal->jam_mulai < now()->format('H:i:s')) {
-        //     $status = 'terlambat';
-        // } else {
-        //     $status = 'tepat_waktu';
-        // }
+        DB::beginTransaction();
 
-        $absen = Absen::create([
-            'guru_id' => $user->guru($user->id_card)->id,
-            'guru_tamu' => $request->guru_tamu,
-            'agensi' => $request->agensi,
-            'jadwal_id' => $request->jadwal_id,
-            'ruang' => $request->ruang,
-            'materi' => $request->materi,
-            // 'keterangan' => $status,
-            'foto_awal' => $fotoAwalName,
-            'foto_akhir' => $fotoAkhirName,
-        ]);
-
-        foreach ($request->input as $input) {
-            AbsenSiswa::insert([
-                'siswa_id' => $input['siswa_id'],
-                'jenis_absen' => isset($input['jenis_absen']) ? $input['jenis_absen'] : 'Hadir',
-                'absen_id' => $absen->id,
-                'absen_id' => $absen->id,
+        try {
+            $absen = Absen::create([
+                'guru_id' => $user->guru($user->id_card)->id,
+                'guru_tamu' => $request->guru_tamu,
+                'agensi' => $request->agensi,
+                'jadwal_id' => $request->jadwal_id,
                 'ruang' => $request->ruang,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
+                'materi' => $request->materi,
+                'foto_awal' => $fotoAwalName,
+                'foto_akhir' => $fotoAkhirName,
             ]);
-        }
 
-        return redirect('home')->with('success', 'Anda telah berhasil absen');
+            if ($request->input == null) {
+                throw new Exception('Absensi siswa wajib diisi');
+            }
+
+            foreach ($request->input as $input) {
+                AbsenSiswa::insert([
+                    'siswa_id' => $input['siswa_id'],
+                    'jenis_absen' => !empty($input['jenis_absen']) ? $input['jenis_absen'] : 'Hadir',
+                    'absen_id' => $absen->id,
+                    'ruang' => $request->ruang,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now()
+                ]);
+            }
+
+            DB::commit();
+            return redirect('home')->with('success', 'Anda telah berhasil absen');
+        } catch (Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', "Terjadi kesalahan. " . $e->getMessage());
+        }
     }
 
     public function akhiri_absen(Request $request, $id)

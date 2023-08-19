@@ -37,8 +37,20 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        {{--  --}}
+                    <div class="col-md-2 d-flex flex-column justify-content-center align-items-center">
+                        <i class="fas fa-exchange-alt" style="font-size: 24px;"></i>
+                        <div class="d-block float-right my-3">
+                            <a href="{{ route('approve', [
+                                'status' => 'tolak',
+                                'jadwal_id' => $data->id,
+                            ]) }}"
+                                class="btn btn-danger mx-1">Tolak</a>
+                            <a href="{{ route('approve', [
+                                'status' => 'setuju',
+                                'jadwal_id' => $data->id,
+                            ]) }}"
+                                class="btn btn-primary mx-1">Setujui</a>
+                        </div>
                     </div>
                     <div class="col-md-5">
                         <div class="card">
@@ -64,18 +76,6 @@
                                 </p>
                             </div>
                         </div>
-                    </div>
-                    <div class="d-block float-right">
-                        <a href="{{ route('approve', [
-                            'status' => 'tolak',
-                            'jadwal_id' => $data->id,
-                        ]) }}"
-                            class="btn btn-danger">Tolak</a>
-                        <a href="{{ route('approve', [
-                            'status' => 'setuju',
-                            'jadwal_id' => $data->id,
-                        ]) }}"
-                            class="btn btn-primary">Setujui</a>
                     </div>
                 </div>
             </div>

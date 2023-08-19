@@ -151,28 +151,63 @@
                             </ul>
                         </li>
                     @endif
-                    <li class="nav-item">
-                        <a href="{{ route('request.jadwal') }}" class="nav-link" id="pindahJadwal">
-                            <i class="fas fa-calendar-check nav-icon"></i>
-                            <p>Pertukaran Jadwal</p>
+                    <li class="nav-item has-treeview" id="liRekapAbsensi">
+                        <a href="#" class="nav-link" id="RekapAbsensi">
+                            <i class="nav-icon fas fa-clock"></i>
+                            <p>
+                                Tukar Jadwal
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
                         </a>
+                        <ul class="nav nav-treeview ml-4">
+                            <li class="nav-item">
+                                <a href="{{ route('request.jadwal') }}" class="nav-link" id="pindahJadwal">
+                                    <i class="fas fa-calendar-check nav-icon"></i>
+                                    <p>Request Tukar Jadwal</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('jadwal.history_tukar_jadwal') }}" class="nav-link">
+                                    <i class="fas fa-history nav-icon"></i>
+                                    <p>History Tukar Jadwal</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview" id="liRekapAbsensi">
+                        <a href="#" class="nav-link" id="RekapAbsensi">
+                            <i class="nav-icon fas fa-calendar-alt"></i>
+                            <p>
+                                Rekap Absensi
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview ml-4">
+                            <li class="nav-item">
+                                <a href="{{ route('guru.absensi') }}" class="nav-link" id="AbsensiGuru">
+                                    <i class="fas fa-chalkboard-teacher nav-icon"></i>
+                                    <p>Rekap Absensi Guru</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('karyawan.all', 'CS') }}" class="nav-link" id="RekapAbsenCS">
+                                    <i class="fas fa-broom nav-icon"></i>
+                                    <p>Rekap Absensi CS</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('karyawan.all', 'Satpam') }}" class="nav-link"
+                                    id="RekapAbsenSatpam">
+                                    <i class="fas fa-user-shield nav-icon"></i>
+                                    <p>Rekap Absensi Satpam</p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('guru.absensi') }}" class="nav-link" id="AbsensiGuru">
-                            <i class="fas fa-calendar-check nav-icon"></i>
-                            <p>Rekap Absensi Guru</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('karyawan.all', 'CS') }}" class="nav-link" id="RekapAbsenCS">
-                            <i class="fas fa-calendar-plus nav-icon"></i>
-                            <p>Rekap Absensi CS</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('karyawan.all', 'Satpam') }}" class="nav-link" id="RekapAbsenSatpam">
-                            <i class="fas fa-calendar-plus nav-icon"></i>
-                            <p>Rekap Absensi Satpam</p>
+                        <a href="{{ route('nilai.all') }}" class="nav-link" id="RekapAbsenSatpam">
+                            <i class="fas fa-user nav-icon"></i>
+                            <p>Penilaian Siswa</p>
                         </a>
                     </li>
                     {{-- <li class="nav-item has-treeview" id="liNilai">
@@ -273,12 +308,6 @@
                             <p>Upload Modul</p>
                         </a>
                     </li>
-                    {{-- <li class="nav-item">
-                        <a href="{{ route('jadwal.history_tukar_jadwal') }}" class="nav-link">
-                            <i class="fas fa-calendar-plus nav-icon"></i>
-                            <p>History Tukar Jadwal</p>
-                        </a>
-                    </li> --}}
                     {{-- <li class="nav-item has-treeview" id="liNilaiGuru">
                         <a href="#" class="nav-link" id="NilaiGuru">
                             <i class="nav-icon fas fa-file-signature"></i>

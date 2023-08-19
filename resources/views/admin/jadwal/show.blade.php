@@ -42,7 +42,8 @@
                                         <a href="{{ route('jadwal.edit', Crypt::encrypt($data->id)) }}"
                                             class="btn btn-success btn-sm"><i class="nav-icon fas fa-edit"></i> &nbsp;
                                             Edit</a>
-                                        <button class="btn btn-danger btn-sm"><i class="nav-icon fas fa-trash-alt"></i>
+                                        <button type="submit" class="btn btn-danger btn-sm"><i
+                                                class="nav-icon fas fa-trash-alt"></i>
                                             &nbsp; Hapus</button>
                                     </form>
                                 </td>

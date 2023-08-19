@@ -17,7 +17,7 @@
     <div class="login-box">
         <div class="login-logo">
             <!--<img src="{{ asset('img/logosiakad.png') }}" width="100%" alt="">-->
-            <h1 class="text-white">Sistem Managemen</h1>
+            <h1 class="text-white">Sistem Manajemen</h1>
         </div>
 
         <div class="login-logo" style="color: white;">

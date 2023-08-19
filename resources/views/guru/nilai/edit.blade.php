@@ -107,7 +107,7 @@
                                         <td>{{ $row->telp }}</td>
                                         <td>
                                             <input type="text" placeholder="0" value="{{ $row->pivot->nilai }}"
-                                                name="input[{{ $key }}][nilai]" class="form-control" required>
+                                                name="input[{{ $key }}][nilai]" class="form-control">
                                         </td>
                                     </tr>
                                 @endforeach

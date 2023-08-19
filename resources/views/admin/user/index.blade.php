@@ -78,7 +78,7 @@
                                         value="{{ old('role') }}" autocomplete="role">
                                         <option value="">-- Select {{ __('Level User') }} --</option>
                                         <option value="Admin">Admin</option>
-                                        {{-- <option value="Operator">Tata Usaha</option> --}}
+                                        <option value="Operator">Tata Usaha</option>
                                         <option value="Waka Kurikulum">Waka Kurikulum</option>
                                         <option value="Waka Sarpras">Waka Sarpras</option>
                                         <option value="Pokja Kurikulum">Pokja Kurikulum</option>

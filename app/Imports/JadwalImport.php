@@ -23,16 +23,24 @@ class JadwalImport implements ToModel
         $kelas = Kelas::where('nama_kelas', $row[1])->first();
         $mapel = Mapel::where('nama_mapel', $row[2])->first();
         $guru = Guru::where('nama_guru', $row[3])->first();
-        $ruang = Ruang::where('nama_ruang', $row[6])->first();
 
-        return new Jadwal([
-            'hari_id' => $hari->id,
-            'kelas_id' => $kelas->id,
-            'mapel_id' => $mapel->id,
-            'guru_id' => $guru->id,
-            'jam_mulai' => $row[4],
-            'jam_selesai' => $row[5],
-            'ruang_id' => $ruang->id,
-        ]);
+        if (
+            $hari != null &&
+            $kelas != null &&
+            $mapel != null &&
+            $guru != null
+        ) {
+            if ($guru->mapel->contains($mapel->id)) {
+                return new Jadwal([
+                    'hari_id' => $hari->id,
+                    'kelas_id' => $kelas->id,
+                    'mapel_id' => $mapel->id,
+                    'guru_id' => $guru->id,
+                    'jam_mulai' => $row[4],
+                    'jam_selesai' => $row[5],
+                    'ruang' => $row[6],
+                ]);
+            }
+        }
     }
 }

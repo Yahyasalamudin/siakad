@@ -24,6 +24,23 @@ class NilaiController extends Controller
         return view('guru.nilai.show', compact('guru', 'kelas', 'tahun'));
     }
 
+    public function show()
+    {
+        $guru = Guru::all();
+        $kelas = Kelas::all();
+        $tahun = Nilai::select(DB::raw('YEAR(created_at) as tahun'))->groupBy(DB::raw('YEAR(created_at)'))->get();
+
+        return view('admin.nilai.show', compact('guru', 'kelas', 'tahun'));
+    }
+
+    public function get_mapel_guru($id)
+    {
+        $guru = Guru::find($id);
+        $mapel = $guru->mapel;
+
+        return json_encode($mapel);
+    }
+
     public function get_nilai_siswa(Request $request)
     {
         $nilai_siswa = Nilai::whereYear('created_at', $request->tahun)
@@ -124,6 +141,13 @@ class NilaiController extends Controller
         $user = auth()->user();
 
         $nilai = Nilai::find($id);
+
+        if ($nilai->jenis_penilaian == 'submatif') {
+            $this->validate($request, [
+                'input.*.nilai' => 'required',
+            ], ['input.*.nilai.required' => 'Data nilai harus dimasukkan']);
+        }
+
         $nilai->update([
             'konten' => $request->konten,
             'tujuan_pembelajaran' => $request->tujuan_pembelajaran,
@@ -139,13 +163,13 @@ class NilaiController extends Controller
         return response()->json(['redirect_url' => route('nilai.edit', $id)]);
     }
 
-    public function show($id)
+    public function all()
     {
+        dd('tes');
         $guru = Guru::where('id_card', Auth::user()->id_card)->first();
         $kelas = Kelas::all();
-        $nilai_siswa = Nilai::find(decrypt($id));
-        dd($nilai_siswa);
+        $tahun = Nilai::select(DB::raw('YEAR(created_at) as tahun'))->groupBy(DB::raw('YEAR(created_at)'))->get();
 
-        return view('guru.nilai.show', compact('guru', 'nilai_siswa', 'kelas'));
+        return view('guru.nilai.all', compact('guru', 'kelas', 'tahun'));
     }
 }

@@ -20,6 +20,7 @@
                                 <option @if (request('status') == 'ditolak') selected @endif value="ditolak">Ditolak</option>
                             </select>
                         </div>
+                        <input type="hidden" name="user_id" value="{{ Crypt::encrypt($user_id) }}">
                         <div class="mb-3 ml-3 px-0">
                             <input type='date' value="{{ request('tanggal_awal') ?: now()->format('Y-m-d') }}"
                                 id="tanggal_awal" name='tanggal_awal' class="form-control">
@@ -63,7 +64,7 @@
                                         alt="Foto Kegiatan - {{ $data->name }}">
                                 </td>
                                 <td>
-                                    @if ($data->user_id == auth()->user()->id || auth()->user()->role == 'Admin')
+                                    @if ($data->user_id == auth()->user()->id)
                                         @if ($data->status == 'dikonfirmasi')
                                             <div class="badge badge-success p-2">Dikonfirmasi</div>
                                         @elseif ($data->status == 'ditolak')

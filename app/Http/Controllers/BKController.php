@@ -6,6 +6,7 @@ use App\Guru;
 use App\Kelas;
 use App\KonselingSiswa;
 use App\Siswa;
+use App\User;
 use Illuminate\Http\Request;
 use GuzzleHttp\Psr7\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
@@ -123,5 +124,14 @@ class BKController extends Controller
     {
         $konseling = KonselingSiswa::all();
         return json_encode($konseling);
+    }
+
+    public function edit_tingkatan_kelas(Request $request, $id)
+    {
+        User::find($id)->update([
+            'tingkatan_kelas' => $request->tingkatan_kelas,
+        ]);
+
+        return redirect()->back()->with('success', 'Berhasil mengedit tingkatan kelas');
     }
 }

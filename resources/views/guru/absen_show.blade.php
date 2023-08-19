@@ -60,13 +60,13 @@
                                 </td> --}}
                                 <td>{{ $data->jadwal->mapel->nama_mapel }}</td>
                                 <td>
-                                    <a href="{{ route('absen.detail', Crypt::encrypt($data->jadwal->id)) }}"
-                                        class="btn btn-info btn-sm"><i class="nav-icon fas fa-search-plus"></i> &nbsp;
+                                    <a href="{{ route('absen.detail', $data->id) }}" class="btn btn-info btn-sm"><i
+                                            class="nav-icon fas fa-search-plus"></i> &nbsp;
                                         Detail
                                     </a>
                                 </td>
                                 <td>
-                                    @if ($data->user_id == auth()->user()->id || auth()->user()->role == 'Admin')
+                                    @if ($data->user_id == auth()->user()->id)
                                         @if ($data->status == 'dikonfirmasi')
                                             <div class="badge badge-success p-2">Dikonfirmasi</div>
                                         @elseif ($data->status == 'ditolak')
