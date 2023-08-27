@@ -105,5 +105,10 @@ class Jadwal extends Model
     return $this->belongsTo(Jadwal::class, 'tukar_jadwal_id', 'id');
   }
 
+  public function tukar_jadwal()
+  {
+    return $this->belongsTo(Jadwal::class, 'tukar_jadwal_id', 'id');
+  }
+
   protected $table = 'jadwal';
 }

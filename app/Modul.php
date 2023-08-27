@@ -10,11 +10,12 @@ class Modul extends Model
 
     public function mapel()
     {
-        return $this->hasMany(Mapel::class, 'id', 'mapel_id');
+        return $this->hasOne(Mapel::class, 'id', 'mapel_id');
     }
 
     public function guru()
     {
-        return $this->hasMany(Guru::class, 'id');
+        // guru yang muncul di modul tidak sesuai??
+        return $this->belongsTo(Guru::class, 'id');
     }
 }

@@ -37,36 +37,46 @@
                         @if ($jadwal->count() > 0)
                             @foreach ($jadwal as $data)
                                 @if ($data->status_permintaan == 1)
-                                    <tr>
-                                        <td>{{ $data->jadwal->hari->nama_hari }}</td>
-                                        <td>{{ $data->jadwal->jam_mulai . ' - ' . $data->jadwal->jam_selesai }}</td>
-                                        <td>
-                                            <h5 class="card-text mb-0">{{ $data->mapel->nama_mapel }}</h5>
-                                            <p class="card-text"><small
-                                                    class="text-muted">{{ $data->guru->nama_guru }}</small>
-                                            </p>
-                                        </td>
-                                        <td>{{ $data->kelas->nama_kelas }}</td>
-                                        @if (auth()->user()->role == 'Guru')
+                                    @if ($data->tukar_jadwal->hari_id == $hari && $data->tukar_jadwal->jam_selesai >= $jam_selesai)
+                                        <tr>
+                                            <td>{{ $data->jadwal->hari->nama_hari }}</td>
+                                            <td>{{ $data->jadwal->jam_mulai . ' - ' . $data->jadwal->jam_selesai }}</td>
                                             <td>
-                                                @if ($data->jam_mulai <= $jam_mulai && $data->jam_selesai >= $jam_selesai)
-                                                    @php
-                                                        $absen = $data->absen_guru->last();
-                                                        $created_at = '';
-                                                        
-                                                        if (!empty($absen)) {
-                                                            $created_at = Carbon::parse($absen->created_at);
-                                                        }
-                                                        
-                                                        $today = Carbon::now();
-                                                    @endphp
+                                                <h5 class="card-text mb-0">{{ $data->mapel->nama_mapel }}</h5>
+                                                <p class="card-text"><small
+                                                        class="text-muted">{{ $data->guru->nama_guru }}</small>
+                                                </p>
+                                            </td>
+                                            <td>{{ $data->kelas->nama_kelas }}</td>
+                                            @if (auth()->user()->role == 'Guru')
+                                                <td>
+                                                    @if ($data->jam_mulai <= $jam_mulai && $data->jam_selesai >= $jam_selesai)
+                                                        @php
+                                                            $absen = $data->absen_guru->last();
+                                                            $created_at = '';
+                                                            
+                                                            if (!empty($absen)) {
+                                                                $created_at = Carbon::parse($absen->created_at);
+                                                            }
+                                                            
+                                                            $today = Carbon::now();
+                                                        @endphp
 
-                                                    @if ($created_at != '')
-                                                        @if ($created_at->isSameDay($today) && $created_at->isSameYear($today))
-                                                            <span class="badge badge-success font-weight-normal p-3"
-                                                                style="font-size: 14px;">
-                                                                Absen Berhasil
-                                                            </span>
+                                                        @if ($created_at != '')
+                                                            @if ($created_at->isSameDay($today) && $created_at->isSameYear($today))
+                                                                <span class="badge badge-success font-weight-normal p-3"
+                                                                    style="font-size: 14px;">
+                                                                    Absen Berhasil
+                                                                </span>
+                                                            @else
+                                                                <a href="{{ route('absen.harian', [
+                                                                    'kelas_id' => Crypt::encrypt($data->kelas->id),
+                                                                    'jadwal_id' => Crypt::encrypt($data->id),
+                                                                ]) }}"
+                                                                    class="btn btn-primary">
+                                                                    Absen Kehadiran
+                                                                </a>
+                                                            @endif
                                                         @else
                                                             <a href="{{ route('absen.harian', [
                                                                 'kelas_id' => Crypt::encrypt($data->kelas->id),
@@ -77,35 +87,28 @@
                                                             </a>
                                                         @endif
                                                     @else
-                                                        <a href="{{ route('absen.harian', [
-                                                            'kelas_id' => Crypt::encrypt($data->kelas->id),
-                                                            'jadwal_id' => Crypt::encrypt($data->id),
-                                                        ]) }}"
-                                                            class="btn btn-primary">
-                                                            Absen Kehadiran
-                                                        </a>
+                                                        -
                                                     @endif
-                                                @else
-                                                    -
-                                                @endif
-                                            </td>
-                                        @endif
-                                    </tr>
+                                                </td>
+                                            @endif
+                                        </tr>
+                                    @endif
                                 @else
-                                    <tr>
-                                        <td>{{ $data->hari->nama_hari }}</td>
-                                        <td>{{ $data->jam_mulai . ' - ' . $data->jam_selesai }}</td>
-                                        <td>
-                                            <h5 class="card-text mb-0">{{ $data->mapel->nama_mapel }}</h5>
-                                            <p class="card-text"><small
-                                                    class="text-muted">{{ $data->guru->nama_guru }}</small>
-                                            </p>
-                                        </td>
-                                        <td>{{ $data->kelas->nama_kelas }}</td>
-                                        @if (auth()->user()->role == 'Guru')
+                                    @if ($data->hari_id == $hari && $data->jam_selesai >= $jam_selesai)
+                                        <tr>
+                                            <td>{{ $data->hari->nama_hari }}</td>
+                                            <td>{{ $data->jam_mulai . ' - ' . $data->jam_selesai }}</td>
                                             <td>
-                                                @if ($data->jam_mulai <= $jam_mulai && $data->jam_selesai >= $jam_selesai)
-                                                    {{-- @php
+                                                <h5 class="card-text mb-0">{{ $data->mapel->nama_mapel }}</h5>
+                                                <p class="card-text"><small
+                                                        class="text-muted">{{ $data->guru->nama_guru }}</small>
+                                                </p>
+                                            </td>
+                                            <td>{{ $data->kelas->nama_kelas }}</td>
+                                            @if (auth()->user()->role == 'Guru')
+                                                <td>
+                                                    @if ($data->jam_mulai <= $jam_mulai && $data->jam_selesai >= $jam_selesai)
+                                                        {{-- @php
                                                         $absen = $data->absen_guru->last();
                                                         $created_at = '';
                                                         
@@ -138,22 +141,23 @@
                                                         </a>
                                                     @endif --}}
 
-                                                    <a href="{{ route('absen.harian', [
-                                                        'kelas_id' => Crypt::encrypt($data->kelas->id),
-                                                        'jadwal_id' => Crypt::encrypt($data->id),
-                                                    ]) }}"
-                                                        class="btn btn-primary">
-                                                        Absen Kehadiran
-                                                    </a>
-                                                @else
-                                                    <button type="button" class="btn btn-info" data-toggle="modal"
-                                                        data-target=".pindah-jadwal-{{ $data->id }}"> &nbsp; Pindah
-                                                        Jadwal
-                                                    </button>
-                                                @endif
-                                            </td>
-                                        @endif
-                                    </tr>
+                                                        <a href="{{ route('absen.harian', [
+                                                            'kelas_id' => Crypt::encrypt($data->kelas->id),
+                                                            'jadwal_id' => Crypt::encrypt($data->id),
+                                                        ]) }}"
+                                                            class="btn btn-primary">
+                                                            Absen Kehadiran
+                                                        </a>
+                                                    @else
+                                                        <button type="button" class="btn btn-info" data-toggle="modal"
+                                                            data-target=".pindah-jadwal-{{ $data->id }}"> &nbsp; Pindah
+                                                            Jadwal
+                                                        </button>
+                                                    @endif
+                                                </td>
+                                            @endif
+                                        </tr>
+                                    @endif
                                 @endif
 
                                 <div class="modal fade bd-example-modal-lg pindah-jadwal-{{ $data->id }}"

@@ -6,23 +6,45 @@
 @section('content')
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">
-                    <button type="button" class="btn btn-primary btn-sm" onclick="getCreatePaket()" data-toggle="modal"
-                        data-target="#form-paket">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="btn btn-primary align-self-start" onclick="getCreatePaket()"
+                        data-toggle="modal" data-target="#form-paket">
                         <i class="nav-icon fas fa-folder-plus"></i> &nbsp; Tambah Modul
                     </button>
-                </h3>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body">
+                    <form action="" method="get">
+                        <div class="d-flex justify-content-end">
+                            <div class="mb-3 col-md-3 ml-3 px-0">
+                                <select id="mapel" name="mapel" class="form-control">
+                                    <option value="">Pilih Mapel</option>
+                                    <option value="">Semua</option>
+                                    @foreach ($mapel as $item)
+                                        <option @if (request('mapel') == $item->id) selected @endif
+                                            value="{{ $item->id }}">{{ $item->nama_mapel }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-3 ml-3 px-0">
+                                <input type='date' value="{{ request('tanggal_awal') ?: now()->format('Y-m-d') }}"
+                                    id="tanggal_awal" name='tanggal_awal' class="form-control">
+                            </div>
+                            <div class="mb-3 ml-3 px-0">
+                                <input type='date' value="{{ request('tanggal_akhir') ?: now()->format('Y-m-d') }}"
+                                    id="tanggal_akhir" name='tanggal_akhir' class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary ml-3 px-3">Filter</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 <table id="example1" class="table table-bordered table-striped table-hover">
                     <thead>
                         <tr>
                             <th>No.</th>
                             <th>Tanggal / Waktu</th>
                             <th>Tahun</th>
-                            <th>Guru</th>
                             <th>Mapel</th>
                             <th>Semester</th>
                             <th>File Name</th>
@@ -35,13 +57,13 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $data->created_at->format('d-m-Y H:i') }}</td>
                                 <td>{{ $data->tahun }}</td>
-                                {{-- <td>{{ $data->guru->nama_guru }}</td> --}}
-                                {{-- <td>{{ $data->mapel->nama_mapel }}</td> --}}
+                                <td>{{ $data->mapel->nama_mapel }}</td>
                                 <td>{{ $data->semester }}</td>
                                 <td>{{ $data->file_modul }}</td>
                                 <td class="d-flex">
                                     <a href="{{ route('modul.show', Crypt::encrypt($data->id)) }}" target="_blank"
-                                        class="btn btn-info btn-sm mr-2"><i class="nav-icon fas fa-search-plus"></i> &nbsp;
+                                        class="btn btn-info btn-sm mr-2"><i class="nav-icon fas fa-search-plus"></i>
+                                        &nbsp;
                                         Detail</a>
                                     <form action="{{ route('modul.destroy', $data->id) }}" method="post">
                                         @csrf
@@ -212,17 +234,6 @@
                 $("#judul").text('Tambah Modul');
                 $('#id').val('');
                 $('#form_ket').html('');
-                // $('#form_ket').html(`
-        //     <label for="semester">Semester</label>
-        //     <select id="semester" type="text"
-        //         class="form-control @error('semester') is-invalid @enderror "
-        //         name="semester">
-        //         <option value="">-- Pilih {{ __('Semester') }} --</option>
-        //         <option value="Ganjil">Ganjil</option>
-        //         <option value="Genap">Genap</option>
-        //     </select>
-        //     <label for="file_modul">File Modul</label><input type='file' id="file_modul" name='file_modul' class="form-control @error('file_modul') is-invalid @enderror" placeholder="{{ __('file_modul') }}">
-        //         `);
             }
 
             function getEditPaket(id) {
@@ -243,7 +254,6 @@
                     dataType: "JSON",
                     url: "{{ url('/paket/edit/json') }}",
                     success: function(result) {
-                        // console.log(result);
                         if (result) {
                             $.each(result, function(index, val) {
                                 $("#judul").text('Edit Data Paket : ' + val.ket);

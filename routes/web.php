@@ -87,6 +87,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/nilai/get-nilai-siswa', 'NilaiController@get_nilai_siswa');
     Route::get('/nilai/get-siswa', 'NilaiController@get_siswa');
     Route::resource('/modul', 'ModulController');
+    Route::get('/modul/show-file', 'ModulController@show_file')->name('modul.show_file');
     Route::resource('/nilai', 'NilaiController');
     Route::resource('/ulangan', 'UlanganController');
     Route::resource('/sikap', 'SikapController');
@@ -189,8 +190,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/history-tukar-jadwal', 'HistoryTukarJadwalController@index')->name('jadwal.history_tukar_jadwal');
     Route::get('/history-tukar-jadwal/show/{id}', 'HistoryTukarJadwalController@show')->name('jadwal.history_tukar_jadwal.show');
     Route::get('/history-tukar-jadwal/detail/{id}', 'HistoryTukarJadwalController@detail')->name('jadwal.history_tukar_jadwal.detail');
-    Route::get('/nilai_siswa', 'NilaiController@show')->name('nilai.all');
-    Route::get('/nilai_siswa/get_mapel_guru/{id}', 'NilaiController@get_mapel_guru')->name('nilai.get_mapel_guru');
-    Route::get('/nilai_siswa/get-nilai-siswa', 'NilaiController@get_nilai_siswa');
+    Route::get('/nilai-siswa', 'NilaiController@show')->name('nilai.all');
+    Route::get('/nilai-siswa/get-mapel-guru/{id}', 'NilaiController@get_mapel_guru')->name('nilai.get_mapel_guru');
+    Route::get('/nilai-siswa/get-nilai-siswa', 'NilaiController@get_nilai_siswa');
+    Route::get('/modul-guru', 'ModulController@show')->name('modul.all');
+    Route::get('/modul-guru/get-mapel-guru/{id}', 'ModulController@get_mapel_guru')->name('nilai.get_mapel_guru');
   });
 });

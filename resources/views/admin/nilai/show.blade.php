@@ -1,7 +1,7 @@
 @extends('template_backend.home')
 @section('heading', 'Deskripsi Nilai')
 @section('page')
-    <li class="breadcrumb-item active">Deskripsi Nilai</li>
+    <li class="breadcrumb-item active">Data Nilai</li>
 @endsection
 @section('content')
     <div class="col-md-12">
@@ -149,10 +149,6 @@
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i
                             class='nav-icon fas fa-arrow-left'></i> &nbsp; Kembali</button>
-                    <a href="#" id="edit-btn" class="btn btn-primary text-light"><i
-                            class="nav-icon fas fa-edit"></i>
-                        &nbsp;
-                        Edit</a>
                 </div>
             </div>
         </div>
@@ -177,7 +173,7 @@
             $.ajax({
                 type: "GET",
                 dataType: "JSON",
-                url: `{{ url('/nilai_siswa/get_mapel_guru/${guru.value}') }}`,
+                url: `{{ url('/nilai_siswa/get-mapel-guru/${guru.value}') }}`,
                 success: function(result) {
                     if (result) {
                         $('#mapel').empty();

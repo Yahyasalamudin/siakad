@@ -205,9 +205,15 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('nilai.all') }}" class="nav-link" id="RekapAbsenSatpam">
+                        <a href="{{ route('nilai.all') }}" class="nav-link" id="PenilaianSiswa">
                             <i class="fas fa-user nav-icon"></i>
                             <p>Penilaian Siswa</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('modul.all') }}" class="nav-link" id="DataModul">
+                            <i class="fas fa-file-alt nav-icon"></i>
+                            <p>Data Modul</p>
                         </a>
                     </li>
                     {{-- <li class="nav-item has-treeview" id="liNilai">
