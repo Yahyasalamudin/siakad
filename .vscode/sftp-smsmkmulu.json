@@ -1,0 +1,12 @@
+{
+  "name": "Siakad Hosting",
+  "host": "217.21.74.65",
+  "protocol": "ftp",
+  "port": 21,
+  "username": "u756267403.siakad",
+  "password": "Siakad123",
+  "remotePath": "/",
+  "uploadOnSave": false,
+  "useTempFile": false,
+  "openSsh": false
+}

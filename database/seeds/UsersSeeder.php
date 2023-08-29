@@ -35,8 +35,8 @@ class UsersSeeder extends Seeder
         ]);
 
         User::insert([
-            'name' => 'Dedi Setyono M.Pd.',
-            'email' => 'dedi@gmail.com',
+            'name' => 'Arif Hidayat M.Pd.',
+            'email' => 'arif@gmail.com',
             'password' => Hash::make('12345678'),
             'role' => 'Guru',
             'id_card' => '00001',
@@ -45,8 +45,8 @@ class UsersSeeder extends Seeder
         ]);
 
         User::insert([
-            'name' => 'Faruk Mardoko M.Pd.',
-            'email' => 'farukh@gmail.com',
+            'name' => 'Ahmad Mardoko M.Pd.',
+            'email' => 'ahmad@gmail.com',
             'password' => Hash::make('12345678'),
             'role' => 'Guru',
             'id_card' => '00002',

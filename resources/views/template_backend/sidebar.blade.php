@@ -13,7 +13,39 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
                 @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Operator')
-                    <li class="nav-item has-treeview" id="liDashboard">
+                    @foreach ($user_menu as $menu)
+                        @if ($menu->route == null)
+                            <li class="nav-item has-treeview @foreach ($menu->sub_menu as $sub_menu){{ Route::is($sub_menu->route) ? 'menu-open' : '' }} @endforeach"
+                                id="{{ 'li' . $menu->title }}">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon {{ $menu->icon }}"></i>
+                                    <p>
+                                        {{ $menu->title }}
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview ml-4">
+                                    @foreach ($menu->sub_menu as $sub_menu)
+                                        <li class="nav-item">
+                                            <a href="{{ route($sub_menu->route, $sub_menu->route_param ? $sub_menu->route_param : '') }}"
+                                                class="nav-link {{ Route::is($sub_menu->route) && Request::route('role') == $sub_menu->route_param ? 'active' : '' }}">
+                                                <i class="{{ $sub_menu->icon }} nav-icon"></i>
+                                                <p>{{ $sub_menu->title }}</p>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </li>
+                        @elseif($menu->menu_id == null && $menu->route)
+                            <li class="nav-item">
+                                <a href="{{ route($menu->route) }}" class="nav-link">
+                                    <i class="{{ $menu->icon }} nav-icon"></i>
+                                    <p>{{ $menu->title }}</p>
+                                </a>
+                            </li>
+                        @endif
+                    @endforeach
+                    {{-- <li class="nav-item has-treeview" id="liDashboard">
                         <a href="#" class="nav-link" id="Dashboard">
                             <i class="nav-icon fas fa-home"></i>
                             <p>
@@ -35,8 +67,8 @@
                                 </a>
                             </li>
                         </ul>
-                    </li>
-                    <li class="nav-item has-treeview" id="liMasterData">
+                    </li> --}}
+                    {{-- <li class="nav-item has-treeview" id="liMasterData">
                         <a href="#" class="nav-link" id="MasterData">
                             <i class="nav-icon fas fa-edit"></i>
                             <p>
@@ -76,7 +108,8 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('jadwal.karyawan.index', 'cs') }}" class="nav-link" id="DataJadwalcs">
+                                <a href="{{ route('jadwal.karyawan.index', 'cs') }}" class="nav-link"
+                                    id="DataJadwalcs">
                                     <i class="fas fa-calendar-alt nav-icon"></i>
                                     <p>Data Jadwal CS</p>
                                 </a>
@@ -101,8 +134,8 @@
                                 </a>
                             </li>
                         </ul>
-                    </li>
-                    @if (Auth::user()->role == 'Admin')
+                    </li> --}}
+                    {{-- @if (Auth::user()->role == 'Admin')
                         <li class="nav-item has-treeview" id="liViewTrash">
                             <a href="#" class="nav-link" id="ViewTrash">
                                 <i class="nav-icon fas fa-recycle"></i>
@@ -150,8 +183,8 @@
                                 </li>
                             </ul>
                         </li>
-                    @endif
-                    <li class="nav-item has-treeview" id="liRekapAbsensi">
+                    @endif --}}
+                    {{-- <li class="nav-item has-treeview" id="liRekapAbsensi">
                         <a href="#" class="nav-link" id="RekapAbsensi">
                             <i class="nav-icon fas fa-clock"></i>
                             <p>
@@ -215,7 +248,7 @@
                             <i class="fas fa-file-alt nav-icon"></i>
                             <p>Data Modul</p>
                         </a>
-                    </li>
+                    </li> --}}
                     {{-- <li class="nav-item has-treeview" id="liNilai">
                         <a href="#" class="nav-link" id="Nilai">
                             <i class="nav-icon fas fa-file-signature"></i>
@@ -251,12 +284,12 @@
                             </li>
                         </ul>
                     </li> --}}
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a href="{{ route('admin.pengumuman') }}" class="nav-link" id="Pengumuman">
                             <i class="nav-icon fas fa-clipboard"></i>
                             <p>Pengumuman</p>
                         </a>
-                    </li>
+                    </li> --}}
                 @elseif(Auth::user()->role == 'Waka Kurikulum' || Auth::user()->role == 'Pokja Kurikulum')
                     <li class="nav-item">
                         <a href="{{ route('guru.absensi') }}" class="nav-link" id="AbsensiGuru">

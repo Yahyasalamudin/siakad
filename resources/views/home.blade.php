@@ -36,7 +36,7 @@
                         @else --}}
                         @if ($jadwal->count() > 0)
                             @foreach ($jadwal as $data)
-                                @if ($data->status_permintaan == 1)
+                                @if ($data->status_permintaan == 1 && $data->tukar_jadwal)
                                     @if ($data->tukar_jadwal->hari_id == $hari && $data->tukar_jadwal->jam_selesai >= $jam_selesai)
                                         <tr>
                                             <td>{{ $data->jadwal->hari->nama_hari }}</td>

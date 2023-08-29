@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class HistoryTukarJadwal extends Model
 {
@@ -16,7 +17,7 @@ class HistoryTukarJadwal extends Model
 
     public function jadwal()
     {
-        return $this->belongsTo(Jadwal::class, 'jadwal_id', 'id');
+        return $this->belongsTo(Jadwal::class, 'jadwal_id', 'id')->withTrashed();
     }
 
     public function tukar_jadwal()

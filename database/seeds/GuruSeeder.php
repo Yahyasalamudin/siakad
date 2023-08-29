@@ -15,7 +15,7 @@ class GuruSeeder extends Seeder
         DB::table('guru')->insert([
             'id_card' => '00001',
             'nip' => 123123,
-            'nama_guru' => "Dedi Setyono M.Pd.",
+            'nama_guru' => "Arif Hidayat M.Pd.",
             'tmk' => "2023-07-12",
             'jk' => "L",
             'telp' => "082123123123",
@@ -29,7 +29,7 @@ class GuruSeeder extends Seeder
         DB::table('guru')->insert([
             'id_card' => '00002',
             'nip' => 123123,
-            'nama_guru' => "Faruk Mardoko M.Pd.",
+            'nama_guru' => "Ahmad Mardoko M.Pd.",
             'tmk' => "2023-07-12",
             'jk' => "L",
             'telp' => "082123123124",

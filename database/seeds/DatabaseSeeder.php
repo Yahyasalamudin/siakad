@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SiswaSeeder::class);
         $this->call(MapelSeeder::class);
         $this->call(RuangSeeder::class);
+        $this->call(UserMenuSeeder::class);
 
         $guru_mapel = [
             [

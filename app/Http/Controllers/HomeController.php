@@ -28,10 +28,6 @@ class HomeController extends Controller
         $hari = date('w');
         $jam = date('H:i:s', strtotime('-10 minutes'));
         $jadwal = Jadwal::with("tukar_jadwal")->OrderBy('jadwal.jam_mulai')->OrderBy('jadwal.jam_selesai')->OrderBy('jadwal.kelas_id');
-        // ->where('jadwal.hari_id', $hari)->where('jadwal.jam_selesai', '>=', $jam);
-
-        // dd($jadwal->first());
-        // dd($jadwal->get()[0]->jadwal);
 
         $tukar_jadwal = [];
         if ($user->role == "Guru") {
