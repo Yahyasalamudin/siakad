@@ -26,6 +26,24 @@ class UsersSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
+            'name' => 'Pokja 1',
+            'email' => 'pokja1@gmail.com',
+            'password' => Hash::make('12345678'),
+            'role' => 'Pokja Kurikulum',
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'Pokja 2',
+            'email' => 'pokja2@gmail.com',
+            'password' => Hash::make('12345678'),
+            'role' => 'Pokja Sarpras',
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ]);
+
+        DB::table('users')->insert([
             'name' => 'Tri Mulyono',
             'email' => 'tri@gmail.com',
             'password' => Hash::make('12345678'),

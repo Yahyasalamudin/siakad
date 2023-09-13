@@ -1,27 +1,11 @@
 @extends('template_backend.home')
-@section('heading', 'Data Guru')
+@section('heading', 'Menu User')
 @section('page')
-    <li class="breadcrumb-item active">Data Guru</li>
+    <li class="breadcrumb-item active">Menu User</li>
 @endsection
 @section('content')
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">
-                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal"
-                        data-target=".bd-example-modal-lg">
-                        <i class="nav-icon fas fa-folder-plus"></i> &nbsp; Tambah Data Guru
-                    </button>
-                    <a href="{{ route('guru.export_excel') }}" class="btn btn-success btn-sm my-3" target="_blank"><i
-                            class="nav-icon fas fa-file-export"></i> &nbsp; EXPORT EXCEL</a>
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#importExcel">
-                        <i class="nav-icon fas fa-file-import"></i> &nbsp; IMPORT EXCEL
-                    </button>
-                    {{-- <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#dropTable">
-                        <i class="nav-icon fas fa-minus-circle"></i> &nbsp; Drop
-                    </button> --}}
-                </h3>
-            </div>
             <div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -83,14 +67,81 @@
                         <tr>
                             <th>No.</th>
                             <th>Nama</th>
+                            <th>Hak Akses</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($menu as $data)
+                        @foreach ($role as $data)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $data->title }}</td>
+                                <td>{{ $data->role }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal"
+                                        data-target=".hak-akses-{{ $data->id }}">
+                                        <i class="nav-icon fas fa-edit"></i> &nbsp; Atur Hak Akses
+                                    </button>
+                                </td>
                             </tr>
+
+                            <!-- Extra large modal -->
+                            <div class="modal fade bd-example-modal-lg hak-akses-{{ $data->id }}" tabindex="-1"
+                                role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="judul-jadwal">Hak Akses</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="card-body">
+                                                        @foreach ($menu_all as $menu)
+                                                            @if ($menu->route == null)
+                                                                <div class="form-group">
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                            id="menu-{{ $data->id }}-{{ $menu->id }}"
+                                                                            onchange="updateHakAkses(event)"
+                                                                            data-menu-id="{{ $menu->id }}"
+                                                                            data-role-id="{{ $data->id }}"
+                                                                            @if ($data->menu()->pluck('user_menus.id')->contains($menu->id)) checked @endif>
+                                                                        <label class="form-check-label"
+                                                                            for="menu-{{ $data->id }}-{{ $menu->id }}">
+                                                                            {{ $menu->title }}
+                                                                        </label>
+                                                                    </div>
+                                                                    @foreach ($menu->sub_menu as $sub_menu)
+                                                                        <div class="form-check ml-3 mt-1">
+                                                                            <input class="form-check-input" type="checkbox"
+                                                                                id="submenu-{{ $data->id }}-{{ $sub_menu->id }}"
+                                                                                onchange="updateHakAkses(event)"
+                                                                                data-menu-id="{{ $sub_menu->id }}"
+                                                                                data-role-id="{{ $data->id }}"
+                                                                                @if ($data->menu()->pluck('user_menus.id')->contains($sub_menu->id)) checked @endif>
+                                                                            <label class="form-check-label"
+                                                                                for="submenu-{{ $data->id }}-{{ $sub_menu->id }}">
+                                                                                {{ $sub_menu->title }}
+                                                                            </label>
+                                                                        </div>
+                                                                    @endforeach
+                                                                </div>
+                                                            @endif
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer justify-content-between">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal"><i
+                                                        class="nav-icon fas fa-arrow-left"></i>
+                                                    &nbsp; Kembali</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         @endforeach
                     </tbody>
                 </table>
@@ -98,97 +149,37 @@
         </div>
     </div>
 
-    <!-- Extra large modal -->
-    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Tambah Data Guru</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="{{ route('guru.store') }}" method="post" enctype="multipart/form-data">
-                    <div class="modal-body">
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="nama_guru">Nama Guru</label>
-                                    <input type="text" id="nama_guru" name="nama_guru"
-                                        class="form-control @error('nama_guru') is-invalid @enderror"
-                                        value="{{ old('nama_guru') }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="tempat_lahir">Tempat Lahir</label>
-                                    <input type="text" id="tempat_lahir" name="tempat_lahir"
-                                        class="form-control @error('tempat_lahir') is-invalid @enderror"
-                                        value="{{ old('tempat_lahir') }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="tanggal_lahir">Tanggal Lahir</label>
-                                    <input type="date" id="tanggal_lahir" name="tanggal_lahir"
-                                        class="form-control @error('tanggal_lahir') is-invalid @enderror"
-                                        value="{{ old('tanggal_lahir', date('Y-m-d')) }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="jenis_kelamin">Jenis Kelamin</label>
-                                    <select id="jenis_kelamin" name="jenis_kelamin"
-                                        class="form-control @error('jenis_kelamin') is-invalid @enderror">
-                                        <option value="">-- Pilih Jenis Kelamin --</option>
-                                        <option value="L" @if (old('jenis_kelamin') == 'L') selected @endif>Laki-Laki
-                                        </option>
-                                        <option value="P" @if (old('jenis_kelamin') == 'P') selected @endif>Perempuan
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="telp">Nomor Telpon/HP</label>
-                                    <input type="text" id="telp" name="telp"
-                                        onkeypress="return inputAngka(event)"
-                                        class="form-control @error('telp') is-invalid @enderror"
-                                        value="{{ old('telp') }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="nipm">NIPM</label>
-                                    <input type="text" id="nipm" name="nipm"
-                                        onkeypress="return inputAngka(event)"
-                                        class="form-control @error('nipm') is-invalid @enderror"
-                                        value="{{ old('nipm') }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="tanggal_mulai_kerja">Tanggal Mulai Kerja</label>
-                                    <input type="date" id="tanggal_mulai_kerja" name="tanggal_mulai_kerja"
-                                        class="form-control @error('tanggal_mulai_kerja') is-invalid @enderror"
-                                        value="{{ old('tanggal_mulai_kerja', date('Y-m-d')) }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="foto">File input</label>
-                                    <div class="input-group">
-                                        <div class="custom-file">
-                                            <input type="file" name="foto"
-                                                class="custom-file-input @error('foto') is-invalid @enderror"
-                                                id="foto">
-                                            <label class="custom-file-label" for="foto">Choose file</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal"><i
-                                class='nav-icon fas fa-arrow-left'></i> &nbsp; Kembali</button>
-                        <button type="submit" class="btn btn-primary"><i class="nav-icon fas fa-save"></i> &nbsp;
-                            Tambahkan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    <script>
+        // function checkMenu() {
+        //     console.log($(`input[data-menu-id=${menu_id}]`));
+        //     // $(`input[data-menu-id=${menu_id}]`).prop('checked', true);
+        // }
+
+        function updateHakAkses(e) {
+            const menu_id = e.target.getAttribute('data-menu-id');
+            const role_id = e.target.getAttribute('data-role-id');
+
+            let url = "{{ route('admin.update-menu', ':role_id') }}";
+            url = url.replace(':role_id', role_id);
+
+            $.ajax({
+                url: url,
+                method: "POST",
+                data: {
+                    'menu_id': menu_id,
+                },
+                success: function(result) {
+                    if (result.success) {
+                        toastr.success(result.success);
+                    }
+                },
+                error: function() {
+                    toastr.error('Terjadi kesalahan.');
+                }
+            })
+        }
+    </script>
+
 @endsection
 @section('script')
     <script>

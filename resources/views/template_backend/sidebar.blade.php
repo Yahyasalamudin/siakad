@@ -1,3 +1,17 @@
+@php
+    use App\Role;
+    use App\UserMenu;
+    
+    $user_menu = UserMenu::with('role')
+        ->whereHas('role', function ($query) {
+            return $query->where('role', auth()->user()->role);
+        })
+        ->get();
+    // $user_menu = Role::with('menu')
+    //     ->where('role', auth()->user()->role)
+    //     ->get();
+    // dd($user_menu);
+@endphp
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -12,10 +26,15 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
-                @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Operator')
+                @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Tata Usaha')
                     @foreach ($user_menu as $menu)
                         @if ($menu->route == null)
-                            <li class="nav-item has-treeview @foreach ($menu->sub_menu as $sub_menu){{ Route::is($sub_menu->route) ? 'menu-open' : '' }} @endforeach"
+                            <li class="nav-item has-treeview 
+                            {{ $menu->sub_menu->contains(function ($sub_menu) {
+                                return Route::is($sub_menu->route);
+                            })
+                                ? 'menu-open'
+                                : '' }}"
                                 id="{{ 'li' . $menu->title }}">
                                 <a href="#" class="nav-link">
                                     <i class="nav-icon {{ $menu->icon }}"></i>
@@ -38,7 +57,8 @@
                             </li>
                         @elseif($menu->menu_id == null && $menu->route)
                             <li class="nav-item">
-                                <a href="{{ route($menu->route) }}" class="nav-link">
+                                <a href="{{ route($menu->route) }}"
+                                    class="nav-link {{ Route::is($menu->route) && Request::route('role') == $menu->route_param ? 'active' : '' }}">
                                     <i class="{{ $menu->icon }} nav-icon"></i>
                                     <p>{{ $menu->title }}</p>
                                 </a>

@@ -184,21 +184,21 @@ class UserMenuSeeder extends Seeder
             [
                 'title' => 'Rekap Absensi Guru',
                 'icon' => 'fas fa-chalkboard-teacher',
-                'menu_id' => '22',
+                'menu_id' => '24',
                 'route' => "guru.absensi",
                 'route_param' => null,
             ],
             [
                 'title' => 'Rekap Absensi CS',
                 'icon' => 'fas fa-broom',
-                'menu_id' => '22',
+                'menu_id' => '24',
                 'route' => "karyawan.all",
                 'route_param' => 'CS',
             ],
             [
                 'title' => 'Rekap Absensi Satpam',
                 'icon' => 'fas fa-user-shield',
-                'menu_id' => '22',
+                'menu_id' => '24',
                 'route' => "karyawan.all",
                 'route_param' => 'Satpam',
             ],
@@ -228,6 +228,13 @@ class UserMenuSeeder extends Seeder
                 'icon' => 'fas fa-user',
                 'menu_id' => '4',
                 'route' => "admin.menu",
+                'route_param' => null,
+            ],
+            [
+                'title' => 'Absensi Guru',
+                'icon' => 'fas fa-calendar-check',
+                'menu_id' => null,
+                'route' => "guru.absensi",
                 'route_param' => null,
             ],
         ];

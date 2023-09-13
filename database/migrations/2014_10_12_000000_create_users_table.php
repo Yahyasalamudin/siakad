@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
                 'Admin',
                 'Guru',
                 'Siswa',
-                'Operator',
+                'Tata Usaha',
                 'BK',
                 'CS',
                 'Satpam',

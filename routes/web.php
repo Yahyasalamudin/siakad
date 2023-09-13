@@ -135,6 +135,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/pengumuman', 'PengumumanController@index')->name('admin.pengumuman');
     Route::post('/admin/pengumuman/simpan', 'PengumumanController@simpan')->name('admin.pengumuman.simpan');
     Route::get('/admin/menu', 'MenuController@index')->name('admin.menu');
+    Route::post('/admin/menu/update/{role_id}', 'MenuController@update')->name('admin.update-menu');
     Route::get('/guru/kehadiran/{id}', 'GuruController@kehadiran')->name('guru.kehadiran');
     Route::get('/absen/json', 'GuruController@json');
     Route::get('/guru/mapel/{id}', 'GuruController@mapel')->name('guru.mapel');

@@ -16,3 +16,9 @@ use Illuminate\Foundation\Inspiring;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+if ('production' === App::environment()) {
+    Artisan::command('migrate:fresh', function () {
+        $this->comment('You are not allowed to do this in production!');
+    })->describe('Override default command in production.');
+}

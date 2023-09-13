@@ -26,11 +26,7 @@
                     <tbody>
                         @foreach ($user as $role => $data)
                             <tr>
-                                @if ($role == 'Operator')
-                                    <td>Tata Usaha</td>
-                                @else
-                                    <td>{{ $role }}</td>
-                                @endif
+                                <td>{{ $role }}</td>
                                 <td>{{ $data->count() }}</td>
                                 <td>
                                     <a href="{{ route('user.show', Crypt::encrypt($role)) }}" class="btn btn-info btn-sm"><i
@@ -78,7 +74,7 @@
                                         value="{{ old('role') }}" autocomplete="role">
                                         <option value="">-- Select {{ __('Level User') }} --</option>
                                         <option value="Admin">Admin</option>
-                                        <option value="Operator">Tata Usaha</option>
+                                        <option value="Tata Usaha">Tata Usaha</option>
                                         <option value="Waka Kurikulum">Waka Kurikulum</option>
                                         <option value="Waka Sarpras">Waka Sarpras</option>
                                         <option value="Pokja Kurikulum">Pokja Kurikulum</option>
@@ -149,7 +145,7 @@
                     $("#noId").html(
                         `<label for="nomer">Nomer Induk Siswa</label><input id="nomer" type="text" placeholder="No Induk Siswa" class="form-control" name="nomer" autocomplete="off">`
                     );
-                } else if (kel == "Admin" || kel == "Operator" || kel == "CS" || kel == "Satpam" || kel ==
+                } else if (kel == "Admin" || kel == "Tata Usaha" || kel == "CS" || kel == "Satpam" || kel ==
                     "Waka Kurikulum" || kel == "Pokja Kurikulum" || kel == "Waka Sarpras" || kel ==
                     "Pokja Sarpras" || kel == "Kaprogli") {
                     $("#noId").html(
