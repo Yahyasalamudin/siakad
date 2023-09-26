@@ -99,7 +99,22 @@
                                                 <div class="col-md-12">
                                                     <div class="card-body">
                                                         @foreach ($menu_all as $menu)
-                                                            @if ($menu->route == null)
+                                                            @if ($menu->route != null && $menu->menu_id == null)
+                                                                <div class="form-group">
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                            id="menu-{{ $data->id }}-{{ $menu->id }}"
+                                                                            onchange="updateHakAkses(event)"
+                                                                            data-menu-id="{{ $menu->id }}"
+                                                                            data-role-id="{{ $data->id }}"
+                                                                            @if ($data->menu()->pluck('user_menus.id')->contains($menu->id)) checked @endif>
+                                                                        <label class="form-check-label"
+                                                                            for="menu-{{ $data->id }}-{{ $menu->id }}">
+                                                                            {{ $menu->title }}
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            @elseif ($menu->route == null)
                                                                 <div class="form-group">
                                                                     <div class="form-check">
                                                                         <input class="form-check-input" type="checkbox"
@@ -115,7 +130,8 @@
                                                                     </div>
                                                                     @foreach ($menu->sub_menu as $sub_menu)
                                                                         <div class="form-check ml-3 mt-1">
-                                                                            <input class="form-check-input" type="checkbox"
+                                                                            <input class="form-check-input"
+                                                                                type="checkbox"
                                                                                 id="submenu-{{ $data->id }}-{{ $sub_menu->id }}"
                                                                                 onchange="updateHakAkses(event)"
                                                                                 data-menu-id="{{ $sub_menu->id }}"
