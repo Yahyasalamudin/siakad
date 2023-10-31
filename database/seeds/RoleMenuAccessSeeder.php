@@ -37,8 +37,8 @@ class RoleMenuAccessSeeder extends Seeder
             ['role_id' => 1, 'menu_id' => 23],
             ['role_id' => 1, 'menu_id' => 24],
             ['role_id' => 1, 'menu_id' => 25],
-            ['role_id' => 3, 'menu_id' => 26],
-            ['role_id' => 5, 'menu_id' => 26],
+            ['role_id' => 3, 'menu_id' => 25],
+            ['role_id' => 5, 'menu_id' => 25],
         ];
 
         DB::table('role_menu_access')->insert($data);

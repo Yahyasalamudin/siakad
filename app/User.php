@@ -24,7 +24,8 @@ class User extends Authenticatable
         'role',
         'no_induk',
         'id_card',
-        'tingkatan_kelas'
+        'tingkatan_kelas',
+        'roles'
     ];
 
     public function guru($id)
@@ -47,6 +48,11 @@ class User extends Authenticatable
     public function jadwal_cs()
     {
         return $this->hasMany(JadwalCS::class, 'user_id', 'id');
+    }
+
+    public function getRoleAttribute()
+    {
+        return session('role');
     }
 
     protected $hidden = [

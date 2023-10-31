@@ -62,7 +62,7 @@
                             <td>{{ $data->semester }}</td>
                             <td>{{ $data->file_modul }}</td>
                             <td class="d-flex">
-                                <a href="{{ route('modul.show', Crypt::encrypt($data->id)) }}" target="_blank"
+                                <a href="{{ route('modul.show_file', Crypt::encrypt($data->id)) }}" target="_blank"
                                     class="btn btn-info btn-sm mr-2"><i class="nav-icon fas fa-search-plus"></i>
                                     &nbsp;
                                     Detail</a>

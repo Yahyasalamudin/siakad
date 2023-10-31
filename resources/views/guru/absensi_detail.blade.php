@@ -26,7 +26,7 @@
                             <input type="text" id="mapel" name="mapel" maxlength="5"
                                 onkeypress="return inputAngka(event)"
                                 class="form-control @error('mapel') is-invalid @enderror"
-                                value="{{ $absensi->jadwal->mapel->nama_mapel }}" readonly>
+                                value="{{ $absensi->jadwal->mapel->nama_mapel ?? '-' }}" readonly>
                         </div>
                         <div class="form-group">
                             <label for="ruang">Ruangan</label>

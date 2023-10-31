@@ -58,7 +58,7 @@
                                         </span>
                                     @endif
                                 </td> --}}
-                                <td>{{ $data->jadwal->mapel->nama_mapel }}</td>
+                                <td>{{ $data->jadwal->mapel->nama_mapel ?? '-' }}</td>
                                 <td>
                                     <a href="{{ route('absen.detail', $data->id) }}" class="btn btn-info btn-sm"><i
                                             class="nav-icon fas fa-search-plus"></i> &nbsp;

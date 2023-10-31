@@ -16,6 +16,6 @@ class Modul extends Model
     public function guru()
     {
         // guru yang muncul di modul tidak sesuai??
-        return $this->belongsTo(Guru::class, 'id');
+        return $this->belongsTo(Guru::class, 'guru_id');
     }
 }

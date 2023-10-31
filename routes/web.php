@@ -87,7 +87,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/nilai/get-nilai-siswa', 'NilaiController@get_nilai_siswa');
     Route::get('/nilai/get-siswa', 'NilaiController@get_siswa');
     Route::resource('/modul', 'ModulController');
-    Route::get('/modul/show-file', 'ModulController@show_file')->name('modul.show_file');
     Route::resource('/nilai', 'NilaiController');
     Route::resource('/ulangan', 'UlanganController');
     Route::resource('/sikap', 'SikapController');
@@ -151,6 +150,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/kelas/edit/json', 'KelasController@getEdit');
     Route::resource('/kelas', 'KelasController');
     Route::get('/siswa/kelas/{id}', 'SiswaController@kelas')->name('siswa.kelas');
+    Route::post('/naik_kelas', 'KelasController@naik_kelas')->name('siswa.naik_kelas');
     Route::get('/siswa/view/json', 'SiswaController@view');
     Route::get('/listsiswapdf/{id}', 'SiswaController@cetak_pdf');
     Route::get('/siswa/ubah-foto/{id}', 'SiswaController@ubah_foto')->name('siswa.ubah-foto');
@@ -198,4 +198,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/modul-guru', 'ModulController@show')->name('modul.all');
     Route::get('/modul-guru/get-mapel-guru/{id}', 'ModulController@get_mapel_guru')->name('nilai.get_mapel_guru');
   });
+
+  Route::get('/modul/show-file/{id}', 'ModulController@show_file')->name('modul.show_file');
 });

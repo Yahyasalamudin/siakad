@@ -38,8 +38,6 @@ class ModulController extends Controller
         $tanggal_akhir = $request->tanggal_akhir ?: now();
         $guru_id = $request->guru;
         $mapel_id = $request->mapel;
-        // dd($guru_id);
-        // dd($mapel_id);
         $modul = Modul::
             when($mapel_id, function ($query) use ($guru_id) {
                 $query->where('guru_id', $guru_id);
@@ -47,6 +45,7 @@ class ModulController extends Controller
             ->when($mapel_id, function ($query) use ($mapel_id) {
                 $query->where('mapel_id', $mapel_id);
             })
+            ->with('guru')
             ->whereDate('created_at', '>=', $tanggal_awal)
             ->whereDate('created_at', '<=', $tanggal_akhir)
             ->get();

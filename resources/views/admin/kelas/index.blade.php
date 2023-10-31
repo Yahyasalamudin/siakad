@@ -34,10 +34,13 @@
                         <form action="{{ route('kelas.destroy', $data->id) }}" method="post">
                             @csrf
                             @method('delete')
-                            <button type="button" class="btn btn-info btn-sm" onclick="getSubsSiswa({{$data->id}})" data-toggle="modal" data-target=".view-siswa">
+                            <button type="button" class="btn btn-info btn-sm" onclick="getSubsSiswa({{$data->id}}, 'view-siswa')" data-toggle="modal" data-target=".view-siswa">
                               <i class="nav-icon fas fa-users"></i> &nbsp; View Siswa
                             </button>
-                            <button type="button" class="btn btn-info btn-sm" onclick="getSubsJadwal({{$data->id}})" data-toggle="modal" data-target=".view-jadwal">
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="getSubsSiswa({{$data->id}}, 'view-naik-kelas')" data-toggle="modal" data-target=".naik-kelas">
+                              <i class="nav-icon fas fa-users"></i> &nbsp; Pindah Kelas
+                            </button>
+                            <button type="button" class="btn btn-info btn-sm" onclick="getSubsJadwal({{$data->id}}, 'view-siswa')" data-toggle="modal" data-target=".view-jadwal">
                               <i class="nav-icon fas fa-calendar-alt"></i> &nbsp; View Jadwal
                             </button>
                             <button type="button" class="btn btn-success btn-sm" onclick="getEditKelas({{$data->id}})" data-toggle="modal" data-target="#form-kelas">
@@ -136,6 +139,63 @@
 </div>
 
 <!-- Extra large modal -->
+<div class="modal fade bd-example-modal-lg naik-kelas" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="judul-siswa">Pindah Kelas</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ route('siswa.naik_kelas') }}" method="post">
+          @csrf
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card-body">
+                <div class="row mb-3">
+                  <div class="d-flex align-items-center">
+                    <span>Kelas asal : </span>
+                    <span class="mx-3 font-weight-bold" id="kelas_asal">-</span>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <label class="m-0 p-0 mr-3 font-weight-normal" for="kelas_id">Pindah ke kelas : </label>
+                  <select id="kelas_id" name="kelas_id" class="select2bs4 form-control @error('kelas_id') is-invalid @enderror">
+                    <option value="">-- Pilih Kelas Tujuan --</option>
+                    @foreach ($kelas as $data)
+                      <option value="{{ $data->id }}">{{ $data->nama_kelas }}</option>
+                    @endforeach
+                  </select>
+                  </div>
+                </div>
+                <table class="table table-bordered table-striped table-hover" width="100%">
+                  <thead>
+                    <tr>
+                      <th>No Induk Siswa</th>
+                      <th>Nama Siswa</th>
+                      <th>L/P</th>
+                      <th>Pilih Siswa</th>
+                    </tr>
+                  </thead>
+                  <tbody id="data-naik-kelas">
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.col -->
+            </div>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="nav-icon fas fa-arrow-left"></i> &nbsp; Kembali</button>
+            <button type="submit" class="btn btn-primary"><i class="nav-icon fas fa-save"></i> &nbsp; Pindah Kelas</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Extra large modal -->
 <div class="modal fade bd-example-modal-xl view-jadwal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
@@ -208,7 +268,6 @@
         dataType:"JSON",
         url:"{{ url('/kelas/edit/json') }}",
         success:function(result){
-            // console.log(result);
           if(result){
             $.each(result,function(index, val){
               $("#judul").text('Edit Data Kelas ' + val.nama);
@@ -230,7 +289,7 @@
       });
     }
 
-    function getSubsSiswa(id){
+    function getSubsSiswa(id, type){
       var parent = id;
       $.ajax({
         type:"GET",
@@ -238,28 +297,56 @@
         dataType:"JSON",
         url:"{{ url('/siswa/view/json') }}",
         success:function(result){
-          // console.log(result);
-          var siswa = "";
           if(result){
-            $.each(result,function(index, val){
-              $("#judul-siswa").text('View Data Siswa ' + val.kelas);
-              siswa += "<tr>";
-                siswa += "<td>"+val.no_induk+"</td>";
-                siswa += "<td>"+val.nama_siswa+"</td>";
-                siswa += "<td>"+val.jk+"</td>";
-                siswa += "<td><img src='"+val.foto+"' width='100px'></td>";
-              siswa+="</tr>";
-            });
-            $("#data-siswa").html(siswa);
+            if (type == 'view-siswa') {
+              fillTableSiswa(result);
+            } else {
+              fillTableNaikKelas(result);
+            }
           }
         },
         error:function(){
+          $("#data-naik-kelas").html(siswa);
+          $("#data-siswa").html(siswa);
           toastr.error("Errors 404!");
         },
         complete:function(){
         }
       });
       $("#link-siswa").attr("href", "https://siakad.didev.id/listsiswapdf/"+id);
+    }
+
+    function fillTableSiswa(result) {
+      var siswa = "";
+      $.each(result,function(index, val){
+        $("#judul-siswa").text('View Data Siswa ' + val.kelas);
+        siswa += "<tr>";
+          siswa += "<td>"+val.no_induk+"</td>";
+          siswa += "<td>"+val.nama_siswa+"</td>";
+          siswa += "<td>"+val.jk+"</td>";
+          siswa += "<td><img src='"+val.foto+"' width='100px'></td>";
+        siswa+="</tr>";
+      });
+      $("#data-siswa").html(siswa);
+    }
+
+    function fillTableNaikKelas(result) {
+      var siswa = "";
+      $.each(result,function(index, val){
+        $('#kelas_asal').text(val.kelas);
+        siswa += "<tr>";
+          siswa += "<td>"+val.no_induk+"</td>";
+          siswa += "<td>"+val.nama_siswa+"</td>";
+          siswa += "<td>"+val.jk+"</td>";
+          siswa += `
+            <td>
+              <input type="checkbox" name="siswa_id[` + index + `]" value="` + val.id + `" class="checkboxSiswa" checked>
+            </td>
+          `;
+        siswa+="</tr>";
+      });
+
+      $("#data-naik-kelas").html(siswa);
     }
     
     function getSubsJadwal(id){
@@ -270,7 +357,6 @@
         dataType:"JSON",
         url:"{{ url('/jadwal/view/json') }}",
         success:function(result){
-          // console.log(result);
           var jadwal = "";
           if(result){
             $.each(result,function(index, val){

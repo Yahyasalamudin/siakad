@@ -108,7 +108,7 @@
                                             @if (auth()->user()->role == 'Guru')
                                                 <td>
                                                     @if ($data->jam_mulai <= $jam_mulai && $data->jam_selesai >= $jam_selesai)
-                                                        {{-- @php
+                                                        @php
                                                         $absen = $data->absen_guru->last();
                                                         $created_at = '';
                                                         
@@ -121,7 +121,7 @@
 
                                                     @if ($created_at != '')
                                                         @if ($created_at->isSameDay($today) && $created_at->isSameYear($today))
-                                                            -
+                                                            <div class="badge badge-success p-2">Absen Selesai</div>
                                                         @else
                                                             <a href="{{ route('absen.harian', [
                                                                 'kelas_id' => Crypt::encrypt($data->kelas->id),
@@ -139,15 +139,15 @@
                                                             class="btn btn-primary">
                                                             Absen Kehadiran
                                                         </a>
-                                                    @endif --}}
-
+                                                    @endif
+{{-- 
                                                         <a href="{{ route('absen.harian', [
                                                             'kelas_id' => Crypt::encrypt($data->kelas->id),
                                                             'jadwal_id' => Crypt::encrypt($data->id),
                                                         ]) }}"
                                                             class="btn btn-primary">
                                                             Absen Kehadiran
-                                                        </a>
+                                                        </a> --}}
                                                     @else
                                                         <button type="button" class="btn btn-info" data-toggle="modal"
                                                             data-target=".pindah-jadwal-{{ $data->id }}"> &nbsp; Pindah

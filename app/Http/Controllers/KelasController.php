@@ -101,9 +101,18 @@ class KelasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function naik_kelas(Request $request)
     {
-        // 
+        $this->validate($request, [
+            'kelas_id' => 'required',
+            'siswa_id' => 'required',
+        ]);
+
+        $siswa = Siswa::whereIn('id', $request->siswa_id)->update([
+            'kelas_id' => $request->kelas_id
+        ]);
+
+        return redirect()->back()->with('success', 'Data kelas untuk siswa berhasil diperbarui!');
     }
 
     /**

@@ -3,7 +3,7 @@
 @section('content')
     <div class="card-body login-card-body">
         <p class="login-box-msg">Sign in to start your session</p>
-
+        
         <form action="{{ route('login') }}" method="post">
             @csrf
             <div class="input-group mb-3">
@@ -31,6 +31,24 @@
                     </div>
                 </div>
                 @error('password')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+            <div class="input-group mb-3">
+                <select name="role" id="role" class="form-control @error('role') is-invalid @enderror">
+                    <option value="">- Pilih Jabatan -</option>
+                    @foreach ($roles as $role)
+                        <option>{{ $role->role }}</option>
+                    @endforeach
+                </select>
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-user-tag"></span>
+                    </div>
+                </div>
+                @error('role')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>

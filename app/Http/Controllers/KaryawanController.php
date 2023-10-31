@@ -106,7 +106,7 @@ class KaryawanController extends Controller
 
     public function karyawan_all($role)
     {
-        $karyawan = User::where('role', $role)->get();
+        $karyawan = User::whereJsonContains('roles', $role)->get();
 
         return view('karyawan.karyawan-all', compact('karyawan', 'role'));
     }

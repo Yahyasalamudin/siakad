@@ -19,10 +19,10 @@
                     <div class="col-sm-3">
                         <div class="form-group">
                             <div class="input-daterange input-group" id="date-range">
-                                <input type="text" class="form-control" id="date-start" name="start"
+                                <input type="text" class="form-control" id="date_start" name="start"
                                     value="<?php echo date('d-m-Y'); ?>" />
                                 <span class="p-1 px-3 bg-info b-0 text-white pt-2">To</span>
-                                <input type="text" class="form-control" id="date-end" name="end"
+                                <input type="text" class="form-control" id="date_end" name="end"
                                     value="<?php echo date('d-m-Y'); ?>" />
                             </div>
                         </div>
@@ -145,14 +145,14 @@
                             <td>${val.tanggal}</td>
                             <td>${val.nama_siswa}</td>
                                 <td>${val.kelas}</td>
-                                <td>
-                                    ${val.status_presensi !== undefined ? val.status_presensi : 'Kosong'}
+                                <td class="badge ${val.status == 0 ? 'badge-warning' : val.status_masuk == 'Tepat Waktu' ? 'badge-success' : 'badge-danger'}">
+                                    ${val.status_masuk !== undefined ? val.status_masuk : 'Kosong'}
                                 </td>
                                 <td>
-                                    ${val.jam_masuk !== undefined ? val.jam_masuk : ''}
+                                    ${val.jam_masuk !== undefined ? val.jam_masuk : '-'}
                                 </td>
                                 <td>
-                                    ${val.jam_pulang !== undefined ? val.jam_pulang : ''}
+                                    ${val.jam_pulang !== undefined ? val.jam_pulang : '-'}
                                 </td>
                             `;
                             tbody.appendChild(row);

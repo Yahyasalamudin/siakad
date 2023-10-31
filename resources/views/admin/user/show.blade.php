@@ -1,14 +1,10 @@
 @extends('template_backend.home')
 @section('heading')
-    Data User @foreach ($role as $d => $data)
-        {{ $d }}
-    @endforeach
+    Data User {{ $role }}
 @endsection
 @section('page')
     <li class="breadcrumb-item active"><a href="{{ route('user.index') }}">User</a></li>
-    @foreach ($role as $d => $data)
-        <li class="breadcrumb-item active">{{ $d }}</li>
-    @endforeach
+    <li class="breadcrumb-item active">{{ $role }}</li>
 @endsection
 @section('content')
     <div class="col-md-12">
@@ -26,15 +22,13 @@
                             <th>No.</th>
                             <th>Username</th>
                             <th>Email</th>
-                            @foreach ($role as $d => $data)
-                                @if ($d == 'Guru')
-                                    <th>No Id Card</th>
-                                @elseif ($d == 'Siswa')
-                                    <th>No Induk Siswa</th>
-                                @elseif ($d == 'BK')
-                                    <th>Tingkatan Kelas</th>
-                                @endif
-                            @endforeach
+                            @if ($role == 'Guru')
+                                <th>No Id Card</th>
+                            @elseif ($role == 'Siswa')
+                                <th>No Induk Siswa</th>
+                            @elseif ($role == 'BK')
+                                <th>Tingkatan Kelas</th>
+                            @endif
                             {{-- <th>Tanggal Register</th> --}}
                             <th>Aksi</th>
                         </tr>
@@ -64,6 +58,8 @@
                                         <form action="{{ route('user.destroy', $data->id) }}" method="post">
                                             @csrf
                                             @method('delete')
+                                            <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target=".edit-jabatan-{{ $data->id }}"><i class="nav-icon fas fa-edit"></i>
+                                                &nbsp; Edit Jabatan</button>
                                             <button class="btn btn-danger btn-sm"><i class="nav-icon fas fa-trash-alt"></i>
                                                 &nbsp; Hapus</button>
                                         </form>
@@ -74,7 +70,7 @@
                                     <div class="modal-dialog modal-md" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 class="modal-title">Tambah Data User</h4>
+                                                <h4 class="modal-title">Edit Data BK</h4>
                                                 <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
@@ -105,6 +101,47 @@
                                                                         value="12">Kelas 12</option>
                                                                 </select>
                                                             </div>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                            <div class="modal-footer justify-content-between">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal"><i
+                                                        class='nav-icon fas fa-arrow-left'></i> &nbsp; Kembali</button>
+                                                <button type="submit" class="btn btn-primary"><i
+                                                        class="nav-icon fas fa-save"></i> &nbsp;
+                                                    Update</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade bd-example-modal-md edit-jabatan-{{ $data->id }}" tabindex="-1"
+                                    role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-md" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Edit Jabatan User</h4>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{ route('user.update', $data->id) }}" method="post">
+                                                    @csrf
+                                                    @method('put')
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            @foreach ($roles as $role)
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="{{ $role->role }}" name="roles[]" id="role-{{ $role->id }}" {{ in_array($role->role, json_decode($data->roles)) ? 'checked' : '' }}>
+                                                                    
+                                                                    <label class="form-check-label" for="role-{{ $role->id }}">
+                                                                        {{ $role->role }}
+                                                                    </label>
+                                                                </div>
+                                                            @endforeach
                                                         </div>
                                                     </div>
                                             </div>

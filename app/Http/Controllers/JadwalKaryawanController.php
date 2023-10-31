@@ -12,7 +12,7 @@ class JadwalKaryawanController extends Controller
 {
     public function index($role)
     {
-        $users = User::where('role', $role)->get();
+        $users = User::whereJsonContains('roles', $role)->get();
         $hari = Hari::all();
 
         return view('admin.jadwal_karyawan.index', compact('users', 'hari', 'role'));

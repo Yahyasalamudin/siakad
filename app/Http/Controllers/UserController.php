@@ -8,6 +8,7 @@ use App\Guru;
 use App\Siswa;
 use App\Mapel;
 use App\Kelas;
+use App\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Http\Request;
@@ -23,7 +24,10 @@ class UserController extends Controller
     public function index()
     {
         $user = User::all();
-        $user = $user->groupBy('role');
+        $user = $user->groupBy(function ($user) {
+                    $roles = json_decode($user->roles, true);
+                    return $roles;
+                });
 
         return view('admin.user.index', compact('user'));
     }
@@ -63,7 +67,7 @@ class UserController extends Controller
                     'name' => $guru->nama_guru,
                     'email' => $request->email,
                     'password' => Hash::make($request->password),
-                    'role' => $request->role,
+                    'roles' => json_encode($request->role),
                     'id_card' => $request->nomer,
                 ]);
                 return redirect()->back()->with('success', 'Berhasil menambahkan user Guru baru!');
@@ -81,7 +85,7 @@ class UserController extends Controller
                     'name' => strtolower($siswa->nama_siswa),
                     'email' => $request->email,
                     'password' => Hash::make($request->password),
-                    'role' => $request->role,
+                    'roles' => json_encode($request->role),
                     'no_induk' => $request->nomer,
                 ]);
                 return redirect()->back()->with('success', 'Berhasil menambahkan user Siswa baru!');
@@ -94,7 +98,7 @@ class UserController extends Controller
                 'tingkatan_kelas' => $request->tingkatan_kelas,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'role' => $request->role,
+                'roles' => json_encode($request->role),
             ]);
             return redirect()->back()->with('success', 'Berhasil menambahkan user Admin baru!');
         } else {
@@ -102,7 +106,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'role' => $request->role,
+                'roles' => json_encode($request->role),
             ]);
             return redirect()->back()->with('success', 'Berhasil menambahkan user Admin baru!');
         }
@@ -120,9 +124,10 @@ class UserController extends Controller
         if ($id == "Admin" && Auth::user()->role == "Operator") {
             return redirect()->back()->with('warning', 'Maaf halaman ini hanya bisa di akses oleh Admin!');
         } else {
-            $user = User::where('role', $id)->get();
-            $role = $user->groupBy('role');
-            return view('admin.user.show', compact('user', 'role'));
+            $user = User::whereJsonContains('roles', $id)->get();
+            $role = $id;
+            $roles = Role::all();
+            return view('admin.user.show', compact('user', 'role', 'roles'));
         }
     }
 
@@ -146,7 +151,17 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // 
+        $request->validate([
+            'roles' => 'required|array'
+        ]);
+
+        $user = User::find($id);
+
+        $user->update([
+            'roles' => json_encode($request->roles)
+        ]);
+
+        return redirect()->back()->with('success', 'Jabatan ' . $user->name . ' telah berhasil diubah');
     }
 
     /**

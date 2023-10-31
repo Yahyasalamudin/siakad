@@ -173,7 +173,7 @@
             $.ajax({
                 type: "GET",
                 dataType: "JSON",
-                url: `{{ url('/nilai_siswa/get-mapel-guru/${guru.value}') }}`,
+                url: `{{ url('/nilai-siswa/get-mapel-guru/${guru.value}') }}`,
                 success: function(result) {
                     if (result) {
                         $('#mapel').empty();
@@ -219,7 +219,7 @@
                     'mapel': mapel.value,
                 },
                 dataType: "JSON",
-                url: "{{ url('/nilai_siswa/get-nilai-siswa') }}",
+                url: "{{ url('/nilai-siswa/get-nilai-siswa') }}",
                 success: function(result) {
                     if (result) {
                         $("#BadgeNotFound").addClass('d-none');
