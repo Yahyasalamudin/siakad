@@ -159,14 +159,20 @@
                     <span>Kelas asal : </span>
                     <span class="mx-3 font-weight-bold" id="kelas_asal">-</span>
                   </div>
-                  <div class="d-flex align-items-center">
+                  <div id="kelas_wrapper" class="d-flex align-items-center">
                     <label class="m-0 p-0 mr-3 font-weight-normal" for="kelas_id">Pindah ke kelas : </label>
-                  <select id="kelas_id" name="kelas_id" class="select2bs4 form-control @error('kelas_id') is-invalid @enderror">
-                    <option value="">-- Pilih Kelas Tujuan --</option>
-                    @foreach ($kelas as $data)
-                      <option value="{{ $data->id }}">{{ $data->nama_kelas }}</option>
-                    @endforeach
-                  </select>
+                    <select id="kelas_id" name="kelas_id" class="select2bs4 form-control @error('kelas_id') is-invalid @enderror">
+                      <option value="">-- Pilih Kelas Tujuan --</option>
+                      @foreach ($kelas as $data)
+                        <option value="{{ $data->id }}">{{ $data->nama_kelas }}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <input type="hidden" id="tipe_pindah_siswa" name="tipe_pindah_siswa">
+                  <div id="tahun_lulus_wrapper" class="d-none">
+                      <label class="m-0 p-0 mr-3 font-weight-normal" for="tahun_lulus">Lulus pada tahun ajaran : </label>
+                      <input type="text" id="tahun_lulus" name="tahun_lulus"
+                              class="form-control @error('tahun_lulus') is-invalid @enderror" readonly>
                   </div>
                 </div>
                 <table class="table table-bordered table-striped table-hover" width="100%">
@@ -187,7 +193,7 @@
           </div>
           <div class="modal-footer justify-content-between">
             <button type="button" class="btn btn-default" data-dismiss="modal"><i class="nav-icon fas fa-arrow-left"></i> &nbsp; Kembali</button>
-            <button type="submit" class="btn btn-primary"><i class="nav-icon fas fa-save"></i> &nbsp; Pindah Kelas</button>
+            <button type="submit" id="btn_pindah_siswa" class="btn btn-primary"><i class="nav-icon fas fa-save"></i> &nbsp; Pindah Kelas</button>
           </div>
         </form>
       </div>
@@ -269,7 +275,7 @@
         url:"{{ url('/kelas/edit/json') }}",
         success:function(result){
           if(result){
-            $.each(result,function(index, val){
+            $.each(result.siswa, function(index, val){
               $("#judul").text('Edit Data Kelas ' + val.nama);
               $('#id').val(val.id);
               $('#form_nama').html('');
@@ -299,9 +305,42 @@
         success:function(result){
           if(result){
             if (type == 'view-siswa') {
-              fillTableSiswa(result);
+              fillTableSiswa(result.siswa);
             } else {
-              fillTableNaikKelas(result);
+              fillTableNaikKelas(result.siswa);
+
+              const isMaxClassroom = result.is_max_classroom;
+              if (isMaxClassroom) {
+                const currentYear = new Date().getFullYear();
+                $('#tipe_pindah_siswa').val('graduate');
+                $('#kelas_wrapper').addClass('d-none')
+                $('#kelas_wrapper').removeClass('d-flex align-items-center')
+                $('#tahun_lulus_wrapper').removeClass('d-none')
+                $('#tahun_lulus_wrapper').addClass('d-flex align-items-center')
+                $('#tahun_lulus').val(currentYear);
+                $('#btn_pindah_siswa').text('Luluskan Siswa');
+                $('#btn_pindah_siswa').off('click');
+                $('#btn_pindah_siswa').click((e) => {
+                    e.preventDefault()
+                    if (confirm('Apakah Anda yakin ingin meluluskan siswa?')) {
+                        $('#form-pindah-siswa').submit();
+                    }
+                });
+              } else {
+                $('#tipe_pindah_siswa').val('change-class');
+                $('#tahun_lulus_wrapper').addClass('d-none')
+                $('#tahun_lulus_wrapper').removeClass('d-flex align-items-center')
+                $('#kelas_wrapper').removeClass('d-none')
+                $('#kelas_wrapper').addClass('d-flex align-items-center')
+                $('#btn_pindah_siswa').text('Pindah Kelas');
+                $('#btn_pindah_siswa').off('click');
+                $('#btn_pindah_siswa').click((e) => {
+                    e.preventDefault()
+                    if (confirm('Apakah Anda yakin ingin memindahkan siswa?')) {
+                        $('#form-pindah-siswa').submit();
+                    }
+                });
+              }
             }
           }
         },

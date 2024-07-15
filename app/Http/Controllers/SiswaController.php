@@ -227,10 +227,14 @@ class SiswaController extends Controller
 
     public function view(Request $request)
     {
-        $siswa = Siswa::OrderBy('nama_siswa', 'asc')->where('kelas_id', $request->id)->get();
+        $classroom = Kelas::find($request->id);
+        $isMaxClassroom = strpos($classroom->nama_kelas, 'XII') !== false;
+        $newForm['is_max_classroom'] = $isMaxClassroom;
+        
+        $siswa = Siswa::OrderBy('nama_siswa', 'asc')->where('graduation_id', null)->where('kelas_id', $request->id)->get();
 
         foreach ($siswa as $val) {
-            $newForm[] = array(
+            $newForm['siswa'][] = array(
                 'id' => $val->id,
                 'kelas' => $val->kelas->nama_kelas,
                 'no_induk' => $val->no_induk,
@@ -256,7 +260,7 @@ class SiswaController extends Controller
     public function kelas($id)
     {
         $id = Crypt::decrypt($id);
-        $siswa = Siswa::where('kelas_id', $id)->OrderBy('nama_siswa', 'asc')->get();
+        $siswa = Siswa::where('graduation_id', null)->where('kelas_id', $id)->OrderBy('nama_siswa', 'asc')->get();
         $kelas = Kelas::findorfail($id);
         return view('admin.siswa.show', compact('siswa', 'kelas'));
     }

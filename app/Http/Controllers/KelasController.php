@@ -7,6 +7,7 @@ use App\Guru;
 use App\Paket;
 use App\Jadwal;
 use App\Siswa;
+use App\TahunLulus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 
@@ -104,9 +105,19 @@ class KelasController extends Controller
     public function naik_kelas(Request $request)
     {
         $this->validate($request, [
-            'kelas_id' => 'required',
+            'kelas_id' => $request->tipe_pindah_siswa == 'change-class' ? 'required' : 'nullable',
             'siswa_id' => 'required',
         ]);
+
+        if ($request->tipe_pindah_siswa == 'graduate') {
+            $tahun_lulus = TahunLulus::firstOrCreate(['year' => $request->tahun_lulus]);
+            
+            Siswa::whereIn('id', $request->siswa_id)->update([
+                'graduation_id' => $tahun_lulus->id,
+            ]);
+
+            return redirect()->back()->with('success', 'Data kelas untuk siswa berhasil diperbarui!');
+        }
 
         $siswa = Siswa::whereIn('id', $request->siswa_id)->update([
             'kelas_id' => $request->kelas_id

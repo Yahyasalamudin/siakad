@@ -95,6 +95,9 @@
                                     <a href="{{ route('siswa.kelas', Crypt::encrypt($data->id)) }}"
                                         class="btn btn-info btn-sm"><i class="nav-icon fas fa-search-plus"></i> &nbsp;
                                         Detail</a>
+                                    <button type="button" class="btn btn-secondary btn-sm" onclick="getSubsSiswa({{$data->id}}, 'view-naik-kelas')" data-toggle="modal" data-target=".naik-kelas">
+                                        <i class="nav-icon fas fa-users"></i> &nbsp; Pindah Kelas
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
@@ -201,9 +204,140 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade bd-example-modal-lg naik-kelas" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="judul-siswa">Pindah Kelas</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('siswa.naik_kelas') }}" id="form-pindah-siswa" method="post">
+                @csrf
+                    <div class="row">
+                        <div class="col-md-12">
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="d-flex align-items-center">
+                                    <span>Kelas asal : </span>
+                                    <span class="mx-3 font-weight-bold" id="kelas_asal">-</span>
+                                </div>
+                                <div id="kelas_wrapper" class="d-flex align-items-center">
+                                    <label class="m-0 p-0 mr-3 font-weight-normal" for="kelas_id">Pindah ke kelas : </label>
+                                    <select id="kelas_id" name="kelas_id" class="select2bs4 form-control @error('kelas_id') is-invalid @enderror">
+                                        <option value="">-- Pilih Kelas Tujuan --</option>
+                                        @foreach ($kelas as $data)
+                                        <option value="{{ $data->id }}">{{ $data->nama_kelas }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <input type="hidden" id="tipe_pindah_siswa" name="tipe_pindah_siswa">
+                                <div id="tahun_lulus_wrapper" class="d-none">
+                                    <label class="m-0 p-0 mr-3 font-weight-normal" for="tahun_lulus">Lulus pada tahun ajaran : </label>
+                                    <input type="text" id="tahun_lulus" name="tahun_lulus"
+                                            class="form-control @error('tahun_lulus') is-invalid @enderror" readonly>
+                                </div>
+                            <table class="table table-bordered table-striped table-hover" width="100%">
+                            <thead>
+                                <tr>
+                                <th>No Induk Siswa</th>
+                                <th>Nama Siswa</th>
+                                <th>L/P</th>
+                                <th>Pilih Siswa</th>
+                                </tr>
+                            </thead>
+                            <tbody id="data-naik-kelas">
+                            </tbody>
+                            </table>
+                        </div>
+                        <!-- /.col -->
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="nav-icon fas fa-arrow-left"></i> &nbsp; Kembali</button>
+                        <button type="submit" id="btn_pindah_siswa" class="btn btn-primary"><i class="nav-icon fas fa-save"></i> &nbsp; Pindah Kelas</button>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+        </div>
 @endsection
 @section('script')
     <script>
+        function getSubsSiswa(id, type){
+            var parent = id;
+            $.ajax({
+                type:"GET",
+                data:"id="+parent,
+                dataType:"JSON",
+                url:"{{ url('/siswa/view/json') }}",
+                success:function(result){
+                    if(result){
+                        const isMaxClassroom = result.is_max_classroom;
+                        if (isMaxClassroom) {
+                            const currentYear = new Date().getFullYear();
+                            $('#tipe_pindah_siswa').val('graduate');
+                            $('#kelas_wrapper').addClass('d-none')
+                            $('#kelas_wrapper').removeClass('d-flex align-items-center')
+                            $('#tahun_lulus_wrapper').removeClass('d-none')
+                            $('#tahun_lulus_wrapper').addClass('d-flex align-items-center')
+                            $('#tahun_lulus').val(currentYear);
+                            $('#btn_pindah_siswa').text('Luluskan Siswa');
+                            $('#btn_pindah_siswa').off('click');
+                            $('#btn_pindah_siswa').click((e) => {
+                                e.preventDefault()
+                                if (confirm('Apakah Anda yakin ingin meluluskan siswa?')) {
+                                    $('#form-pindah-siswa').submit();
+                                }
+                            });
+                        } else {
+                            $('#tipe_pindah_siswa').val('change-class');
+                            $('#tahun_lulus_wrapper').addClass('d-none')
+                            $('#tahun_lulus_wrapper').removeClass('d-flex align-items-center')
+                            $('#kelas_wrapper').removeClass('d-none')
+                            $('#kelas_wrapper').addClass('d-flex align-items-center')
+                            $('#btn_pindah_siswa').text('Pindah Kelas');
+                            $('#btn_pindah_siswa').off('click');
+                            $('#btn_pindah_siswa').click((e) => {
+                                e.preventDefault()
+                                if (confirm('Apakah Anda yakin ingin memindahkan siswa?')) {
+                                    $('#form-pindah-siswa').submit();
+                                }
+                            });
+                        }
+                        
+                        var siswa = "";
+                        $.each(result.siswa,function(index, val){
+                            $('#kelas_asal').text(val.kelas);
+                            siswa += "<tr>";
+                            siswa += "<td>"+val.no_induk+"</td>";
+                            siswa += "<td>"+val.nama_siswa+"</td>";
+                            siswa += "<td>"+val.jk+"</td>";
+                            siswa += `
+                                <td>
+                                <input type="checkbox" name="siswa_id[` + index + `]" value="` + val.id + `" class="checkboxSiswa" checked>
+                                </td>
+                            `;
+                            siswa+="</tr>";
+                        });
+
+                        $("#data-naik-kelas").html(siswa);
+                    }
+                },
+                error:function(){
+                    $("#data-naik-kelas").html('');
+                    toastr.error("Errors 404!");
+                },
+                complete:function(){
+                }
+            });
+            $("#link-siswa").attr("href", "https://siakad.didev.id/listsiswapdf/"+id);
+        }
+        
         $("#MasterData").addClass("active");
         $("#liMasterData").addClass("menu-open");
         $("#DataSiswa").addClass("active");

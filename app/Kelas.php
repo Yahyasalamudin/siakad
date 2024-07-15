@@ -11,6 +11,12 @@ class Kelas extends Model
 
     protected $fillable = ['paket_id', 'nama_kelas', 'guru_id'];
 
+
+    public function siswa()
+    {
+        return $this->hasMany('App\Siswa');
+    }
+
     public function guru()
     {
         return $this->belongsTo('App\Guru')->withDefault();
