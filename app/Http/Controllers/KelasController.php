@@ -49,13 +49,11 @@ class KelasController extends Controller
             $this->validate($request, [
                 'nama_kelas' => 'required|min:6|max:10',
                 'paket_id' => 'required',
-                'guru_id' => 'required',
             ]);
         } else {
             $this->validate($request, [
                 'nama_kelas' => 'required|unique:kelas|min:6|max:10',
                 'paket_id' => 'required',
-                'guru_id' => 'required|unique:kelas',
             ]);
         }
 
@@ -107,6 +105,7 @@ class KelasController extends Controller
         $this->validate($request, [
             'kelas_id' => $request->tipe_pindah_siswa == 'change-class' ? 'required' : 'nullable',
             'siswa_id' => 'required',
+            'tipe_pindah_siswa' => 'required',
         ]);
 
         if ($request->tipe_pindah_siswa == 'graduate') {

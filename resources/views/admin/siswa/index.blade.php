@@ -220,12 +220,26 @@
                     <div class="row">
                         <div class="col-md-12">
                         <div class="card-body">
-                            <div class="row mb-3">
-                                <div class="d-flex align-items-center">
+                            <div class="d-flex flex-column mb-3">
+                                <div class="mb-3 d-flex align-items-center">
                                     <span>Kelas asal : </span>
                                     <span class="mx-3 font-weight-bold" id="kelas_asal">-</span>
                                 </div>
-                                <div id="kelas_wrapper" class="d-flex align-items-center">
+                                <div class="form-group" id="tipe_pindah_siswa_wrapper" class="d-none">
+                                    <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="tipe_pindah_siswa" id="tipe_pindah_siswa_1" value="change-class" checked>
+                                    <label class="form-check-label" for="tipe_pindah_siswa_1">
+                                        Pindah Kelas
+                                    </label>
+                                    </div>
+                                    <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="tipe_pindah_siswa" id="tipe_pindah_siswa_2" value="graduate">
+                                    <label class="form-check-label" for="tipe_pindah_siswa_2">
+                                        Luluskan Siswa
+                                    </label>
+                                    </div>
+                                </div>
+                                <div id="kelas_wrapper" class="mb-3 d-flex align-items-center">
                                     <label class="m-0 p-0 mr-3 font-weight-normal" for="kelas_id">Pindah ke kelas : </label>
                                     <select id="kelas_id" name="kelas_id" class="select2bs4 form-control @error('kelas_id') is-invalid @enderror">
                                         <option value="">-- Pilih Kelas Tujuan --</option>
@@ -234,12 +248,12 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <input type="hidden" id="tipe_pindah_siswa" name="tipe_pindah_siswa">
-                                <div id="tahun_lulus_wrapper" class="d-none">
+                                <div id="tahun_lulus_wrapper" class="mb-3 d-none">
                                     <label class="m-0 p-0 mr-3 font-weight-normal" for="tahun_lulus">Lulus pada tahun ajaran : </label>
                                     <input type="text" id="tahun_lulus" name="tahun_lulus"
                                             class="form-control @error('tahun_lulus') is-invalid @enderror" readonly>
                                 </div>
+                            </div>
                             <table class="table table-bordered table-striped table-hover" width="100%">
                             <thead>
                                 <tr>
@@ -268,6 +282,41 @@
 @endsection
 @section('script')
     <script>
+        $(document).ready(function() {
+            $('input[name="tipe_pindah_siswa"]').change(function() {
+                var selectedValue = $(this).val();
+                if (selectedValue == 'graduate') {
+                    const currentYear = new Date().getFullYear();
+                    $('#kelas_wrapper').addClass('d-none')
+                    $('#kelas_wrapper').removeClass('d-flex align-items-center')
+                    $('#tahun_lulus_wrapper').removeClass('d-none')
+                    $('#tahun_lulus_wrapper').addClass('d-flex align-items-center')
+                    $('#tahun_lulus').val(currentYear);
+                    $('#btn_pindah_siswa').text('Luluskan Siswa');
+                    $('#btn_pindah_siswa').off('click');
+                    $('#btn_pindah_siswa').click((e) => {
+                        e.preventDefault()
+                        if (confirm('Apakah Anda yakin ingin meluluskan siswa?')) {
+                            $('#form-pindah-siswa').submit();
+                        }
+                    });
+                } else {
+                    $('#kelas_wrapper').removeClass('d-none')
+                    $('#kelas_wrapper').addClass('d-flex align-items-center')
+                    $('#tahun_lulus_wrapper').addClass('d-none')
+                    $('#tahun_lulus_wrapper').removeClass('d-flex align-items-center')
+                    $('#btn_pindah_siswa').text('Pindah Kelas');
+                    $('#btn_pindah_siswa').off('click');
+                    $('#btn_pindah_siswa').click((e) => {
+                        e.preventDefault()
+                        if (confirm('Apakah Anda yakin ingin memindahkan siswa?')) {
+                            $('#form-pindah-siswa').submit();
+                        }
+                    });
+                }
+            });
+        });
+        
         function getSubsSiswa(id, type){
             var parent = id;
             $.ajax({
@@ -279,35 +328,9 @@
                     if(result){
                         const isMaxClassroom = result.is_max_classroom;
                         if (isMaxClassroom) {
-                            const currentYear = new Date().getFullYear();
-                            $('#tipe_pindah_siswa').val('graduate');
-                            $('#kelas_wrapper').addClass('d-none')
-                            $('#kelas_wrapper').removeClass('d-flex align-items-center')
-                            $('#tahun_lulus_wrapper').removeClass('d-none')
-                            $('#tahun_lulus_wrapper').addClass('d-flex align-items-center')
-                            $('#tahun_lulus').val(currentYear);
-                            $('#btn_pindah_siswa').text('Luluskan Siswa');
-                            $('#btn_pindah_siswa').off('click');
-                            $('#btn_pindah_siswa').click((e) => {
-                                e.preventDefault()
-                                if (confirm('Apakah Anda yakin ingin meluluskan siswa?')) {
-                                    $('#form-pindah-siswa').submit();
-                                }
-                            });
+                            $('#tipe_pindah_siswa_wrapper').removeClass('d-none')
                         } else {
-                            $('#tipe_pindah_siswa').val('change-class');
-                            $('#tahun_lulus_wrapper').addClass('d-none')
-                            $('#tahun_lulus_wrapper').removeClass('d-flex align-items-center')
-                            $('#kelas_wrapper').removeClass('d-none')
-                            $('#kelas_wrapper').addClass('d-flex align-items-center')
-                            $('#btn_pindah_siswa').text('Pindah Kelas');
-                            $('#btn_pindah_siswa').off('click');
-                            $('#btn_pindah_siswa').click((e) => {
-                                e.preventDefault()
-                                if (confirm('Apakah Anda yakin ingin memindahkan siswa?')) {
-                                    $('#form-pindah-siswa').submit();
-                                }
-                            });
+                            $('#tipe_pindah_siswa_wrapper').addClass('d-none')
                         }
                         
                         var siswa = "";

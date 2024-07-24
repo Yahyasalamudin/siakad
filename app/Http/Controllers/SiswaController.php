@@ -54,7 +54,7 @@ class SiswaController extends Controller
         if ($request->foto) {
             $foto = $request->foto;
             $new_foto = date('siHdmY') . "_" . $foto->getClientOriginalName();
-            $foto->move('uploads/siswa/', $new_foto);
+            $foto->move(public_path('uploads/siswa/'), $new_foto);
             $nameFoto = 'uploads/siswa/' . $new_foto;
         } else {
             if ($request->jk == 'L') {
@@ -219,7 +219,7 @@ class SiswaController extends Controller
         $siswa_data = [
             'foto' => 'uploads/siswa/' . $new_foto,
         ];
-        $foto->move('uploads/siswa/', $new_foto);
+        $foto->move(public_path('uploads/siswa/'), $new_foto);
         $siswa->update($siswa_data);
 
         return redirect()->route('siswa.index')->with('success', 'Berhasil merubah foto!');

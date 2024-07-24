@@ -56,7 +56,7 @@ class UserController extends Controller
             'role' => 'required',
         ]);
 
-        if ($request->role == 'Guru') {
+        if (in_array('Guru', $request->role)) {
             $countGuru = Guru::where('id_card', $request->nomer)->count();
             $guruId = Guru::where('id_card', $request->nomer)->get();
             foreach ($guruId as $val) {
@@ -74,7 +74,7 @@ class UserController extends Controller
             } else {
                 return redirect()->back()->with('error', 'Maaf User ini tidak terdaftar sebagai guru!');
             }
-        } elseif ($request->role == 'Siswa') {
+        } elseif (in_array('Siswa', $request->role)) {
             $countSiswa = Siswa::where('no_induk', $request->nomer)->count();
             $siswaId = Siswa::where('no_induk', $request->nomer)->get();
             foreach ($siswaId as $val) {
@@ -92,7 +92,7 @@ class UserController extends Controller
             } else {
                 return redirect()->back()->with('error', 'Maaf User ini tidak terdaftar sebagai siswa!');
             }
-        } elseif ($request->role == 'BK') {
+        } elseif (in_array('BK', $request->role)) {
             User::create([
                 'name' => $request->name,
                 'tingkatan_kelas' => $request->tingkatan_kelas,
@@ -353,7 +353,7 @@ class UserController extends Controller
             $guru_data = [
                 'foto' => 'uploads/guru/' . $new_foto,
             ];
-            $foto->move('uploads/guru/', $new_foto);
+            $foto->move(public_path('uploads/guru/'), $new_foto);
             $guru->update($guru_data);
             return redirect()->route('profile')->with('success', 'Foto Profile anda berhasil diperbarui!');
         } else {
@@ -366,7 +366,7 @@ class UserController extends Controller
             $siswa_data = [
                 'foto' => 'uploads/siswa/' . $new_foto,
             ];
-            $foto->move('uploads/siswa/', $new_foto);
+            $foto->move(public_path('uploads/siswa/'), $new_foto);
             $siswa->update($siswa_data);
             return redirect()->route('profile')->with('success', 'Foto Profile anda berhasil diperbarui!!');
         }

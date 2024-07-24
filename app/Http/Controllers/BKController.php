@@ -46,7 +46,7 @@ class BKController extends Controller
         if ($request->foto) {
             $foto = $request->foto;
             $new_foto = date('siHdmY') . "_" . $foto->getClientOriginalName();
-            $foto->move('uploads/bk/', $new_foto);
+            $foto->move(public_path('uploads/bk/'), $new_foto);
             $nameFoto = 'uploads/bk/' . $new_foto;
         }
 

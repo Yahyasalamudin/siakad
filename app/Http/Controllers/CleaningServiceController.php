@@ -35,7 +35,7 @@ class CleaningServiceController extends Controller
 
         $foto = $request->foto;
         $new_foto = date('siHdmY') . "_" . $foto->getClientOriginalName();
-        $foto->move('uploads/kegiatan/', $new_foto);
+        $foto->move(public_path('uploads/kegiatan/'), $new_foto);
         $nameFoto = 'uploads/kegiatan/' . $new_foto;
 
         CleaningService::create([

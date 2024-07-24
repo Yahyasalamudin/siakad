@@ -40,11 +40,11 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td class="text-capitalize">{{ $data->name }}</td>
                                     <td>{{ $data->email }}</td>
-                                    @if ($data->role == 'Siswa')
+                                    @if (in_array('Siswa', json_decode($data->roles)))
                                         <td>{{ $data->no_induk }}</td>
-                                    @elseif ($data->role == 'Guru')
+                                    @elseif (in_array('Guru', json_decode($data->roles)))
                                         <td>{{ $data->id_card }}</td>
-                                    @elseif ($data->role == 'BK')
+                                    @elseif (in_array('BK', json_decode($data->roles)))
                                         <td>
                                             Kelas {{ $data->tingkatan_kelas }}
                                             <button type="button" class="btn" data-toggle="modal"
@@ -53,7 +53,6 @@
                                             </button>
                                         </td>
                                     @endif
-                                    {{-- <td>{{ $data->created_at->format('l, d F Y') }}</td> --}}
                                     <td>
                                         <form action="{{ route('user.destroy', $data->id) }}" method="post">
                                             @csrf
