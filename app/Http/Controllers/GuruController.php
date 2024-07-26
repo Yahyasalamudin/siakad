@@ -314,7 +314,6 @@ class GuruController extends Controller
     {
         $this->validate($request, [
             'foto_awal' => 'required',
-            'foto_akhir' => 'required',
             'ruang' => 'required',
             'materi' => 'required',
         ]);
@@ -328,6 +327,7 @@ class GuruController extends Controller
 
         $user = auth()->user();
 
+        $fotoAwalName = null;
         if ($request->foto_awal) {
             $fotoAwal = $request->foto_awal;
             $new_foto_awal = date('siHdmY') . "_" . $fotoAwal->getClientOriginalName();
@@ -335,6 +335,7 @@ class GuruController extends Controller
             $fotoAwalName = 'uploads/absensi/' . $new_foto_awal;
         }
 
+        $fotoAkhirName = null;
         if ($request->foto_akhir) {
             $fotoAkhir = $request->foto_akhir;
             $new_foto_akhir = date('siHdmY') . "_" . $fotoAkhir->getClientOriginalName();

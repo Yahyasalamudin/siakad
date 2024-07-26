@@ -65,16 +65,16 @@
                         <h3 class="card-title">Upload Foto</h3>
                     </div>
                     <div class="card-body d-flex flex-column flex-md-row gap-4">
-                        <div class="ml-2 mb-4 col-sm-6">
+                        <div class="ml-2 mb-4">
                             <input type="file" name="foto_awal" class="file" accept="image/*">
-                            <img src="https://placehold.it/200x200" id="preview-awal" style="width: 300px"
-                                class="img-thumbnail browse_foto_awal cursor-pointer">
+                            <img src="{{ asset('img/img-placeholder.jpg') }}" id="preview-awal"
+                                class="img-thumbnail browse_foto_awal cursor-pointer w-full">
                         </div>
-                        <div class="ml-2 mb-4 col-sm-6">
+                        {{-- <div class="ml-2 mb-4 col-sm-6">
                             <input type="file" name="foto_akhir" class="file" accept="image/*">
                             <img src="https://placehold.it/200x200" id="preview-akhir" style="width: 300px"
                                 class="img-thumbnail browse_foto_akhir cursor-pointer">
-                        </div>
+                        </div> --}}
                     </div>
                     {{-- <div class="card-footer d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary px-5 py-2">Selesai</button>
