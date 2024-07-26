@@ -82,14 +82,14 @@ class KaryawanController extends Controller
         if ($request->foto_awal) {
             $fotoAwal = $request->foto_awal;
             $new_foto_awal = date('siHdmY') . "_" . $fotoAwal->getClientOriginalName();
-            $fotoAwal->move('uploads/absensi-karyawan/', $new_foto_awal);
+            $fotoAwal->move(public_path('uploads/absensi-karyawan/'), $new_foto_awal);
             $fotoAwalName = 'uploads/absensi-karyawan/' . $new_foto_awal;
         }
 
         if ($request->foto_akhir) {
             $fotoAkhir = $request->foto_akhir;
             $new_foto_akhir = date('siHdmY') . "_" . $fotoAkhir->getClientOriginalName();
-            $fotoAkhir->move('uploads/absensi-karyawan/', $new_foto_akhir);
+            $fotoAkhir->move(public_path('uploads/absensi-karyawan/'), $new_foto_akhir);
             $fotoAkhirName = 'uploads/absensi-karyawan/' . $new_foto_akhir;
         }
 

@@ -287,7 +287,7 @@ class GuruController extends Controller
         $tanggal_awal = $request->tanggal_awal ?: now();
         $tanggal_akhir = $request->tanggal_akhir ?: now();
 
-        $absensi = Absen::where('guru_id', $id)->where('foto_akhir', '!=', null)
+        $absensi = Absen::where('guru_id', $id)
             ->when($request->status, function ($query, $status) {
                 return $query->where('status', $status);
             })
@@ -331,7 +331,7 @@ class GuruController extends Controller
         if ($request->foto_awal) {
             $fotoAwal = $request->foto_awal;
             $new_foto_awal = date('siHdmY') . "_" . $fotoAwal->getClientOriginalName();
-            $fotoAwal->move('uploads/absensi/', $new_foto_awal);
+            $fotoAwal->move(public_path('uploads/absensi/'), $new_foto_awal);
             $fotoAwalName = 'uploads/absensi/' . $new_foto_awal;
         }
 
@@ -339,7 +339,7 @@ class GuruController extends Controller
         if ($request->foto_akhir) {
             $fotoAkhir = $request->foto_akhir;
             $new_foto_akhir = date('siHdmY') . "_" . $fotoAkhir->getClientOriginalName();
-            $fotoAkhir->move('uploads/absensi/', $new_foto_akhir);
+            $fotoAkhir->move(public_path('uploads/absensi/'), $new_foto_akhir);
             $fotoAkhirName = 'uploads/absensi/' . $new_foto_akhir;
         }
 

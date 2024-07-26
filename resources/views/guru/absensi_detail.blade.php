@@ -64,15 +64,15 @@
                     </div>
                     <div class="card-body">
                         <div class="ml-2 col-sm-6">
-                            <h3 class="card-title mb-2 text-bold">Foto Awal</h3>
+                            <h3 class="card-title mb-2 text-bold">Foto Absensi</h3>
                             <img src="{{ asset($absensi->foto_awal) }}" id="preview" style="width: 300px"
                                 alt="Foto Kegiatan - {{ $absensi->guru->nama_guru }}">
                         </div>
-                        <div class="ml-2 mt-3 col-sm-6">
+                        {{-- <div class="ml-2 mt-3 col-sm-6">
                             <h3 class="card-title mb-2 text-bold">Foto Akhir</h3>
                             <img src="{{ asset($absensi->foto_akhir) }}" id="preview" style="width: 300px"
                                 alt="Foto Kegiatan - {{ $absensi->guru->nama_guru }}">
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
